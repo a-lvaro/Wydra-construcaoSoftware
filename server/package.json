@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "Wydra API",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,6 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.18.2",
-    "http-errors": "~1.6.3",
-    "jade": "^0.29.0",
     "morgan": "~1.9.1"
   }
 }
