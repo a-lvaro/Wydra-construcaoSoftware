@@ -1,16 +1,17 @@
 CREATE DATABASE IF NOT EXISTS WYDRA;
+USE WYDRA;
 
-# tabela para usuário
+-- tabela para usuário
 CREATE TABLE
     USUARIO (
         ID_USUARIO INT NOT NULL AUTO_INCREMENT,
         NOME VARCHAR(30) NOT NULL,
         EMAIL VARCHAR(30) NOT NULL,
-        SENHA VARCHAR(30) NOT NULL,
+        SENHA VARCHAR(64) NOT NULL,
         PRIMARY KEY (ID_USUARIO)
     );
 
-# tabela para obras na estante
+-- tabela para obras na estante
 CREATE TABLE
 	OBRAS_ESTANTE (
 		ID_USUARIO INT,
@@ -20,7 +21,7 @@ CREATE TABLE
         PRIMARY KEY (ID_USUARIO, ID_OBRA) # restringe de uma mesma obra constar duas vezes na mesma estante
 	);
 
-# SHA2('senha', 256) -> criptografa a senha
+-- SHA2('senha', 256) -> criptografa a senha
 INSERT INTO
     USUARIO (NOME, EMAIL, SENHA)
 VALUES (
@@ -29,8 +30,8 @@ VALUES (
         SHA2('senha', 256)
     );
 
-# se retornou o registro há o cadastro daquela pessoa e dessa determinada senha
-# caso contrário não está cadastrado ou a senha não está correta
+-- se retornou o registro há o cadastro daquela pessoa e dessa determinada senha
+-- caso contrário não está cadastrado ou a senha não está correta
 SELECT email, senha
 FROM USUARIO
 WHERE
