@@ -3,5 +3,5 @@ from fastapi import FastAPI
 wydra = FastAPI()
 
 @wydra.get("/")
-async def root():
+def root():
     return {"info": "Wydra API"}
