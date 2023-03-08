@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS USUARIO;
+CREATE DATABASE IF NOT EXISTS WYDRA;
 
 # tabela para usuário
 CREATE TABLE
@@ -10,17 +10,15 @@ CREATE TABLE
         PRIMARY KEY (ID_USUARIO)
     );
 
-# tabela para os livros
+# tabela para obras na estante
 CREATE TABLE
-    LIVROS (
-        ID_LIVRO INT NOT NULL AUTO_INCREMENT,
-        TITULO VARCHAR(30) NOT NULL,
-        AUTOR VARCHAR(30) NOT NULL,
-        ANO INT NOT NULL,
-        ID_USUARIO INT NOT NULL,
-        PRIMARY KEY (ID_LIVRO),
-        FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO)
-    );
+	OBRAS_ESTANTE (
+		ID_USUARIO INT,
+        ID_OBRA INT,
+        ESTADO ENUM('Lista de Desejos', 'Em progresso', 'Finalizada', 'Abandonada'),
+        FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO),
+        PRIMARY KEY (ID_USUARIO, ID_OBRA) # restringe de uma mesma obra constar duas vezes na mesma estante
+	);
 
 # SHA2('senha', 256) -> criptografa a senha
 INSERT INTO
