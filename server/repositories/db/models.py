@@ -1,12 +1,9 @@
-from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
 
-import json
-from json import JSONEncoder
+from . import Base
 
-Base = declarative_base()
 class User(Base):
     __tablename__ = "USUARIO"
 
