@@ -1,16 +1,33 @@
 @import './base.css';
 
-
-.topo{
-  background-color: rgba(0, 0, 0, 0.834);
-  height: 90px;
+.logo{
+  height: 50px;
 }
 
-body{
-  background-color: rgba(0, 0, 0, 0.503);
+.nomePagina {
+  font-size: 35px; /* Altere o tamanho do texto para o desejado */
+  font-family: "comic-sans";
+  font-style: italic; /* Coloque o texto em itálico */
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  /* background-color: rgba(0, 0, 0, 0.458); */
+  background-color: rgba(0, 0, 0, 0.442);
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+}
+
+footer{
+  background-color: rgba(0, 0, 0, 0.411);
+  height: 80px;
+  font-size: 35px;
+  font-style: italic;
+  font-family: "comic-sans";
+  color: white;
 }
 
 
