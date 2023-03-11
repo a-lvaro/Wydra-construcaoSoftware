@@ -39,7 +39,7 @@ input[type="password"] {
   padding: 12px;
   align-content: center;
   margin-bottom: 30px;
-  border: px solid #0c0909;
+  border: 2px solid #0c0909;
   border-radius: 4px;
   width: 100%;
   max-width: 320px;
@@ -55,9 +55,9 @@ input[type="password"] {
 
 button[type="submit"] {
   padding: 10px;
-  background-color: #00cc07;
+  background-color: cornflowerblue;
   color: #fff;
-  border: none;
+  border: 2px solid black;
   border-radius: 10px;
   cursor: pointer;
   width: 30%;
