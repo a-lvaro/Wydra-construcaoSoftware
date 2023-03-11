@@ -1,5 +1,6 @@
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey, DateTime, create_engine
+from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy import ForeignKey, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from bcrypt import hashpw, gensalt, checkpw
 from datetime import datetime
