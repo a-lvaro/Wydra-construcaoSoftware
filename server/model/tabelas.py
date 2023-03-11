@@ -38,7 +38,23 @@ class Usuario(Base):
             return None
 
 
-class ObrasEstante(Base):
+class Seguidores(Base):
+    __tablename__ = "SEGUIDORES"
+
+    id_usuario = Column("ID_USUARIO", Integer, ForeignKey(
+        'USUARIO.ID_USUARIO'), primary_key=True)
+    id_seguidor = Column("ID_SEGUIDOR", Integer, ForeignKey(
+        'USUARIO.ID_USUARIO'), primary_key=True)
+
+    def __init__(self, id_usuario, id_seguidor):
+        self.id_usuario = id_usuario
+        self.id_seguidor = id_seguidor
+
+    def __repr__(self):
+        return f"Seguidores(id_usuario={self.id_usuario!r}, id_seguidor={self.id_seguidor!r})"
+
+
+class Estante(Base):
     __tablename__ = "ESTANTE"
 
     id_usuario = Column("ID_USUARIO", Integer, ForeignKey(
@@ -46,23 +62,46 @@ class ObrasEstante(Base):
     id_obra = Column("ID_OBRA", Integer, primary_key=True)
     estado = Column(Enum('Lista de Desejos', 'Em progresso',
                     'Finalizada', 'Abandonada', name='ESTADO'), nullable=False)
-    nota = Column("NOTA", Integer, nullable=True)
+    tipo = Column(Enum('Manga', 'Anime', 'Livro', 'Filme',
+                  'Série', name='TIPO'), nullable=False)
+
     data_inicio = Column("DATA_INICIO", DateTime, nullable=True)
     data_fim = Column("DATA_FIM", DateTime, nullable=True)
 
-    def __init__(self, id_usuario, id_obra, estado, nota, data_inicio, data_fim):
-        # self.id_usuario = id_usuario
+    def __init__(self, id_usuario, id_obra, estado, data_inicio, data_fim):
+        self.id_usuario = id_usuario
         self.id_obra = id_obra
         self.estado = estado
-        self.nota = nota
         self.data_inicio = data_inicio
         self.data_fim = data_fim
 
     def __repr__(self):
-        return f"ObrasEstante(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, estado={self.estado!r}, nota={self.nota!r}, data_inicio={self.data_inicio!r}, data_fim={self.data_fim!r})"
+        return f"Estante(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, estado={self.estado!r}, nota={self.nota!r}, data_inicio={self.data_inicio!r}, data_fim={self.data_fim!r})"
 
 
-engine = create_engine('sqlite:///server/model/database.db', echo=True)
+class Avaliacao(Base):
+    __tablename__ = "AVALIACAO"
+
+    id_comentario = Column("ID_COMENTARIO", Integer, primary_key=True)
+    id_usuario = Column("ID_USUARIO", Integer, ForeignKey(
+        'USUARIO.ID_USUARIO'), nullable=False)
+    id_obra = Column("ID_OBRA", Integer, nullable=False)
+    nota = Column("NOTA", Integer, nullable=True)
+    texto = Column("TEXTO", String(300), nullable=False)
+    data_comentario = Column("DATA_COMENTARIO", DateTime, nullable=False)
+
+    def __init__(self, id_usuario, id_obra, nota, texto):
+        self.id_usuario = id_usuario
+        self.id_obra = id_obra
+        self.nota = nota
+        self.texto = texto
+        self.data_comentario = datetime.now()
+
+    def __repr__(self):
+        return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
+
+
+engine = create_engine('sqlite:///server/model/Wydra.db', echo=True)
 Base.metadata.create_all(engine)
 
 Session = sessionmaker(bind=engine)
