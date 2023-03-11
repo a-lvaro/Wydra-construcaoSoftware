@@ -1,18 +1,18 @@
 <template>
     <div >
-        <body>
-            <form class="retangulo" @submit.prevent="fazerLogin">
-              <br><br/>
-                <img src="../../wydra.png" class="lontra" alt="lontrinha">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required v-model="email"/>
-                
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required v-model="senha"/>
-    
-                <button type="submit" >Entrar</button>
-            </form>
-        </body> 
+      <body>
+        <form class="retangulo" @submit.prevent="fazerLogin">
+        <br><br/>
+          <img src="../../wydra.png" class="lontra" alt="lontrinha">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required v-model="email"/>
+          
+          <label for="password">Senha:</label>
+          <input type="password" id="password" name="password" required v-model="senha"/>
+
+          <button type="submit" >Entrar</button>
+        </form>
+      </body> 
     </div>
   </template>
   
@@ -38,7 +38,7 @@
       padding: 12px;
       align-content: center;
       margin-bottom: 30px;
-      border: px solid #0c0909;
+      border: 2px solid #0c0909;
       border-radius: 4px;
       width: 100%;
       max-width: 320px;
@@ -54,9 +54,9 @@
 
   button[type="submit"] {
       padding: 10px;
-      background-color: #00cc07;
+      background-color: cornflowerblue;
       color: #fff;
-      border: none;
+      border: 2px solid black;
       border-radius: 10px;
       cursor: pointer;
       width: 30%;

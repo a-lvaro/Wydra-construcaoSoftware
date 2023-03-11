@@ -6,61 +6,51 @@
 
 .nomePagina {
   font-size: 35px; /* Altere o tamanho do texto para o desejado */
-  font-family: "comic-sans";
-  font-style: italic; /* Coloque o texto em itálico */
-  color: white;
+  font-family: 'Segoe UI';
+  color: rgb(229, 228, 228);
   display: flex;
-  justify-content: center;
+}
+
+.header-content{
+  background-color: rgba(0,0,0,0.834);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  margin: 0;
+  align-items: center;
+  
+}
+
+.menu{
+  display: flex;
+  list-style: none;
+  
+}
+
+.menu li{
+  margin-right: 20px;
+}
+
+.menu li a{
+  color: cornflowerblue;
+  font-family:'Segoe UI';
+  text-decoration: none;
 }
 
 body {
-  /* background-color: rgba(0, 0, 0, 0.458); */
+  /*isso resolveu as barras pretas*/
+  border-top:1px solid cornflowerblue;
+  border-bottom:1px solid cornflowerblue;
   background-color: rgba(0, 0, 0, 0.442);
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI';
 }
 
 footer{
-  background-color: rgba(0, 0, 0, 0.411);
-  height: 80px;
-  font-size: 35px;
-  font-style: italic;
-  font-family: "comic-sans";
+  background-color: rgba(0, 0, 0, 0.834);
+  /* height: 80px; */
+  font-size: 20px;
+  font-family: 'Segoe UI';
   color: white;
 }
-
-
-/* #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-} */
