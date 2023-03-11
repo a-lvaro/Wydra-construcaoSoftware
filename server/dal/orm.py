@@ -96,3 +96,4 @@ class Avaliacao(Base):
     def __repr__(self):
         return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
 
+Base.metadata.create_all(engine)
