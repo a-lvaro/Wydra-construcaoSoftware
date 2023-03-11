@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 
 from domain import schemas
-from dal import UserRepository
+from dal import RepositorioUsuario
 from dal.orm import Session
 
 # Classe generica para o controlador de usuário
@@ -18,8 +18,8 @@ class GenericController:
 
         return user
 
-    def create(self, user : schemas.UserCreate):
-        if not (user.name and user.email and user.password):
+    def create(self, user : schemas.UsuarioCreate):
+        if not (user.nome and user.email and user.senha):
             raise HTTPException(status_code=400, detail="Informações inválidas.")
         elif self.repository.get_by_email(user.email):
             raise HTTPException(status_code=400, detail="Email já cadastrado.")
@@ -33,5 +33,5 @@ class GenericController:
 class Controller(GenericController):
     def __init__(self):
         db = Session()
-        self.repository = UserRepository(db)
+        self.repository = RepositorioUsuario(db)
 

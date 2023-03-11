@@ -2,8 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = 'sqlite:///server/model/Wydra.db'
-engine = create_engine(DATABASE_URL, echo=True)
+DATABASE_URL = 'sqlite:///../db/Wydra.db'
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -17,7 +17,7 @@ from datetime import datetime
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
-    id_usuario = Column("ID_USUARIO", Integer, primary_key=True)
+    id = Column("ID_USUARIO", Integer, primary_key=True)
     nome = Column("NOME", String(30), nullable=False)
     email = Column("EMAIL", String(30), nullable=False)
     senha = Column("SENHA", String(64), nullable=False)

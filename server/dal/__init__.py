@@ -1,3 +1,3 @@
-from .user import Repository as UserRepository
+from .user import Repository as RepositorioUsuario
 
 

@@ -1,1 +1,1 @@
-from .user import Controller as UserController
+from .user import Controller as ControladorUsuario 
