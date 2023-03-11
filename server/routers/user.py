@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from controller import UserController
+from domain import UserController
 from domain import schemas
 
 userRouter = APIRouter(

@@ -1,2 +1,2 @@
-from .user import Repository as userRepository
+from .user import Repository as UserRepository
 

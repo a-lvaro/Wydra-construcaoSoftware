@@ -1,13 +1,14 @@
 from fastapi import HTTPException
 
 from domain import schemas
-from dal import userRepository
+from dal import UserRepository
 from dal.orm import Session
 
-class Controller:
-    def __init__(self):
-        db = Session()
-        self.repository = userRepository(db)
+# Classe generica para o controlador de usuário
+# recebe um repositório genérico e pode ser usada para testes
+class GenericController:
+    def __init__(self, repository):
+        self.repository = repository 
 
     def get(self, id : int):
         user = self.repository.get(id)
@@ -25,3 +26,12 @@ class Controller:
 
         user = self.repository.create(user)
         return user
+
+# Classe para o controlador do usuário
+# Acessa diretamente o banco de dados através
+# de um repositório
+class Controller(GenericController):
+    def __init__(self):
+        db = Session()
+        self.repository = UserRepository(db)
+
