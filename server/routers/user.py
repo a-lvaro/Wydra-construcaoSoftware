@@ -1,20 +1,23 @@
 from fastapi import APIRouter
-from fastapi import HTTPException
 
-from repositories import userRepository
-from repositories.db import Session
-from repositories.db import schemas
+from controller import UserController
+from domain import schemas
 
 userRouter = APIRouter(
         prefix="/user"
     )
 
-@userRouter.get("/{id}", response_model=schemas.User)
-def get_user(id : int):
-    db = Session()   
-    user = userRepository.get(db, id)
-
-    if not user:
-        raise HTTPException(status_code=404, detail="Usuário não existe")
+@userRouter.post("/signup", response_model=schemas.User)
+def create_user(user : schemas.UserCreate):
+    c = UserController()
+    return c.create(user)
 
     return user
+
+@userRouter.get("/{id}", response_model=schemas.User)
+def get_user(id : int):
+    c = UserController()
+    user = c.get(id)
+
+    return user
+
