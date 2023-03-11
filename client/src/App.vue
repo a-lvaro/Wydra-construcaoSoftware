@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Login from './components/Login.vue'
+import Cadastro from './components/Cadastro.vue'
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import Login from './components/Login.vue'
         <p class="nomePagina">Wydra</p>
         <nav>
           <ul class="menu">
+            <!-- <RouterLink to="/login">Login</RouterLink> -->
             <li><a href="#">Registrar</a></li>
             <li><a href="#">Login</a></li>
             <li><a href="#">Estante</a></li>
@@ -18,17 +20,18 @@ import Login from './components/Login.vue'
             <li><a href="#">Busca</a></li>
             <li><a href="#">Logout</a></li>
           </ul>
-      </nav>
+        </nav>
       </div>
     </header>
     <body > 
       <!-- COMPONENTE -->
-        <Login/>
+        <!-- <Login/> -->
+        <!-- <Cadastro/> -->
         <!-- <RouterLink to="/login">Login</RouterLink> -->
         <RouterView />
     </body>
     <footer >
-      <p style=" text-align: center;"> Sua Ágora digital.</p>
+      <p style="text-align: center; font-size: 30px;"> Sua Ágora digital.</p>
       <p style="margin-top: -15px ;text-align: end;margin-right: 20px; font-size: 20px; font-family: 'Segoe UI';"> Developed at @UEM </p>
     </footer>
   </div>
@@ -36,10 +39,5 @@ import Login from './components/Login.vue'
 </template> 
 
 <style scoped>
-
-.header-content img {
-  display: block; /* Ensures that the image is centered on its own line */
-  margin: 0 auto; /* Centers the image horizontally within its container */
-}
 
 </style>

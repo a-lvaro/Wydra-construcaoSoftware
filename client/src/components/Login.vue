@@ -1,8 +1,7 @@
 <template>
     <div >
       <body>
-        <form class="retangulo" @submit.prevent="fazerLogin">
-        <br><br/>
+        <form class="retangulo-login" @submit.prevent="fazerLogin">
           <img src="../../wydra.png" class="lontra" alt="lontrinha">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" required v-model="email"/>
@@ -22,15 +21,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 75px;
   }
 
   .lontra {
-    /* margin-top: -30px;
-    margin-bottom: 30px;
-    height: 120px; */
-    align-content: center;
-    padding: auto;;
+      margin-top: 30px;
+      align-content: center;
+      padding: auto;;
   }
 
   input[type="email"],
@@ -38,8 +34,8 @@
       padding: 12px;
       align-content: center;
       margin-bottom: 30px;
-      border: 2px solid #0c0909;
-      border-radius: 4px;
+      border: 3px solid #0c0909;
+      border-radius: 10px;
       width: 100%;
       max-width: 320px;
       box-sizing: border-box;
@@ -52,27 +48,16 @@
       -o-text-security: disc;
   }
 
-  button[type="submit"] {
-      padding: 10px;
-      background-color: cornflowerblue;
-      color: #fff;
-      border: 2px solid black;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 30%;
-      max-width: 300px;
-      box-sizing: border-box;
-  }
 
-
-  .retangulo {
-    margin: 50px auto;
-    background-color: white;
-    width: 420px;
-    height: 700px;
-    border-radius: 20px; /* Define o raio da borda */
-    border: 2px solid #000000ba; /* Define a cor e largura da borda */
+  .retangulo-login {
+      margin: 50px auto;
+      background-color: white;
+      width: 420px;
+      height: 700px;
+      border-radius: 20px; /* Define o raio da borda */
+      border: 2px solid #000000ba; /* Define a cor e largura da borda */
 }
+  
 </style>
   
 <script>
