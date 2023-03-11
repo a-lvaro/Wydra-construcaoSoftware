@@ -19,6 +19,12 @@ class Usuario(Base):
     def __repr__(self) -> str:
         return f"usuário(id={self.id!r}, nome={self.nome!r}, email={self.email!r})"
 
+    def __init__(self, nome, email, senha, caminho_foto=None):
+        self.nome = nome
+        self.email = email
+        self.senha = hashpw(senha.encode('utf-8'), gensalt()).decode('utf-8')
+        self.caminho_foto = caminho_foto
+
     @staticmethod
     def authenticate(session, email, senha):
         user = session.query(Usuario).filter_by(email=email).first()
@@ -31,10 +37,9 @@ class Usuario(Base):
 class ObrasEstante(Base):
     __tablename__ = "ESTANTE"
 
-    id_obra_estante = Column("ID_OBRA_ESTANTE", Integer, primary_key=True)
     id_usuario = Column("ID_USUARIO", Integer, ForeignKey(
         'usuario.id_usuario'), primary_key=True)
-    id_obra = Column("ID_OBRA", Integer, nullable=False)
+    id_obra = Column("ID_OBRA", Integer, primary_key=True)
     estado = Column(Enum('Lista de Desejos', 'Em progresso',
                     'Finalizada', 'Abandonada', name='ESTADO'), nullable=False)
     nota = Column("NOTA", Integer, nullable=True)
@@ -43,3 +48,11 @@ class ObrasEstante(Base):
 
     user_id = Column(Integer, ForeignKey('usuario.id_usuario'))
     usuario = relationship("Usuario", backref="obras_estante")
+
+    def __init__(self, id_usuario, id_obra, estado, nota, data_inicio, data_fim):
+        self.id_usuario = id_usuario
+        self.id_obra = id_obra
+        self.estado = estado
+        self.nota = nota
+        self.data_inicio = data_inicio
+        self.data_fim = data_fim
