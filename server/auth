@@ -1,0 +1,7 @@
+    def authenticate(session, email, senha):
+        user = session.query(Usuario).filter_by(email=email).first()
+        if user and checkpw(senha.encode('utf-8'), user.senha.encode('utf-8')):
+            return user
+        else:
+            return None
+

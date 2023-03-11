@@ -11,7 +11,7 @@ Base = declarative_base()
 from sqlalchemy import Column, Integer, String, Enum
 from sqlalchemy import ForeignKey, DateTime, create_engine
 
-from bcrypt import hashpw, gensalt, checkpw
+from bcrypt import hashpw, gensalt 
 from datetime import datetime
 
 class Usuario(Base):
@@ -33,15 +33,6 @@ class Usuario(Base):
         self.senha = hashpw(senha.encode('utf-8'), gensalt()).decode('utf-8')
         self.caminho_foto = caminho_foto
         self.data_cadastro = datetime.now()
-
-    @staticmethod
-    def authenticate(session, email, senha):
-        user = session.query(Usuario).filter_by(email=email).first()
-        if user and checkpw(senha.encode('utf-8'), user.senha.encode('utf-8')):
-            return user
-        else:
-            return None
-
 
 class Seguidores(Base):
     __tablename__ = "SEGUIDORES"
