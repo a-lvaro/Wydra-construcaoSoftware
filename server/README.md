@@ -8,7 +8,7 @@
 ```sh
     uvicorn main:wydra --reload
 ```
-O servidor podera ser acessado em http://localhost:8000/
+O servidor poderá ser acessado em http://localhost:8000/
 
 ## Documentation
 Execute o comando acima e navegue para http://localhost:8000/docs
