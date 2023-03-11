@@ -1,5 +1,4 @@
 # Wydra API
-
 ## Dependencies
 - Python
 - FastAPI
@@ -19,6 +18,6 @@ Execute o comando acima e navegue para http://localhost:8000/docs
 Classes pertinentes ao domínio da aplicação, como usuários, obras, etc., e seus controladores.
 
 ### Data Abstraction Layer (DAL)
-Código para acesso aos bancos de dados e outros recursos.
+Código para acesso aos bancos de dados e outros recursos. Utiliza o padrão repositório para isolar a camada de dados da camada de aplicação.
 
 
