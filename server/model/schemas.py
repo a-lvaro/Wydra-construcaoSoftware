@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from typing import ForwardRef, List
+
+from pydantic import BaseModel, validator 
 from datetime import datetime
 
 class UsuarioBase(BaseModel):
@@ -11,9 +13,18 @@ class UsuarioCreate(UsuarioBase):
     class Config:
         orm_mode = True
 
+ListUsuario = ForwardRef("List[Usuario]")
 class Usuario(UsuarioBase):
     id : int
     data_cadastro : datetime
+    
+    seguidores : int 
+    _get_seguidores = validator('seguidores', pre=True, allow_reuse=True)(len)
+
+    seguindo : int
+    _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(len)
 
     class Config:
         orm_mode = True
+
+Usuario.update_forward_refs()
