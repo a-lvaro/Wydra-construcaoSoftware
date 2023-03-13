@@ -5,7 +5,7 @@ import Login from './components/Login.vue'
 
 <template>
   <div>
-    <header >
+    <header>
       <div class="header-content">
         <!-- <img class = "logo" src="../header.png" alt="Lontra"/>  -->
         <p class="nomePagina">Wydra</p>
@@ -18,28 +18,29 @@ import Login from './components/Login.vue'
             <li><a href="#">Busca</a></li>
             <li><a href="#">Logout</a></li>
           </ul>
-      </nav>
+        </nav>
       </div>
     </header>
-    <body > 
+
+    <body>
       <!-- COMPONENTE -->
-        <Login/>
-        <!-- <RouterLink to="/login">Login</RouterLink> -->
-        <RouterView />
+      <Login />
+      <!-- <RouterLink to="/login">Login</RouterLink> -->
+      <RouterView />
     </body>
-    <footer >
+    <footer>
       <p style=" text-align: center;"> Sua Ágora digital.</p>
-      <p style="margin-top: -15px ;text-align: end;margin-right: 20px; font-size: 20px; font-family: 'Segoe UI';"> Developed at @UEM </p>
+      <p style="margin-top: -15px ;text-align: end;margin-right: 20px; font-size: 20px; font-family: 'Segoe UI';">
+        Developed at @UEM </p>
     </footer>
   </div>
-
 </template> 
 
 <style scoped>
-
 .header-content img {
-  display: block; /* Ensures that the image is centered on its own line */
-  margin: 0 auto; /* Centers the image horizontally within its container */
+  display: block;
+  /* Ensures that the image is centered on its own line */
+  margin: 0 auto;
+  /* Centers the image horizontally within its container */
 }
-
 </style>
