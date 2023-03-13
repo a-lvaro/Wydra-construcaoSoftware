@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <body>
             <form class="retangulo-login" @submit.prevent="fazerLogin">
                 <img src="../../wydra.png" class="lontra" alt="lontrinha">
