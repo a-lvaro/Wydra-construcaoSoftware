@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from control import ControladorUsuario
+from controller import ControladorUsuario
 from model.schemas import UsuarioCreate
 from model.schemas import Usuario
 
