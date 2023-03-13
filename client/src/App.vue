@@ -6,7 +6,7 @@ import Cadastro from './components/Cadastro.vue'
 
 <template>
   <div>
-    <header >
+    <header style="margin-bottom: 30px;">
       <div class="header-content">
         <!-- <img class = "logo" src="../header.png" alt="Lontra"/>  -->
         <p class="nomePagina">Wydra</p>

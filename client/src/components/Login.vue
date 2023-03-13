@@ -4,10 +4,10 @@
         <form class="retangulo-login" @submit.prevent="fazerLogin">
           <img src="../../wydra.png" class="lontra" alt="lontrinha">
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required v-model="email"/>
+          <input placeholder="Digite seu melhor cadastrado" type="email" id="email" name="email" required v-model="email"/>
           
           <label for="password">Senha:</label>
-          <input type="password" id="password" name="password" required v-model="senha"/>
+          <input placeholder="Digite sua senha" type="password" id="password" name="password" required v-model="senha"/>
 
           <button type="submit" >Entrar</button>
         </form>
@@ -55,7 +55,7 @@
       width: 420px;
       height: 700px;
       border-radius: 20px; /* Define o raio da borda */
-      border: 2px solid #000000ba; /* Define a cor e largura da borda */
+      border: 3px solid #000000ba; /* Define a cor e largura da borda */
 }
   
 </style>
