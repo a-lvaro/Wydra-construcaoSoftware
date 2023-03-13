@@ -18,10 +18,10 @@ class Usuario(UsuarioBase):
     id : int
     data_cadastro : datetime
     
-    seguidores : int 
+    seguidores : int = 0
     _get_seguidores = validator('seguidores', pre=True, allow_reuse=True)(len)
 
-    seguindo : int
+    seguindo : int = 0
     _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(len)
 
     class Config:

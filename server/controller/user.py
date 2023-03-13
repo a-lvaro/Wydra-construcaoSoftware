@@ -3,7 +3,7 @@ from typing import List
 from bcrypt import checkpw
 
 from model.orm import Session
-from model import schemas
+from model import schema
 from model import orm 
 
 
@@ -11,7 +11,7 @@ class Controlador:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id : int) -> schemas.Usuario:
+    def get(self, id : int) -> schema.Usuario:
         user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
 
         if not user:
@@ -19,13 +19,13 @@ class Controlador:
 
         return user
 
-    def get_by_email(self, email : str) -> schemas.Usuario:
+    def get_by_email(self, email : str) -> schema.Usuario:
         return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
 
-    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100) -> List[schemas.Usuario]:
+    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100) -> List[schema.Usuario]:
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
-    def create(self, user : schemas.UsuarioCreate):
+    def create(self, user : schema.UsuarioCreate) -> schema.Usuario:
         if not (user.nome and user.email and user.senha):
             raise HTTPException(status_code=400, detail="Informações inválidas.")
         elif self.get_by_email(user.email):
@@ -36,6 +36,8 @@ class Controlador:
         self.session.add(db_user)
         self.session.commit()
         self.session.refresh(db_user)
+
+        return self.get(db_user.id)
 
     def delete(self, id : int):
         user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
