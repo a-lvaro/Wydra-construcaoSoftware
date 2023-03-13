@@ -7,8 +7,6 @@ from dal import RepositorioUsuario
 from dal.orm import Session
 
 # Classe para o controlador do usuário
-# Acessa diretamente o banco de dados através
-# de um repositório
 class Controlador:
     def __init__(self, repository):
         self.repository = repository 
