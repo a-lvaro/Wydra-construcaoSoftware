@@ -1,17 +1,8 @@
 <template>
     <div>
-        <body>
-            <form class="retangulo-login" @submit.prevent="fazerLogin">
-                <img src="../../wydra.png" class="lontra" alt="lontrinha">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required v-model="email" />
-awdawdaw
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required v-model="senha" />
-
-                <button type="submit">Entrar</button>
-            </form>
-        </body>
+        <form class="retangulo-login" @submit.prevent="fazerBusca">
+            <button type="submit">Entrar</button>
+        </form>
     </div>
 </template>
 
@@ -22,23 +13,21 @@ export default {
         return {
             string_busca: ''
         }
-    }
+    },
+
+    methods: {
+        fazerBusca() {
+            const data = {
+                email: this.email,
+                senha: this.senha
+            }
+            console.log(data)
+        },
+    },
 }
 </script>
 
-<style>
-body {
-    background-color: rgba(0, 0, 0, 0.442);
-}
-
-.retangulo-login {
-    margin: 50px auto;
-    background-color: white;
-    width: 520px;
-    height: 800px;
-    border-radius: 20px;
-    border: 2px solid #000000ba;
-}
+<style scoped>
 
 form {
     display: flex;

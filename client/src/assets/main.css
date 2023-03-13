@@ -1,72 +1,14 @@
 @import './base.css';
 
-.logo{
-  height: 50px;
-}
-
-.nomePagina {
-  font-size: 35px; /* Altere o tamanho do texto para o desejado */
-  font-family: 'Segoe UI';
-  color: rgb(229, 228, 228);
-}
-
-.header-content{
-  background-color: rgba(0,0,0,0.834);
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  margin: 0;
-  align-items: center; 
-}
-
-.menu{
-  display: flex;
-  /* remove marcações de lista */
-  list-style: none;
-}
-
-.menu li {
-  margin-right: 20px;
-}
-
-.menu li a {
-  color: white;
-  font-size: 20px;
-  font-family:'Segoe UI';
-  text-decoration: none ;
-}
-
+*,
 body {
-  /*isso resolveu as barras pretas*/
-  border-top:1px solid cornflowerblue;
-  border-bottom:1px solid cornflowerblue;
-  background-color: rgba(0, 0, 0, 0.442);
   margin: 0;
   padding: 0;
+  border: border-box;
   font-family: 'Segoe UI';
 }
 
-footer{
-  background-color: rgba(0, 0, 0, 0.834);
-  height: 80px;
-  font-size: 20px;
-  font-family: 'Segoe UI';
-  color: white;
-}
-
-button[type="submit"] {
-  padding: 10px;
-  font-size: 18px;
-  background-color: cornflowerblue;
-  color: white;
-  border: 3px solid black;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 35%;
-  max-width: 300px;
-  box-sizing: border-box;
-}
-
-label{
-  font-size: 20px;
+body,
+.App {
+  background-color: rgba(0, 0, 0, 0.671);
 }
