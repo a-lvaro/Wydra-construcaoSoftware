@@ -45,14 +45,6 @@ class Controlador:
         self.session.delete(user)
         self.session.commit()
     
-    def authenticate(email, senha): 
-        user = self.get_by_email(email)
-
-        if user and checkpw(user.senha.encode('utf-8'), user.senha.encode('utf-8')):
-            return user
-        else:
-            return None
-
 def getControlador():
     db = Session()
     return Controlador(db)

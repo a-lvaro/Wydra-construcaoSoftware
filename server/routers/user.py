@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from bcrypt import checkpw
 
 from controller import ControladorUsuario
 from model.schema import UsuarioCreate
@@ -23,3 +25,15 @@ def get_user(id: int) -> Usuario:
 
     return user
 
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+@userRouter.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    c = ControladorUsuario()
+    user = c.get_by_email(form_data.username)
+
+    if user and checkpw(form_data.password.encode('utf-8'), user.senha.encode('utf-8')):
+        return {"access_token": user.email, "token_type": "bearer"}
+    else:
+        raise HTTPException(status_code=400, detail="Email ou senha incorretos.")
