@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <form class="retangulo-login" @submit.prevent="fazerLogin">
@@ -8,7 +7,7 @@
 
       <label for="password">Senha:</label>
       <input type="password" id="password" name="password" required v-model="senha" />
-      <Botao />
+      <Botao texto="Entrar"/>
     </form>
   </div>
 </template>
@@ -64,11 +63,7 @@ label {
 }
 </style>
 
-
-
 <script>
-import Botao from './Botao.vue'
-
 export default {
   name: "Login",
   data() {
@@ -88,4 +83,8 @@ export default {
     },
   },
 }
+</script>
+
+<script setup>
+  import Botao from './Botao.vue'
 </script>

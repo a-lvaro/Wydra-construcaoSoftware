@@ -11,7 +11,7 @@
                             <h1>Cadastre-se</h1>
                         </div>
                         <div class="botao-cadastro">
-                            <button><a href="#">Cadastrar</a></button>
+                            <Botao texto="Criar Conta" />
                         </div>
                     </div>
                     <div class="inputs">
@@ -88,8 +88,6 @@
 </template>
 
 <script>
-import Botao from './Botao.vue'
-
 export default {
     name: "Cadastro",
     data() {
@@ -98,6 +96,10 @@ export default {
         }
     }
 }
+</script>
+
+<script setup>
+import Botao from './Botao.vue'
 </script>
 
 <style>

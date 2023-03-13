@@ -1,15 +1,15 @@
 <template>
     <div>
-        <button type="submit">texto</button>
+        <button type="submit">{{texto}}</button>
     </div>
 </template>
 
 <script>
-// export default {
-//     props: {
-//         texto: String
-//     }
-// }
+export default {
+    props: {
+        texto: String
+    }
+}
 
 </script>
 
@@ -22,8 +22,7 @@ button[type="submit"] {
     border: 3px solid black;
     border-radius: 10px;
     cursor: pointer;
-    width: 35%;
-    max-width: 300px;
+    display: flex;
     box-sizing: border-box;
 }
 </style>
