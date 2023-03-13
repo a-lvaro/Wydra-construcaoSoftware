@@ -20,12 +20,11 @@ class Repository:
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
     def create(self, user : schemas.UsuarioCreate) -> schemas.Usuario:
-        self.session.add(user)
-        
-        self.session.commit()
-        self.session.refresh(db_user)
+        user = orm.Usuario(user.nome, user.email, user.senha)
 
-        return self.get(db_user.id)
+        self.session.add(user)
+        self.session.commit()
+        self.session.refresh(user)
 
     def delete(self, id : int):
         user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()

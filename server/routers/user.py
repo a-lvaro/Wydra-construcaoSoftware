@@ -7,12 +7,11 @@ userRouter = APIRouter(
         prefix="/user"
     )
 
-@userRouter.post("/signup", response_model=schemas.Usuario)
+@userRouter.post("/signup")
 def create_user(user : schemas.UsuarioCreate):
     c = ControladorUsuario()
-    return c.create(user)
+    c.create(user)
 
-    return user
 
 @userRouter.get("/{id}", response_model=schemas.Usuario)
 def get_user(id : int):
