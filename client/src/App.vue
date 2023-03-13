@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Login from './components/Login.vue'
+import Cadastro from './components/Cadastro.vue'
+import Busca from './components/Busca.vue'
 </script>
 
 <template>
@@ -11,36 +13,38 @@ import Login from './components/Login.vue'
         <p class="nomePagina">Wydra</p>
         <nav>
           <ul class="menu">
-            <li><a href="#">Registrar</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">Estante</a></li>
-            <li><a href="#">Perfil</a></li>
-            <li><a href="#">Busca</a></li>
-            <li><a href="#">Logout</a></li>
+            <li>
+              <RouterLink to="/cadastro">Cadastro</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/login">Login</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/estante">Estante</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/perfil">Perfil</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/busca">Busca</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/Logout">Logout</RouterLink>
+            </li>
           </ul>
         </nav>
       </div>
     </header>
 
     <body>
-      <!-- COMPONENTE -->
-      <Login />
-      <!-- <RouterLink to="/login">Login</RouterLink> -->
       <RouterView />
     </body>
     <footer>
-      <p style=" text-align: center;"> Sua Ágora digital.</p>
+      <p style="text-align: center; font-size: 30px;"> Sua Ágora digital.</p>
       <p style="margin-top: -15px ;text-align: end;margin-right: 20px; font-size: 20px; font-family: 'Segoe UI';">
         Developed at @UEM </p>
     </footer>
   </div>
 </template> 
 
-<style scoped>
-.header-content img {
-  display: block;
-  /* Ensures that the image is centered on its own line */
-  margin: 0 auto;
-  /* Centers the image horizontally within its container */
-}
-</style>
+<style scoped></style>

@@ -2,8 +2,7 @@
   <div>
 
     <body>
-      <form class="retangulo" @submit.prevent="fazerLogin">
-        <br><br />
+      <form class="retangulo-login" @submit.prevent="fazerLogin">
         <img src="../../wydra.png" class="lontra" alt="lontrinha">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required v-model="email" />
@@ -22,13 +21,10 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 75px;
 }
 
 .lontra {
-  /* margin-top: -30px;
-    margin-bottom: 30px;
-    height: 120px; */
+  margin-top: 30px;
   align-content: center;
   padding: auto;
   ;
@@ -39,8 +35,8 @@ input[type="password"] {
   padding: 12px;
   align-content: center;
   margin-bottom: 30px;
-  border: 2px solid #0c0909;
-  border-radius: 4px;
+  border: 3px solid #0c0909;
+  border-radius: 10px;
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
@@ -53,20 +49,8 @@ input[type="password"] {
   -o-text-security: disc;
 }
 
-button[type="submit"] {
-  padding: 10px;
-  background-color: cornflowerblue;
-  color: #fff;
-  border: 2px solid black;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 30%;
-  max-width: 300px;
-  box-sizing: border-box;
-}
 
-
-.retangulo {
+.retangulo-login {
   margin: 50px auto;
   background-color: white;
   width: 420px;
