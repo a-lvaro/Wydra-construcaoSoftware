@@ -5,7 +5,7 @@
                 <img src="../../wydra.png" class="lontra" alt="lontrinha">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required v-model="email" />
-
+awdawdaw
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required v-model="senha" />
 
