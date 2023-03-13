@@ -20,10 +20,7 @@ class Repository:
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
     def create(self, user : schemas.UsuarioCreate) -> schemas.Usuario:
-        hashed = hashlib.sha256(user.senha.encode()).hexdigest()
-
-        db_user = orm.Usuario(nome=user.nome, email=user.email, senha=hashed)
-        self.session.add(db_user)
+        self.session.add(user)
         
         self.session.commit()
         self.session.refresh(db_user)
@@ -33,7 +30,6 @@ class Repository:
     def delete(self, id : int):
         user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
         
-        if user:
-            self.session.delete(user)
-            self.session.commit()
+        self.session.delete(user)
+        self.session.commit()
 

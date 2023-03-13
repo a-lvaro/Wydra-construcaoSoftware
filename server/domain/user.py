@@ -1,14 +1,15 @@
 from fastapi import HTTPException
 from bcrypt import checkpw
+import hashlib
 
 from domain import schemas
 from dal import RepositorioUsuario
 from dal.orm import Session
 
-
-# Classe generica para o controlador de usuário
-# recebe um repositório genérico e pode ser usada para testes
-class GenericController:
+# Classe para o controlador do usuário
+# Acessa diretamente o banco de dados através
+# de um repositório
+class Controller:
     def __init__(self, repository):
         self.repository = repository 
 
@@ -26,23 +27,16 @@ class GenericController:
         elif self.repository.get_by_email(user.email):
             raise HTTPException(status_code=400, detail="Email já cadastrado.")
 
+        user.senha = hashlib.sha256(user.senha.encode()).hexdigest()
         user = self.repository.create(user)
+
         return user
 
-    def authenticate(email, senha) -> schemas.Usuario:
+    def authenticate(email, senha): 
         user = self.repository.get_by_email(email)
 
         if user and checkpw(senha.encode('utf-8'), user.senha.encode('utf-8')):
             return user
         else:
             return None
-
-
-# Classe para o controlador do usuário
-# Acessa diretamente o banco de dados através
-# de um repositório
-class Controller(GenericController):
-    def __init__(self):
-        db = Session()
-        self.repository = RepositorioUsuario(db)
 
