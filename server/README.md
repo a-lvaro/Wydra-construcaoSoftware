@@ -14,10 +14,10 @@ O servidor poderá ser acessado em http://localhost:8000/
 Execute o comando acima e navegue para http://localhost:8000/docs
 
 ## Architecture & File Structure
-### Domain
-Classes pertinentes ao domínio da aplicação, como usuários, obras, etc., e seus controladores.
+### Model
+Código para acessar o banco de dados, classes orm, e schemas de respostas da api.
 
-### Data Abstraction Layer (DAL)
-Código para acesso aos bancos de dados e outros recursos. Utiliza o padrão repositório para isolar a camada de dados da camada de aplicação.
+### Control 
+Controladores para classes do domínio, como usuário, obra, etc.
 
 

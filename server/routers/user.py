@@ -1,19 +1,20 @@
 from fastapi import APIRouter
 
-from domain import ControladorUsuario
-from domain import schemas
+from control import ControladorUsuario
+from model.schemas import UsuarioCreate
+from model.schemas import Usuario
 
 userRouter = APIRouter(
         prefix="/user"
     )
 
 @userRouter.post("/signup")
-def create_user(user : schemas.UsuarioCreate):
+def create_user(user : UsuarioCreate):
     c = ControladorUsuario()
     c.create(user)
 
 
-@userRouter.get("/{id}", response_model=schemas.Usuario)
+@userRouter.get("/{id}", response_model = Usuario)
 def get_user(id : int):
     c = ControladorUsuario()
     user = c.get(id)
