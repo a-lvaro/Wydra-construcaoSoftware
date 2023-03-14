@@ -11,7 +11,7 @@ userRouter = APIRouter(
     )
 
 @userRouter.post("/signup")
-def create_user(user: UsuarioCreate) -> Usuario:
+def sign_up(user: UsuarioCreate) -> Usuario:
     c = ControladorUsuario()
     new_user = c.create(user)
 
@@ -29,7 +29,7 @@ def get_user(id: int) -> Usuario:
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 @userRouter.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
+def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
     c = ControladorUsuario()
     user = c.get_by_email(form_data.username)
 
