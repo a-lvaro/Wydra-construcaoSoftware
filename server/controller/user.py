@@ -1,13 +1,14 @@
 from fastapi import HTTPException
 from typing import List
 from bcrypt import checkpw
+from datetime import datetime
 
 from model.orm import Session
 from model import schema
 from model import orm 
 
 
-class Controlador:
+class ControladorUsuario:
     def __init__(self, session):
         self.session = session
 
@@ -17,7 +18,7 @@ class Controlador:
         if not user:
             raise HTTPException(status_code=404, detail="Usuário não existe.") 
 
-        return user
+        return schema.Usuario.from_orm(user)
 
     def get_by_email(self, email : str) -> schema.Usuario:
         return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
@@ -31,20 +32,24 @@ class Controlador:
         elif self.get_by_email(user.email):
             raise HTTPException(status_code=400, detail="Email já cadastrado.")
 
-        db_user = orm.Usuario(user.nome, user.email, user.senha)
+        db_user = orm.Usuario()
+
+        db_user.nome = user.nome
+        db_user.email = user.email
+        db_user.senha = user.senha
+        db_user.data_cadastro = datetime.now()
 
         self.session.add(db_user)
         self.session.commit()
         self.session.refresh(db_user)
 
-        return self.get(db_user.id)
+        user = self.get(db_user.id)
+
+        return schema.Usuario.from_orm(user)
+
 
     def delete(self, id : int):
         user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
         
         self.session.delete(user)
         self.session.commit()
-    
-def getControlador():
-    db = Session()
-    return Controlador(db)

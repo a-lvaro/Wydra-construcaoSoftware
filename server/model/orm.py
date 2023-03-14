@@ -7,8 +7,6 @@ from sqlalchemy import ForeignKey, DateTime, create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
 
-from bcrypt import hashpw, gensalt 
-from datetime import datetime
 
 DATABASE_URL = 'sqlite:///../db/Wydra.db'
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -53,12 +51,6 @@ class Usuario(Base):
     def __repr__(self) -> str:
         return f"usuário(id={self.id!r}, nome={self.nome!r}, email={self.email!r})"
 
-    def __init__(self, nome, email, senha, caminho_foto=None):
-        self.nome = nome
-        self.email = email
-        self.senha = hashpw(senha.encode('utf-8'), gensalt()).decode('utf-8')
-        self.caminho_foto = caminho_foto
-        self.data_cadastro = datetime.now()
 
 # Entidade Estante
 class Estante(Base):
@@ -107,4 +99,3 @@ class Avaliacao(Base):
     def __repr__(self):
         return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
 
-Base.metadata.create_all(engine)
