@@ -1,7 +1,8 @@
 <template>
     <div>
-        <form class="retangulo-login" @submit.prevent="fazerBusca">
-            <button type="submit">Entrar</button>
+        <form class="retangulo-busca" @submit.prevent="fazerBusca">
+            <input type="search" id="busca" name="busca">
+            <Botao texto="Buscar" />
         </form>
     </div>
 </template>
@@ -18,8 +19,8 @@ export default {
     methods: {
         fazerBusca() {
             const data = {
-                email: this.email,
-                senha: this.senha
+                tipo_busca: this.tipo_busca,
+                string_busca: this.string_busca
             }
             console.log(data)
         },
@@ -28,7 +29,6 @@ export default {
 </script>
 
 <style scoped>
-
 form {
     display: flex;
     flex-direction: column;
@@ -46,3 +46,7 @@ input[type="email"] {
     box-sizing: border-box;
 }
 </style>
+
+<script setup>
+import Botao from './Botao.vue'
+</script>

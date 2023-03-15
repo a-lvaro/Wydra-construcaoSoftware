@@ -24,5 +24,7 @@ button[type="submit"] {
     cursor: pointer;
     display: flex;
     box-sizing: border-box;
+    min-width: 100px;
+    justify-content: center;
 }
 </style>
