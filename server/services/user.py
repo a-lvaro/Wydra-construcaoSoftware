@@ -1,5 +1,6 @@
 from fastapi import HTTPException 
 from bcrypt import hashpw, gensalt, checkpw
+from sqlalchemy.exc import DBAPIError
 
 from controller import ControladorUsuario
 
@@ -31,15 +32,17 @@ def cadastrar(user : UsuarioCreate) -> Usuario:
     # - Validar email (middleware?)
 
     # validação do cadastro
-    if not (user.nome and user.email and user.senha):
-        raise HTTPException(status_code=400, detail="Informações inválidas.")
-    elif ctrl.get_by_email(user.email):
-        raise HTTPException(status_code=400, detail="Email já cadastrado.")
+    if user.senha != user.senha_confirma:
+        raise HTTPException(status_code=400, detail="Senhas inválidas.")
+    if not (user.nome and user.sobrenome and user.nick and user.email and user.senha):
+        raise HTTPException(status_code=400, detail="Atributos inválidos.")
 
-    
     # password hashing
     user.senha = hashpw(user.senha.encode('utf-8'), gensalt()).decode('utf-8')
 
-    new_user = ctrl.create(user)
+    try:
+        new_user = ctrl.create(user)
+    except DBAPIError: # erro de integridade no db (nick ou email já cadastrado)
+        raise HTTPException(status_code=400, detail="Usuário já cadastrado.")
 
     return Usuario.from_orm(new_user)

@@ -32,8 +32,11 @@ class Usuario(Base):
     # Atributos do Usuário
     id = Column("ID_USUARIO", Integer, primary_key=True)
     
-    nome = Column("NOME", String(30), nullable=False)
-    email = Column("EMAIL", String(30), nullable=False)
+    nick = Column("NICK", String(16), unique=True, nullable=False)
+    email = Column("EMAIL", String(64), unique=True, nullable=False)
+
+    nome = Column("NOME", String(64), nullable=False)
+    sobrenome = Column("SOBRENOME", String(64), nullable=False)
     senha = Column("SENHA", String(64), nullable=False)
 
     data_cadastro = Column("DATA_CADASTRO", DateTime, nullable=False)
@@ -49,7 +52,7 @@ class Usuario(Base):
     )
 
     def __repr__(self) -> str:
-        return f"usuário(id={self.id!r}, nome={self.nome!r}, email={self.email!r})"
+        return f"usuário(id={self.id!r}, nome={self.nome!r}, nick={self.nick!r})"
 
 
 # Entidade Estante

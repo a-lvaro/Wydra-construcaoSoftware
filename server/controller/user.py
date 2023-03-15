@@ -13,28 +13,25 @@ class ControladorUsuario:
         self.session = session
 
     def get(self, id : int) -> schema.Usuario:
-        user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
+        return self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
+        
 
-        if not user:
-            raise HTTPException(status_code=404, detail="Usuário não existe.") 
+    def get_by_nick(self, nick : str):
+        return self.session.query(orm.Usuario).filter(orm.Usuario.nick == nick).first()
 
-        return schema.Usuario.from_orm(user)
-
-    def get_by_email(self, email : str) -> schema.Usuario:
+    def get_by_email(self, email : str):
         return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
 
-    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100) -> List[schema.Usuario]:
+    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100):
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
     def create(self, user : schema.UsuarioCreate) -> schema.Usuario:
-        if not (user.nome and user.email and user.senha):
-            raise HTTPException(status_code=400, detail="Informações inválidas.")
-        elif self.get_by_email(user.email):
-            raise HTTPException(status_code=400, detail="Email já cadastrado.")
-
         db_user = orm.Usuario()
 
         db_user.nome = user.nome
+        db_user.sobrenome = user.sobrenome
+        db_user.nick = user.nick
+
         db_user.email = user.email
         db_user.senha = user.senha
         db_user.data_cadastro = datetime.now()

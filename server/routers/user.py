@@ -14,7 +14,6 @@ userRouter = APIRouter(
     )
 
 
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 @userRouter.post("/login")
@@ -26,11 +25,15 @@ def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
 def sign_up(user: UsuarioCreate) -> Usuario:
     return services.user.cadastrar(user) 
 
-@userRouter.get("/{id}")
-def get_user(id: int) -> Usuario:
+@userRouter.get("/{nick}", response_model=Usuario)
+def get_user(nick : str):
     db = Session()
     c = ControladorUsuario(db)
-    user = c.get(id)
+
+    user = c.get_by_nick(nick)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não existe.") 
 
     return user
 
