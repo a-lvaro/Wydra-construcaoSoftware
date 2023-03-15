@@ -18,6 +18,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 @userRouter.post("/login")
 def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
+
+    # autentica o usuário pelo nick e senha e retorna um token de autenticação
     token = services.user.autenticar(form_data.username, form_data.password)
     return token
 
@@ -25,8 +27,8 @@ def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
 def sign_up(user: UsuarioCreate) -> Usuario:
     return services.user.cadastrar(user) 
 
-@userRouter.get("/{nick}", response_model=Usuario)
-def get_user(nick : str):
+@userRouter.get("/{nick}")
+def get_user(nick : str) -> Usuario:
     db = Session()
     c = ControladorUsuario(db)
 

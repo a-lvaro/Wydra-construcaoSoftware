@@ -9,11 +9,11 @@ from model.schema import UsuarioCreate
 from model.schema import Usuario
 
 # Autenticação do Usuário
-def autenticar(email, senha):
+def autenticar(nick, senha):
     db = Session()
     ctrl = ControladorUsuario(db)
 
-    user = ctrl.get_by_email(email)
+    user = ctrl.get_by_nick(nick)
 
     if user and checkpw(senha.encode('utf-8'), user.senha.encode('utf-8')):
         return {"acces_token": user.email, "token_type": "bearer"}
