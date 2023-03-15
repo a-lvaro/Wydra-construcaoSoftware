@@ -10,21 +10,22 @@
                         <div class="titulo">
                             <h1>Cadastre-se</h1>
                         </div>
-                        <div class="botao-cadastro">
-                            <Botao texto="Criar Conta" />
+                        <div class="botao-entrar">
+                            <!-- <Botao texto="Criar Conta" /> -->
+                            <button><RouterLink to="/login">Entrar</RouterLink></button>
                         </div>
                     </div>
                     <div class="inputs">
                         <div class="input-box">
-                            <label for="firstname">Primeiro Nome </label>
-                            <input placeholder=" Digite seu primeiro nome" type="text" id="firstname" name="firstname"
-                                required v-model="primeiroNome">
+                            <label for="name">Nome Completo </label>
+                            <input placeholder=" Digite seu nome" type="text" id="name" name="name"
+                                required v-model="nome">
                         </div>
 
                         <div class="input-box">
-                            <label for="lastname">Sobrenome </label>
-                            <input placeholder=" Digite seu sobrenome" type="text" id="lastname" name="lastname" required
-                                v-model="sobrenome">
+                            <label for="nickname">Apelido </label>
+                            <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" required
+                                v-model="nickname">
                         </div>
 
                         <div class="input-box">
@@ -52,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="genero-inputs">
+                    <div class="gender-inputs">
                         <div class="genero-titulo">
                             <h6>Gênero</h6>
                         </div>
@@ -87,28 +88,15 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: "Cadastro",
-    data() {
-        return {
 
-        }
-    }
-}
-</script>
+<style scoped>
 
-<script setup>
-import Botao from './Botao.vue'
-</script>
-
-<style>
 .cadastro {
     width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
-    color: white;
+    align-items: center;
 }
 
 .container {
@@ -118,9 +106,182 @@ import Botao from './Botao.vue'
     box-shadow: 10px 5px 10px rgba(0, 0, 0, .212);
 }
 
-form {
+.form-image{
+    width: 50%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: cornflowerblue;
+    padding: 1rem;
+}
+
+.form-image img{
+    width: 31rem;
+}
+
+.formulario {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    background-color: white;
+    padding: 3rem;
+}
+
+.header-formulario{
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.botao-entrar{
+    display: flex;
     align-items: center;
 }
+
+.botao-entrar button{
+    border:none;
+    background-color: #6c63ff;
+    padding: 0.5rem 5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.botao-entrar button:hover{
+    background-color: #6c63ff;
+}
+
+.botao-entrar button a {
+    text-decoration: none;
+    font-weight: 500;
+    color: white
+}
+
+.header-formulario h1::after{
+    content: '';
+    display: block;
+    width: 5rem;
+    height: 0.3rem;
+    background-color: #6c63ff;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.inputs{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.input-box{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1rem;
+}
+
+.input-box input{
+    margin: 0.6rem 0;
+    padding: 0.8rem 1.2rem;
+    border:none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px #0000001c;
+}
+
+.input-box input:hover{
+    background-color: #eeeeee75;
+}
+
+.input-box input:focus-visible{
+    outline: 1px solid #6c63ff;
+}
+
+.input-box label, .gender-inputs h6{
+    font-size: 1rem;
+    font-weight: 600;
+    color: black;
+}
+
+.gender-group{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.62rem;
+    padding: 0 0.5rem
+}
+
+.gender-input{
+    display: flex;
+    align-items: center;
+}
+
+.gender-input input{
+    margin-right: 0.35rem;
+}
+
+.gender-input label{
+    margin-right: 2rem;
+    font-size: 0.81rem;
+    font-weight: 600;
+    color: black;
+}
+
+.continue-button button{
+    width: 100%;
+    margin-top: 2.5rem;
+    border:none;
+    background-color: #6c63ff;
+    padding: 0.62rem;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+.continue-button button:hover{
+    background-color: #6b63fff1;
+}
+
+.continue-button button a{
+    text-decoration: none;
+    font-size: 0.93rem;
+    font-weight: 500;
+    color:white
+}
+
+@media screen and (max-width: 1300px){
+    .form-image{
+        display: none;
+    }
+    
+    .container{
+        width: 50%;
+    }
+    .formulario{
+        width: 100%;
+    }
+}
+
+/* 19 */
 </style>
+
+<script>
+export default {
+  name: "Cadastro",
+  data() {
+    return {
+      email: "",
+      senha: ""
+    }
+  },
+
+  methods: {
+    fazerLogin() {
+      const data = {
+        email: this.email,
+        senha: this.senha
+      }
+      console.log(data)
+    },
+  },
+}
+</script>

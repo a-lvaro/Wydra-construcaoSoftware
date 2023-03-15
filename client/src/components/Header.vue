@@ -41,12 +41,13 @@ header {
     background-color: rgba(0, 0, 0, 0.834);
     display: flex;
     justify-content: space-around;
-    padding: 10px;
-    margin: 0;
+    padding: 5px;
     align-items: center;
-    border-top: 1px solid cornflowerblue;
+    /* border-top: 1px solid cornflowerblue; */
     border-bottom: 1px solid cornflowerblue;
     width: 100%;
+    height: 90px;
+    bottom: 0px;
 }
 
 .menu {
