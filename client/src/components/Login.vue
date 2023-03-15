@@ -1,37 +1,28 @@
 <template>
   <div>
+    <form class="retangulo-login" @submit.prevent="fazerLogin">
+      <img src="../../wydra.png" class="lontra" alt="lontrinha">
+      <label for="email">Email:</label>
+      <input placeholder = "Digite seu login" type="email" id="email" name="email" required v-model="email" />
 
-    <body>
-      <form class="retangulo" @submit.prevent="fazerLogin">
-        <br><br />
-        <img src="../../wydra.png" class="lontra" alt="lontrinha">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required v-model="email" />
-
-        <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required v-model="senha" />
-
-        <button type="submit">Entrar</button>
-      </form>
-    </body>
+      <label for="password">Senha:</label>
+      <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
+      <Botao texto="Entrar"/>
+    </form>
   </div>
 </template>
   
-<style>
+<style scoped>
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 75px;
 }
 
 .lontra {
-  /* margin-top: -30px;
-    margin-bottom: 30px;
-    height: 120px; */
+  margin-top: 30px;
   align-content: center;
   padding: auto;
-  ;
 }
 
 input[type="email"],
@@ -39,11 +30,15 @@ input[type="password"] {
   padding: 12px;
   align-content: center;
   margin-bottom: 30px;
-  border: 2px solid #0c0909;
-  border-radius: 4px;
+  border: 1px solid #0c0909;
+  border-radius: 10px;
   width: 100%;
   max-width: 320px;
   box-sizing: border-box;
+}
+
+input:hover{
+  background-color: #eeeeee75;
 }
 
 input[type="password"] {
@@ -53,31 +48,23 @@ input[type="password"] {
   -o-text-security: disc;
 }
 
-button[type="submit"] {
-  padding: 10px;
-  background-color: cornflowerblue;
-  color: #fff;
-  border: 2px solid black;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 30%;
-  max-width: 300px;
-  box-sizing: border-box;
+label {
+  font-size: 20px;
 }
 
-
-.retangulo {
+.retangulo-login {
   margin: 50px auto;
   background-color: white;
   width: 420px;
-  height: 700px;
+  height: 600px;
   border-radius: 20px;
   /* Define o raio da borda */
   border: 2px solid #000000ba;
   /* Define a cor e largura da borda */
 }
+
 </style>
-  
+
 <script>
 export default {
   name: "Login",
@@ -98,4 +85,8 @@ export default {
     },
   },
 }
+</script>
+
+<script setup>
+  import Botao from './Botao.vue'
 </script>
