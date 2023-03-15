@@ -1,7 +1,6 @@
-from typing import ForwardRef
 from typing import Union, List, Optional
 
-from pydantic import BaseModel, validator 
+from pydantic import BaseModel
 from datetime import datetime
 
 class UsuarioBase(BaseModel):
@@ -21,12 +20,9 @@ def get_len(arg : Union[List|int]):
     else:
         return len(arg)
 
-ListUsuario = ForwardRef("List[Usuario]")
 class Usuario(UsuarioBase):
-    id : int
 
     class Config:
         orm_mode = True
 
-Usuario.update_forward_refs()
 
