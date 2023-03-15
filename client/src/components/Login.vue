@@ -56,7 +56,7 @@ label {
   margin: 50px auto;
   background-color: white;
   width: 420px;
-  height: 700px;
+  height: 600px;
   border-radius: 20px;
   /* Define o raio da borda */
   border: 2px solid #000000ba;
