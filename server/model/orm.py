@@ -3,10 +3,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy import Column, Integer, String, Enum
-from sqlalchemy import ForeignKey, DateTime, create_engine
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
 
+from datetime import datetime
 
 DATABASE_URL = 'sqlite:///../db/Wydra.db'
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -25,13 +26,14 @@ relacao_seguidores = Table(
     Column("ID_SEGUIDOR", ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
 )
 
+
 # Entidade Usuário
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
     # Atributos do Usuário
     id = Column("ID_USUARIO", Integer, primary_key=True)
-    
+
     nick = Column("NICK", String(16), unique=True, nullable=False)
     email = Column("EMAIL", String(64), unique=True, nullable=False)
 
@@ -41,18 +43,15 @@ class Usuario(Base):
 
     data_cadastro = Column("DATA_CADASTRO", DateTime, nullable=False)
     caminho_foto = Column("CAMINHO_FOTO", String(100), nullable=True)
-    
+
     # Relacionamento entre Seguidores
     seguidores = relationship(
         "Usuario",
-        secondary = relacao_seguidores,
-        primaryjoin = id == relacao_seguidores.c.ID_USUARIO,
-        secondaryjoin = id == relacao_seguidores.c.ID_SEGUIDOR,
-        backref = "seguindo"
+        secondary=relacao_seguidores,
+        primaryjoin=id == relacao_seguidores.c.ID_USUARIO,
+        secondaryjoin=id == relacao_seguidores.c.ID_SEGUIDOR,
+        backref="seguindo"
     )
-
-    def __repr__(self) -> str:
-        return f"usuário(id={self.id!r}, nome={self.nome!r}, nick={self.nick!r})"
 
 
 # Entidade Estante
@@ -77,8 +76,6 @@ class Estante(Base):
         self.data_inicio = data_inicio
         self.data_fim = data_fim
 
-    def __repr__(self):
-        return f"Estante(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, estado={self.estado!r}, nota={self.nota!r}, data_inicio={self.data_inicio!r}, data_fim={self.data_fim!r})"
 
 # Entidade Avaliação
 class Avaliacao(Base):
@@ -98,7 +95,3 @@ class Avaliacao(Base):
         self.nota = nota
         self.texto = texto
         self.data_comentario = datetime.now()
-
-    def __repr__(self):
-        return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
-
