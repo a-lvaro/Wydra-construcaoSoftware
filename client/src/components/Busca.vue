@@ -28,7 +28,7 @@
                 <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
                 <div class="textos-resultado">
                     <h2>Cem anos de solidão</h2>
-                    <h3>Gabriel García Márquez</h3>
+                    <h3>Gabriel García Márquez </h3>
                 </div>
             </div>
             <div class="container-resultado">
@@ -149,6 +149,7 @@ input[type="search"] {
 </style>
 
 <script>
+
 export default {
     name: "Busca",
     data() {
@@ -167,17 +168,21 @@ export default {
     },
 
     methods: {
-        fazerBusca() {
+        fazerBusca(string_busca) {
             const data = {
                 categoria_selecionada: this.categoria_selecionada,
                 string_busca: this.string_busca
             }
-            console.log(data)
+
+            api.getMovies(data.string_busca)
+                .then((resp) => console.log(resp))
+                
         },
     }
 }
 </script>
 
 <script setup>
+import api from '../../services/api.js'
 import Botao from './Botao.vue'
 </script>
