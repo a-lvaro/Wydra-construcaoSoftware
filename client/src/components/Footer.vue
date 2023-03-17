@@ -15,9 +15,9 @@ footer {
   background-color: rgba(0, 0, 0, 0.834);
   font-size: 20px;
   color: white;
-  border-top: 1px solid cornflowerblue;
-  /* border-bottom: 1px solid cornflowerblue; */
-  /* position: fixed; */
+  border-top: 2px solid cornflowerblue;
+  border-bottom: 2px solid cornflowerblue;
+  /* position: bottom; */
   height: 50px;
   bottom: 0;
   left: 0;

@@ -10,11 +10,12 @@ from model.schema import Usuario
 import services
 
 userRouter = APIRouter(
-        prefix="/user"
-    )
+    prefix="/user"
+)
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+
 
 @userRouter.post("/login")
 def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -23,20 +24,20 @@ def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
     token = services.user.autenticar(form_data.username, form_data.password)
     return token
 
+
 @userRouter.post("/signup")
 def sign_up(user: UsuarioCreate) -> Usuario:
-    return services.user.cadastrar(user) 
+    return services.user.cadastrar(user)
+
 
 @userRouter.get("/{nick}")
-def get_user(nick : str) -> Usuario:
+def get_user(nick: str) -> Usuario:
     db = Session()
     c = ControladorUsuario(db)
 
     user = c.get_by_nick(nick)
 
     if not user:
-        raise HTTPException(status_code=404, detail="Usuário não existe.") 
+        raise HTTPException(status_code=404, detail="Usuário não existe.")
 
     return user
-
-
