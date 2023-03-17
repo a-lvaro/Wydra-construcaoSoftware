@@ -5,27 +5,26 @@ from datetime import datetime
 
 from model.orm import Session
 from model import schema
-from model import orm 
+from model import orm
 
 
 class ControladorUsuario:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id : int) -> schema.Usuario:
+    def get(self, id: int) -> schema.Usuario:
         return self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
-        
 
-    def get_by_nick(self, nick : str):
+    def get_by_nick(self, nick: str):
         return self.session.query(orm.Usuario).filter(orm.Usuario.nick == nick).first()
 
-    def get_by_email(self, email : str):
+    def get_by_email(self, email: str):
         return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
 
-    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100):
+    def get_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
-    def create(self, user : schema.UsuarioCreate) -> schema.Usuario:
+    def create(self, user: schema.UsuarioCreate) -> schema.Usuario:
         db_user = orm.Usuario()
 
         db_user.nome = user.nome
@@ -44,9 +43,9 @@ class ControladorUsuario:
 
         return schema.Usuario.from_orm(user)
 
+    def delete(self, id: int):
+        user = self.session.query(orm.Usuario).filter(
+            orm.Usuario.id == id).first()
 
-    def delete(self, id : int):
-        user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
-        
         self.session.delete(user)
         self.session.commit()
