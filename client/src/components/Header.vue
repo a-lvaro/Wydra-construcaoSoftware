@@ -62,7 +62,6 @@ header {
 .menu li a {
     color: white;
     font-size: 20px;
-    font-family: 'Segoe UI';
     text-decoration: none;
 }
 </style>

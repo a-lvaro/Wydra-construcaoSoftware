@@ -16,7 +16,8 @@
             </div>
             <div class="campo-busca">
                 <label class="nome-campo-busca">Nome
-                    <input placeholder="Digite o nome" type="search" id="busca" name="busca" required v-model="string_busca" />
+                    <input placeholder="Digite o nome" type="search" id="busca" name="busca" required
+                        v-model="string_busca" />
                 </label>
             </div>
             <div class="botao-buscar">
@@ -43,14 +44,15 @@
 </template>
 
 <style scoped>
-
-img{
+img {
     height: 100px;
 }
-.container-busca{
+
+.container-busca {
     flex-direction: row;
     display: flex;
     align-items: center;
+    margin: auto;
 }
 
 form {
@@ -59,7 +61,7 @@ form {
     align-items: center;
 }
 
-.titulo{
+.titulo {
     padding: 30px;
     align-self: flex-start;
 }
@@ -73,9 +75,9 @@ form {
     border-radius: 20px;
     border: 2px solid #000000ba;
 }
+
 .retangulo-resultado {
     margin: 50px auto;
-    /* margin-left: 2px; */
     background-color: white;
     width: 650px;
     height: 420px;
@@ -86,7 +88,6 @@ form {
     align-items: center;
     overflow: auto;
     padding: 10px;
-    /* border-right: white; */
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -95,7 +96,7 @@ form {
     background-color: cornflowerblue;
     border: 4px solid transparent;
     border-radius: 10px;
-    background-clip: padding-box;  
+    background-clip: padding-box;
 }
 
 ::-webkit-scrollbar {
@@ -107,13 +108,13 @@ form {
 }
 
 .nome-filtro,
-.nome-campo-busca{
-    font-size:large;
+.nome-campo-busca {
+    font-size: large;
     display: flex;
     flex-direction: column;
 }
 
-.dropdown-categoria{
+.dropdown-categoria {
     padding: 12px;
     align-content: center;
     margin-bottom: 30px;
@@ -133,17 +134,18 @@ input[type="search"] {
     box-sizing: border-box;
 }
 
-.container-resultado{
+.container-resultado {
     margin: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.textos-resultado{
+.textos-resultado {
     margin-left: 8px;
 }
-.botao-buscar{
+
+.botao-buscar {
     padding-bottom: 30px;
 }
 </style>
@@ -173,7 +175,8 @@ export default {
                 string_busca: this.string_busca
             }
             console.log(data)
-        },
+
+        }
     }
 }
 </script>
