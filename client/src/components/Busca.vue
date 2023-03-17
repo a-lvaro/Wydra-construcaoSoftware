@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container-busca">
         <form class="retangulo-busca" @submit.prevent="fazerBusca">
             <div class="titulo">
                 <h1>Busca</h1>
@@ -23,10 +23,36 @@
                 <Botao texto="Buscar" />
             </div>
         </form>
+        <div class="retangulo-resultado">
+            <div class="container-resultado">
+                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
+                <div class="textos-resultado">
+                    <h2>Cem anos de solidão</h2>
+                    <h3>Gabriel García Márquez</h3>
+                </div>
+            </div>
+            <div class="container-resultado">
+                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
+                <div class="textos-resultado">
+                    <h2>Cem anos de solidão</h2>
+                    <h3>Gabriel García Márquez</h3>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+
+img{
+    height: 100px;
+}
+.container-busca{
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -35,15 +61,49 @@ form {
 
 .titulo{
     padding: 30px;
+    align-self: flex-start;
 }
 
 .retangulo-busca {
     margin: 50px auto;
+    /* margin-right: 2px; */
     background-color: white;
-    width: 420px;
-    height: 410px;
+    width: 500px;
+    height: 420px;
     border-radius: 20px;
     border: 2px solid #000000ba;
+}
+.retangulo-resultado {
+    margin: 50px auto;
+    /* margin-left: 2px; */
+    background-color: white;
+    width: 650px;
+    height: 420px;
+    border-radius: 20px;
+    border: 2px solid #000000ba;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    padding: 10px;
+    /* border-right: white; */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: cornflowerblue;
+    border: 4px solid transparent;
+    border-radius: 10px;
+    background-clip: padding-box;  
+}
+
+::-webkit-scrollbar {
+    width: 16px;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    background-color: #b6b5b5ba;
 }
 
 .nome-filtro,
@@ -73,6 +133,16 @@ input[type="search"] {
     box-sizing: border-box;
 }
 
+.container-resultado{
+    margin: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.textos-resultado{
+    margin-left: 8px;
+}
 .botao-buscar{
     padding-bottom: 30px;
 }
