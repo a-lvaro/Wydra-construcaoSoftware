@@ -39,11 +39,13 @@
                     <h3>Gabriel García Márquez</h3>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
 
 <style scoped>
+/* AQUI A IMAGEM */
 img {
     height: 100px;
 }
