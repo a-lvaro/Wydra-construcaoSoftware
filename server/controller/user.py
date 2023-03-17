@@ -5,30 +5,32 @@ from datetime import datetime
 
 from model.orm import Session
 from model import schema
-from model import orm 
+from model import orm
 
 
 class ControladorUsuario:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id : int) -> schema.Usuario:
-        user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
+    def get(self, id: int) -> schema.Usuario:
+        user = self.session.query(orm.Usuario).filter(
+            orm.Usuario.id == id).first()
 
         if not user:
-            raise HTTPException(status_code=404, detail="Usuário não existe.") 
+            raise HTTPException(status_code=404, detail="Usuário não existe.")
 
         return schema.Usuario.from_orm(user)
 
-    def get_by_email(self, email : str) -> schema.Usuario:
+    def get_by_email(self, email: str) -> schema.Usuario:
         return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
 
-    def get_by_nome(self, nome : str, skip : int = 0, limit : int = 100) -> List[schema.Usuario]:
+    def get_by_nome(self, nome: str, skip: int = 0, limit: int = 100) -> List[schema.Usuario]:
         return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
-    def create(self, user : schema.UsuarioCreate) -> schema.Usuario:
+    def create(self, user: schema.UsuarioCreate) -> schema.Usuario:
         if not (user.nome and user.email and user.senha):
-            raise HTTPException(status_code=400, detail="Informações inválidas.")
+            raise HTTPException(
+                status_code=400, detail="Informações inválidas.")
         elif self.get_by_email(user.email):
             raise HTTPException(status_code=400, detail="Email já cadastrado.")
 
@@ -47,9 +49,9 @@ class ControladorUsuario:
 
         return schema.Usuario.from_orm(user)
 
+    def delete(self, id: int):
+        user = self.session.query(orm.Usuario).filter(
+            orm.Usuario.id == id).first()
 
-    def delete(self, id : int):
-        user = self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
-        
         self.session.delete(user)
         self.session.commit()

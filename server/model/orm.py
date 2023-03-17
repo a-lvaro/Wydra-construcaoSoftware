@@ -9,12 +9,11 @@ from sqlalchemy import Table
 from datetime import datetime
 
 
-DATABASE_URL = 'sqlite:///../db/Wydra.db'
+DATABASE_URL = 'sqlite:///server/model/Wydra.db'
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
 
 # DEFINIÇÃO DO SCHEMA DO BANCO DE DADOS
 
@@ -103,3 +102,8 @@ class Avaliacao(Base):
 
     def __repr__(self):
         return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
+
+
+# cria as tabelas no banco de dados
+
+Base.metadata.create_all(bind=engine)
