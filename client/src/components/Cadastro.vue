@@ -81,6 +81,7 @@
                     </div>
                     <div class="continue-button">
                         <button><a href="#">Continuar</a></button>
+                        <!-- <Botao texto="Criar Conta" /> -->
                     </div>
                 </form>
             </div>
@@ -284,4 +285,8 @@ export default {
     },
   },
 }
+</script>
+
+<script setup>
+import Botao from './Botao.vue'
 </script>

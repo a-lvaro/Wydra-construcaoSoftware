@@ -17,7 +17,7 @@ export default {
 button[type="submit"] {
     padding: 10px;
     font-size: 18px;
-    background-color: rgb(189, 100, 237);
+    background-color: cornflowerblue;
     color: white;
     border: 3px solid black;
     border-radius: 10px;
