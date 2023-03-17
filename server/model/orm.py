@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, Enum
 from sqlalchemy import ForeignKey, DateTime, create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
+from datetime import datetime
 
 
 DATABASE_URL = 'sqlite:///../db/Wydra.db'
@@ -26,26 +27,28 @@ relacao_seguidores = Table(
 )
 
 # Entidade Usuário
+
+
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
     # Atributos do Usuário
     id = Column("ID_USUARIO", Integer, primary_key=True)
-    
+
     nome = Column("NOME", String(30), nullable=False)
     email = Column("EMAIL", String(30), nullable=False)
     senha = Column("SENHA", String(64), nullable=False)
 
     data_cadastro = Column("DATA_CADASTRO", DateTime, nullable=False)
     caminho_foto = Column("CAMINHO_FOTO", String(100), nullable=True)
-    
+
     # Relacionamento entre Seguidores
     seguidores = relationship(
         "Usuario",
-        secondary = relacao_seguidores,
-        primaryjoin = id == relacao_seguidores.c.ID_USUARIO,
-        secondaryjoin = id == relacao_seguidores.c.ID_SEGUIDOR,
-        backref = "seguindo"
+        secondary=relacao_seguidores,
+        primaryjoin=id == relacao_seguidores.c.ID_USUARIO,
+        secondaryjoin=id == relacao_seguidores.c.ID_SEGUIDOR,
+        backref="seguindo"
     )
 
     def __repr__(self) -> str:
@@ -78,6 +81,8 @@ class Estante(Base):
         return f"Estante(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, estado={self.estado!r}, nota={self.nota!r}, data_inicio={self.data_inicio!r}, data_fim={self.data_fim!r})"
 
 # Entidade Avaliação
+
+
 class Avaliacao(Base):
     __tablename__ = "AVALIACAO"
 
@@ -98,4 +103,3 @@ class Avaliacao(Base):
 
     def __repr__(self):
         return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
-
