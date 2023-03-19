@@ -1,4 +1,4 @@
-import tmdb3
+import tmdbsimple as tmdb
 
 from . import orm
 
@@ -7,5 +7,4 @@ orm.Base.metadata.create_all(orm.engine)
 
 # Inicializa API tmdb
 API_KEY = '158133b16a544083e8506dccf5af2bd4'
-tmdb3.set_key(API_KEY)
-tmdb3.set_locale(language='pt', country='br')
+tmdb.API_KEY = API_KEY

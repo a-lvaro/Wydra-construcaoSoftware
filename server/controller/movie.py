@@ -1,5 +1,6 @@
 from fastapi import HTTPException
-import tmdb3
+from requests.exceptions import HTTPError
+import tmdbsimple as tmdb
 
 from model.schema import Filme
 from model.schema import Elenco
@@ -8,26 +9,33 @@ from model.schema import Elenco
 class ControladorFilme:
     def get(self, id: int) -> Filme:
         try:
-            db_movie = tmdb3.Movie(id)
-        except tmdb3.TMDBHTTPError:
-            raise HTTPException(status=404, detail="Filme não existe.")
+            db_movie = tmdb.Movies(id)
 
-        elenco = []
-        for member in db_movie.cast:
-            elenco.append(Elenco(nome=member.name, papel=member.character))
+            details = db_movie.info(language="pt-BR")
+            credit = db_movie.credits(language="pt-BR")
+        except HTTPError:
+            raise HTTPException(status_code=404, detail="Filme não existe.")
 
         diretor = None
-        for member in db_movie.crew:
-            if member.job == 'Director':
-                diretor = member.name
+        elenco = []
 
-        generos = [g.name for g in db_movie.genres]
+        for member in credit['cast']:
+            elenco.append(Elenco(
+                nome=member['name'],
+                papel=member['character']
+            ))
+
+        for member in credit['crew']:
+            if member['known_for_department'] == 'Directing':
+                diretor = member['name']
+
+        generos = [g['name'] for g in details['genres']]
 
         movie = Filme(
                 id=db_movie.id,
-                titulo=db_movie.title,
-                duracao=db_movie.runtime,
-                descricao=db_movie.overview,
+                titulo=details['title'],
+                duracao=details['runtime'],
+                descricao=details['overview'],
                 elenco=elenco,
                 diretor=diretor,
                 generos=generos
