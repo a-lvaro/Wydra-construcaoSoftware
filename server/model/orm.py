@@ -6,15 +6,14 @@ from sqlalchemy import Column, Integer, String, Enum
 from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
-
 from datetime import datetime
 
-DATABASE_URL = 'sqlite:///../db/Wydra.db'
+
+DATABASE_URL = 'sqlite:///model/Wydra.db'
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
 
 # DEFINIÇÃO DO SCHEMA DO BANCO DE DADOS
 
@@ -28,6 +27,8 @@ relacao_seguidores = Table(
 
 
 # Entidade Usuário
+
+
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
@@ -39,6 +40,7 @@ class Usuario(Base):
 
     nome = Column("NOME", String(64), nullable=False)
     sobrenome = Column("SOBRENOME", String(64), nullable=False)
+
     senha = Column("SENHA", String(64), nullable=False)
 
     data_cadastro = Column("DATA_CADASTRO", DateTime, nullable=False)
@@ -78,6 +80,8 @@ class Estante(Base):
 
 
 # Entidade Avaliação
+
+
 class Avaliacao(Base):
     __tablename__ = "AVALIACAO"
 
@@ -95,3 +99,7 @@ class Avaliacao(Base):
         self.nota = nota
         self.texto = texto
         self.data_comentario = datetime.now()
+
+
+# cria as tabelas no banco de dados
+Base.metadata.create_all(bind=engine)

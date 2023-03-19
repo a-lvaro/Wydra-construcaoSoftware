@@ -23,7 +23,7 @@ def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
     return token
 
 
-@userRouter.post("/signup")
+@userRouter.post("/signup", response_model_exclude_none=True)
 def sign_up(user: UsuarioCreate) -> Usuario:
     return services.user.cadastrar(user)
 
