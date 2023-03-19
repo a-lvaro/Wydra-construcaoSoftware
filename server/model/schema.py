@@ -1,4 +1,6 @@
 from pydantic import BaseModel, validator
+from datetime import datetime
+from typing import List, Tuple
 
 
 class UsuarioBase(BaseModel):
@@ -35,3 +37,18 @@ class Usuario(UsuarioBase):
 
     class Config:
         orm_mode = True
+
+
+class Elenco(BaseModel):
+    nome: str
+    papel: str
+
+
+class Filme(BaseModel):
+    id: int
+    titulo: str
+    descricao: str
+    duracao: int  # Duração em minutos
+    generos: List[str]
+    elenco: List[Elenco]
+    diretor: str
