@@ -42,7 +42,7 @@ class ControladorUsuario:
 
         db_user.email = user.email
         db_user.senha = user.senha
-        db_user.data_cadastro = datetime.now()
+        db_user.data_cadastro = datetime.utcnow()
 
         self.session.add(db_user)
         self.session.commit()
