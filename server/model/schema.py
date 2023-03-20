@@ -19,20 +19,22 @@ class UsuarioCreate(UsuarioBase):
 def get_len(arg):
     # retorna None se a lista for vazia
     if type(arg) == list:
-        return len(arg) if arg else None
-    else:
+        return len(arg)
+    elif arg:
         return arg
+    else:
+        return 0
 
 
 # Classe Usuário para respostas
 class Usuario(UsuarioBase):
     id: int
 
-    seguidores: int | None
+    seguidores: int
     _get_seguidores = validator(
         'seguidores', pre=True, allow_reuse=True)(get_len)
 
-    seguindo: int | None
+    seguindo: int
     _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(get_len)
 
     class Config:

@@ -95,7 +95,3 @@ class Avaliacao(Base):
         self.nota = nota
         self.texto = texto
         self.data_comentario = datetime.now()
-
-
-# cria as tabelas no banco de dados
-Base.metadata.create_all(bind=engine)
