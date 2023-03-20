@@ -164,7 +164,7 @@ export default {
                 { id_categoria: 2, nome: "Filme" },
                 { id_categoria: 3, nome: "Série" },
                 { id_categoria: 4, nome: "Jogo" },
-                { id_categoria: 5, nome: "Álbum" }
+                { id_categoria: 5, nome: "Álbum Musical" }
             ],
             string_busca: '',
             categoria_selecionada: '',
