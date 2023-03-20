@@ -15,6 +15,11 @@ userRouter = APIRouter(
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
+@userRouter.get("/")
+def root():
+    return {"info": "Wydra User API"}
+
+
 @userRouter.post("/login")
 def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
 

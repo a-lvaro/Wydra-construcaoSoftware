@@ -29,7 +29,7 @@ class ControladorFilme:
 
         # Converte cada filme da lista
         for result in response['results']:
-            # Temos o titulo e a descrição mas para obter 
+            # Temos o titulo e a descrição mas para obter
             # o elenco e generos precisamos fazer outro request
             # TODO: Fazer isso de um jeito mais eficiente
             movie = self.get(result['id'])
