@@ -25,13 +25,13 @@
             </div>
         </form>
         <div class="retangulo-resultado">
-            <div class="container-resultado">
+            <RouterLink to="/obra" class="container-resultado">
                 <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
                 <div class="textos-resultado">
                     <h2>Cem anos de solidão</h2>
                     <h3>Gabriel García Márquez </h3>
                 </div>
-            </div>
+            </RouterLink>
             <div class="container-resultado">
                 <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
                 <div class="textos-resultado">
@@ -178,7 +178,7 @@ export default {
                 string_busca: this.string_busca
             }
 
-            api.getMovies(data.string_busca)
+            api.getFilmesNome(data.string_busca)
                 .then((resp) => console.log(resp))
                 
         },
@@ -188,5 +188,5 @@ export default {
 
 <script setup>
 import api from '../../services/api.js'
-import Botao from './Botao.vue'
+import Botao from './Botao.vue' 
 </script>
