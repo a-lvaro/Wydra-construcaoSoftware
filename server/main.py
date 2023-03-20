@@ -3,17 +3,15 @@ from fastapi import FastAPI
 
 from routers import userRouter, movieRouter
 
-app = FastAPI()
+wydra = FastAPI()
 
-app.add_middleware(
+wydra.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-wydra = FastAPI()
 
 wydra.include_router(userRouter)
 wydra.include_router(movieRouter)
