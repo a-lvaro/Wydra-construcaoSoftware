@@ -178,7 +178,7 @@ export default {
                 string_busca: this.string_busca
             }
 
-            api.getFilmesNome(data.string_busca)
+            api.getMovies(data.string_busca)
                 .then((resp) => console.log(resp))
                 
         },
