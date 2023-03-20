@@ -5,7 +5,6 @@ from typing import List
 import tmdbsimple as tmdb
 
 from model.schema import Filme
-from model.schema import Elenco
 
 
 class ControladorFilme:
@@ -15,11 +14,10 @@ class ControladorFilme:
             db_movie = tmdb.Movies(id)
 
             info = db_movie.info(language="pt-BR")
-            credit = db_movie.credits(language="pt-BR")
         except HTTPError:
             raise HTTPException(status_code=404, detail="Filme não existe.")
 
-        movie = convert(info, credit)
+        movie = convert(info)
         return movie
 
     def get_by_titulo(self, titulo: str, page=1) -> List[Filme]:
@@ -32,7 +30,7 @@ class ControladorFilme:
             # Temos o titulo e a descrição mas para obter
             # o elenco e generos precisamos fazer outro request
             # TODO: Fazer isso de um jeito mais eficiente
-            movie = self.get(result['id'])
+            movie = convert(result)
             movies.append(movie)
 
         return movies
@@ -40,24 +38,9 @@ class ControladorFilme:
 
 # Função auxiliar para converter um filme no formato
 # da API tmdb para uma entidade Filme
-def convert(info, credit={'cast': [], 'crew': []}) -> Filme:
-    diretor = None
-    elenco = []
-
-    # Obtem os membros do elenco
-    for member in credit['cast']:
-        elenco.append(Elenco(
-            nome=member['name'],
-            papel=member['character']
-        ))
-
-    # Obtem o diretor do filme
-    for member in credit['crew']:
-        if member['known_for_department'] == 'Directing':
-            diretor = member['name']
-
+def convert(info) -> Filme:
     # Obtem os generos
-    generos = [g['name'] for g in info['genres']]
+    categoria = [g['name'] for g in info['genres']]
 
     # Cria uma entidade da classe filme
     movie = Filme(
@@ -65,9 +48,7 @@ def convert(info, credit={'cast': [], 'crew': []}) -> Filme:
             titulo=info['title'],
             duracao=info['runtime'],
             descricao=info['overview'],
-            elenco=elenco,
-            diretor=diretor,
-            generos=generos
+            categoria=categoria
         )
 
     return movie

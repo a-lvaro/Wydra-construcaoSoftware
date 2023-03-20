@@ -52,4 +52,4 @@ def cadastrar(user: UsuarioCreate) -> Usuario:
         # erro de integridade no db (nick ou email já cadastrado)
         raise HTTPException(status_code=400, detail="Usuário já cadastrado.")
 
-    return Usuario.from_orm(new_user)
+    return new_user

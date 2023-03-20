@@ -1,5 +1,4 @@
 from pydantic import BaseModel, validator
-from typing import List
 
 
 class UsuarioBase(BaseModel):
@@ -8,6 +7,7 @@ class UsuarioBase(BaseModel):
     nick: str
 
 
+# Classe Usuário para cadastro
 class UsuarioCreate(UsuarioBase):
     email: str
     senha: str
@@ -19,11 +19,14 @@ class UsuarioCreate(UsuarioBase):
 def get_len(arg):
     # retorna None se a lista for vazia
     if type(arg) == list:
-        return len(arg) if arg else None
-    else:
+        return len(arg)
+    elif arg:
         return arg
+    else:
+        return 0
 
 
+# Classe Usuário para respostas
 class Usuario(UsuarioBase):
     id: int
 
@@ -38,19 +41,17 @@ class Usuario(UsuarioBase):
         orm_mode = True
 
 
-class Elenco(BaseModel):
-    nome: str
-    papel: str
-
-
-class Filme(BaseModel):
+# Classe genérica para obra
+class Obra(BaseModel):
     id: int
     titulo: str
     descricao: str
-    diretor: str
-    duracao: int  # Duração em minutos
-    generos: List[str]
-    elenco: List[Elenco]
+    autor: str
 
     class Config:
         orm_mode = True
+
+
+# Classe Filme para respostas
+class Filme(Obra):
+    pass
