@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from typing import List
 
 from controller import ControladorUsuario
 from model.orm import Session
@@ -15,11 +16,6 @@ userRouter = APIRouter(
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
-@userRouter.get("/")
-def root():
-    return {"info": "Wydra User API"}
-
-
 @userRouter.post("/login")
 def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
 
@@ -31,6 +27,15 @@ def log_in(form_data: OAuth2PasswordRequestForm = Depends()):
 @userRouter.post("/signup")
 def sign_up(user: UsuarioCreate) -> Usuario:
     return services.user.cadastrar(user)
+
+
+@userRouter.get("/search")
+def search_user(nick: str) -> List[Usuario]:
+    db = Session()
+    c = ControladorUsuario(db)
+
+    results = c.search_by_nick(nick)
+    return results
 
 
 @userRouter.get("/{nick}")
