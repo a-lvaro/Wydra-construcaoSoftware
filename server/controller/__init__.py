@@ -1,1 +1,2 @@
-from .user import getControlador as ControladorUsuario
+from .user import ControladorUsuario
+from .movie import ControladorFilme
