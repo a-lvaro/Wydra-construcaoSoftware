@@ -27,11 +27,11 @@ def get_len(arg):
 class Usuario(UsuarioBase):
     id: int
 
-    seguidores: int | None
+    seguidores: int
     _get_seguidores = validator(
         'seguidores', pre=True, allow_reuse=True)(get_len)
 
-    seguindo: int | None
+    seguindo: int
     _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(get_len)
 
     class Config:
@@ -47,10 +47,10 @@ class Filme(BaseModel):
     id: int
     titulo: str
     descricao: str
-    diretor: str | None
+    diretor: str
     duracao: int  # Duração em minutos
-    generos: List[str] | None
-    elenco: List[Elenco] | None
+    generos: List[str]
+    elenco: List[Elenco]
 
     class Config:
         orm_mode = True

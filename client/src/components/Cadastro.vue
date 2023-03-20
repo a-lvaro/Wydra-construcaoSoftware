@@ -5,13 +5,12 @@
                 <img src="join.svg" alt="cadastro">
             </div>
             <div class="formulario">
-                <form action="#">
+                <form @submit.prevent="fazerCadastro">
                     <div class="header-formulario">
                         <div class="titulo">
                             <h1>Cadastre-se</h1>
                         </div>
                         <div class="botao-entrar">
-                            <!-- <Botao texto="Criar Conta" /> -->
                             <button>
                                 <RouterLink to="/login">Entrar</RouterLink>
                             </button>
@@ -49,13 +48,13 @@
 
                         <div class="input-box">
                             <label for="passwordCadastro">Senha </label>
-                            <input placeholder=" Digite sua senha" type="passwordCadastro" id="passwordCadastro"
+                            <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
                                 name="passwordCadastro" required v-model="senha">
                         </div>
 
                         <div class="input-box">
                             <label for="confirmaSenha">Confirme sua Senha </label>
-                            <input placeholder=" Digite sua senha novamente" type="confirmaSenha" id="confirmaSenha"
+                            <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
                                 name="confirmaSenha" required v-model="confirmaSenha">
                         </div>
                     </div>
@@ -87,8 +86,8 @@
                         </div>
                     </div> -->
                     <div class="continue-button">
-                        <button><a href="#">Continuar</a></button>
-                        <!-- <Botao texto="Criar Conta" /> -->
+                        <!-- <button><a href="#">Continuar</a></button> -->
+                        <Botao texto="Continuar" />
                     </div>
                 </form>
             </div>
@@ -298,13 +297,16 @@ export default {
                 senha: this.senha,
                 senha_confirma: this.confirmaSenha
             }
+            
+            console.log(data)
 
-            return fetch('http://localhost:8000/user/signup', {
+            return fetch('http://127.0.0.1:8000/user/signup', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(novoUsuario),
+                body: JSON.stringify(data),
             })
                 .then((res) => res.json());
         },
