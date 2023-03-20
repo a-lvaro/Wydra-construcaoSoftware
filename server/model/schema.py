@@ -47,10 +47,10 @@ class Filme(BaseModel):
     id: int
     titulo: str
     descricao: str
-    diretor: str
+    diretor: str | None
     duracao: int  # Duração em minutos
-    generos: List[str]
-    elenco: List[Elenco]
+    generos: List[str] | None
+    elenco: List[Elenco] | None
 
     class Config:
         orm_mode = True

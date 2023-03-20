@@ -27,8 +27,6 @@ relacao_seguidores = Table(
 
 
 # Entidade Usuário
-
-
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
@@ -80,8 +78,6 @@ class Estante(Base):
 
 
 # Entidade Avaliação
-
-
 class Avaliacao(Base):
     __tablename__ = "AVALIACAO"
 
