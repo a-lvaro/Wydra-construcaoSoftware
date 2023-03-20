@@ -12,14 +12,21 @@
                         </div>
                         <div class="botao-entrar">
                             <!-- <Botao texto="Criar Conta" /> -->
-                            <button><RouterLink to="/login">Entrar</RouterLink></button>
+                            <button>
+                                <RouterLink to="/login">Entrar</RouterLink>
+                            </button>
                         </div>
                     </div>
                     <div class="inputs">
                         <div class="input-box">
-                            <label for="name">Nome Completo </label>
-                            <input placeholder=" Digite seu nome" type="text" id="name" name="name"
-                                required v-model="nome">
+                            <label for="name">Nome </label>
+                            <input placeholder=" Digite seu nome" type="text" id="name" name="name" required v-model="nome">
+                        </div>
+
+                        <div class="input-box">
+                            <label for="name">Sobrenome </label>
+                            <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required
+                                v-model="sobrenome">
                         </div>
 
                         <div class="input-box">
@@ -34,11 +41,11 @@
                                 required v-model="email">
                         </div>
 
-                        <div class="input-box">
-                            <label for="telefone">Telefone </label>
+                        <!-- <div class="input-box">
+                            <label for="name">Telefone </label>
                             <input placeholder=" (xx) xxxxx-xxxx" type="tel" id="telefone" name="telefone" required
                                 v-model="telefone">
-                        </div>
+                        </div> -->
 
                         <div class="input-box">
                             <label for="passwordCadastro">Senha </label>
@@ -53,7 +60,7 @@
                         </div>
                     </div>
 
-                    <div class="gender-inputs">
+                    <!-- <div class="gender-inputs">
                         <div class="genero-titulo">
                             <h6>Gênero</h6>
                         </div>
@@ -78,7 +85,7 @@
                                 <label for="none">Prefiro não dizer</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="continue-button">
                         <button><a href="#">Continuar</a></button>
                         <!-- <Botao texto="Criar Conta" /> -->
@@ -91,7 +98,6 @@
 
 
 <style scoped>
-
 .cadastro {
     width: 100%;
     height: 100vh;
@@ -107,7 +113,7 @@
     box-shadow: 10px 5px 10px rgba(0, 0, 0, .212);
 }
 
-.form-image{
+.form-image {
     width: 50%;
     display: flex;
     justify-content: center;
@@ -116,7 +122,7 @@
     padding: 1rem;
 }
 
-.form-image img{
+.form-image img {
     width: 31rem;
 }
 
@@ -130,26 +136,26 @@
     padding: 3rem;
 }
 
-.header-formulario{
+.header-formulario {
     margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
 }
 
-.botao-entrar{
+.botao-entrar {
     display: flex;
     align-items: center;
 }
 
-.botao-entrar button{
-    border:none;
+.botao-entrar button {
+    border: none;
     background-color: #6c63ff;
     padding: 0.5rem 5rem;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.botao-entrar button:hover{
+.botao-entrar button:hover {
     background-color: #6c63ff;
 }
 
@@ -159,7 +165,7 @@
     color: white
 }
 
-.header-formulario h1::after{
+.header-formulario h1::after {
     content: '';
     display: block;
     width: 5rem;
@@ -170,94 +176,96 @@
     border-radius: 10px;
 }
 
-.inputs{
+.inputs {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 1rem 0;
 }
 
-.input-box{
+.input-box {
     display: flex;
     flex-direction: column;
     margin-bottom: 1.1rem;
 }
 
-.input-box input{
+.input-box input {
     margin: 0.6rem 0;
     padding: 0.8rem 1.2rem;
-    border:none;
+    border: none;
     border-radius: 10px;
     box-shadow: 1px 1px 6px #0000001c;
 }
 
-.input-box input:hover{
+.input-box input:hover {
     background-color: #eeeeee75;
 }
 
-.input-box input:focus-visible{
+.input-box input:focus-visible {
     outline: 1px solid #6c63ff;
 }
 
-.input-box label, .gender-inputs h6{
+.input-box label,
+.gender-inputs h6 {
     font-size: 1rem;
     font-weight: 600;
     color: black;
 }
 
-.gender-group{
+.gender-group {
     display: flex;
     justify-content: space-between;
     margin-top: 0.62rem;
     padding: 0 0.5rem
 }
 
-.gender-input{
+.gender-input {
     display: flex;
     align-items: center;
 }
 
-.gender-input input{
+.gender-input input {
     margin-right: 0.35rem;
 }
 
-.gender-input label{
+.gender-input label {
     margin-right: 2rem;
     font-size: 0.81rem;
     font-weight: 600;
     color: black;
 }
 
-.continue-button button{
+.continue-button button {
     width: 100%;
     margin-top: 2.5rem;
-    border:none;
+    border: none;
     background-color: #6c63ff;
     padding: 0.62rem;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.continue-button button:hover{
+.continue-button button:hover {
     background-color: #6b63fff1;
 }
 
-.continue-button button a{
+.continue-button button a {
     text-decoration: none;
     font-size: 0.93rem;
     font-weight: 500;
-    color:white
+    color: white
 }
 
-@media screen and (max-width: 1300px){
-    .form-image{
+@media screen and (max-width: 1300px) {
+    .form-image {
         display: none;
     }
-    
-    .container{
+
+    .container {
         width: 50%;
     }
-    .formulario{
+
+    .formulario {
         width: 100%;
     }
 }
@@ -267,23 +275,40 @@
 
 <script>
 export default {
-  name: "Cadastro",
-  data() {
-    return {
-      email: "",
-      senha: ""
-    }
-  },
-
-  methods: {
-    fazerLogin() {
-      const data = {
-        email: this.email,
-        senha: this.senha
-      }
-      console.log(data)
+    name: "Cadastro",
+    data() {
+        return {
+            nome: "",
+            sobrenome: "",
+            nickname: "",
+            email: "",
+            senha: "",
+            confirmaSenha: ""
+        }
     },
-  },
+
+    methods: {
+        fazerCadastro() {
+            const data =
+            {
+                nome: this.nome,
+                sobrenome: this.sobrenome,
+                nick: this.nickname,
+                email: this.email,
+                senha: this.senha,
+                senha_confirma: this.confirmaSenha
+            }
+
+            return fetch('http://localhost:8000/user/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(novoUsuario),
+            })
+                .then((res) => res.json());
+        },
+    },
 }
 </script>
 
