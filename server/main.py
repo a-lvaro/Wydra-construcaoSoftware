@@ -1,7 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from routers import userRouter, movieRouter
+from routers import userRouter
 
 
 wydra = FastAPI()
@@ -15,7 +15,6 @@ wydra.add_middleware(
 )
 
 wydra.include_router(userRouter)
-wydra.include_router(movieRouter)
 
 
 @wydra.get("/")

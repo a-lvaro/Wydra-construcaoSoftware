@@ -36,7 +36,7 @@ def autenticar(nick, senha):
     else:
         raise HTTPException(
             status_code=400,
-            detail="Email ou senha incorretos."
+            detail="Nickname ou senha incorretos."
         )
 
 
@@ -90,7 +90,7 @@ def search_user_by_nick(nick: str) -> List[Usuario]:
 
 
 # Cria um novo token de autenticação para o usuário
-def create_token(user: Usuario, expires_delta: timedelta | None = None) -> str:
+def create_token(user: Usuario, expires_delta: timedelta = None) -> str:
     to_encode = user.dict()
 
     if expires_delta:

@@ -1,15 +1,8 @@
 # Wydra API
 
-## Dependencies
-- Python
-- FastAPI
-- Uvicorn
-- SQLAlchemy
-- tmdbsimple
-
 ## Running
 ```sh
-    uvicorn main:wydra --reload
+    poetry run uvicorn main:wydra --reload
 ```
 O servidor poderá ser acessado em http://localhost:8000/
 

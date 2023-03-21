@@ -46,7 +46,8 @@ class Obra(BaseModel):
     id: int
     titulo: str
     descricao: str
-    autor: str | None
+    autor: str
+    endereco_imagem: str
 
     class Config:
         orm_mode = True
