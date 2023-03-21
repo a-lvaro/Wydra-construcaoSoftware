@@ -18,14 +18,19 @@ class ControladorUsuario:
             orm.Usuario.nick == nick).first()
         return user
 
+    def search_by_nick(self, nick: str, skip: int = 0, limit: int = 100):
+        user = self.session.query(orm.Usuario).filter(
+            orm.Usuario.nick.contains(nick)).offset(skip).limit(limit).all()
+        return user
+
     def get_by_email(self, email: str):
         user = self.session.query(orm.Usuario).filter(
             orm.Usuario.email == email).first()
         return user
 
-    def get_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
+    def search_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
         user = self.session.query(orm.Usuario).filter(
-            nome in orm.Usuario.nome).offset(skip).limit(limit).all()
+            orm.Usuario.nome.contains(nome)).offset(skip).limit(limit).all()
         return user
 
     def create(self, user: schema.UsuarioCreate) -> schema.Usuario:
@@ -37,7 +42,7 @@ class ControladorUsuario:
 
         db_user.email = user.email
         db_user.senha = user.senha
-        db_user.data_cadastro = datetime.now()
+        db_user.data_cadastro = datetime.utcnow()
 
         self.session.add(db_user)
         self.session.commit()

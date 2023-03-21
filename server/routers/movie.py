@@ -9,11 +9,6 @@ movieRouter = APIRouter(
 )
 
 
-@movieRouter.get("/")
-def root():
-    return {"info": "Wydra Movie API"}
-
-
 @movieRouter.get("/search")
 def search_movie(query: str) -> List[Filme]:
     c = ControladorFilme()
