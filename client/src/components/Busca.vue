@@ -8,9 +8,9 @@
                 <label class="nome-filtro">Categoria
                     <select class="dropdown-categoria" required v-model="categoria_selecionada">
                         <option value="">Selecione o que deseja buscar</option>
-                        <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
+                        <!-- <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
                             {{ categoria.nome }}
-                        </option>
+                        </option> -->
                     </select>
                 </label>
             </div>
