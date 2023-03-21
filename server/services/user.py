@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from fastapi.security import OAuth2PasswordBearer
 from bcrypt import hashpw, gensalt, checkpw
-from jose import JWTError, jwt
+# from jose import JWTError, jwt
 
 from controller import ControladorUsuario
 
@@ -22,22 +22,22 @@ SECRET_KEY = "secret"  # por enquanto
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
 
 
-# Autenticação do Usuário
-def autenticar(nick, senha):
-    db = Session()
-    ctrl = ControladorUsuario(db)
+# # Autenticação do Usuário
+# def autenticar(nick, senha):
+#     db = Session()
+#     ctrl = ControladorUsuario(db)
 
-    db_user = ctrl.get_by_nick(nick)
+#     db_user = ctrl.get_by_nick(nick)
 
-    if db_user and checkpw(senha.encode(), db_user.senha.encode()):
-        user = Usuario.from_orm(db_user)
-        token = create_token(user)
-        return {"acces_token": token, "token_type": "bearer"}
-    else:
-        raise HTTPException(
-            status_code=400,
-            detail="Email ou senha incorretos."
-        )
+#     if db_user and checkpw(senha.encode(), db_user.senha.encode()):
+#         user = Usuario.from_orm(db_user)
+#         token = create_token(user)
+#         return {"acces_token": token, "token_type": "bearer"}
+#     else:
+#         raise HTTPException(
+#             status_code=400,
+#             detail="Email ou senha incorretos."
+#         )
 
 
 # Cadastra um novo usuário
@@ -90,43 +90,43 @@ def search_user_by_nick(nick: str) -> List[Usuario]:
 
 
 # Cria um novo token de autenticação para o usuário
-def create_token(user: Usuario, expires_delta: timedelta | None = None) -> str:
-    to_encode = user.dict()
+# def create_token(user: Usuario, expires_delta: timedelta | None = None) -> str:
+#     to_encode = user.dict()
 
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=60)
+#     if expires_delta:
+#         expire = datetime.utcnow() + expires_delta
+#     else:
+#         expire = datetime.utcnow() + timedelta(minutes=60)
 
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY)
+#     to_encode.update({"exp": expire})
+#     encoded_jwt = jwt.encode(to_encode, SECRET_KEY)
 
-    return encoded_jwt
+#     return encoded_jwt
 
 
-# Decodifica o token e retorna o seu usuário
-def validar_token(token: str) -> Usuario:
-    credentials_exception = HTTPException(
-        status_code=401,
-        detail="Credenciais inválidas.",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+# # Decodifica o token e retorna o seu usuário
+# def validar_token(token: str) -> Usuario:
+#     credentials_exception = HTTPException(
+#         status_code=401,
+#         detail="Credenciais inválidas.",
+#         headers={"WWW-Authenticate": "Bearer"},
+#     )
 
-    try:
-        payload = jwt.decode(token, SECRET_KEY)
-        nick: str = payload.get("nick")
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY)
+#         nick: str = payload.get("nick")
 
-        if nick is None:
-            raise credentials_exception
+#         if nick is None:
+#             raise credentials_exception
 
-    except JWTError:
-        raise credentials_exception
+#     except JWTError:
+#         raise credentials_exception
 
-    db = Session()
-    ctrl = ControladorUsuario(db)
-    user = ctrl.get_by_nick(nick)
+#     db = Session()
+#     ctrl = ControladorUsuario(db)
+#     user = ctrl.get_by_nick(nick)
 
-    if user is None:
-        raise credentials_exception
+#     if user is None:
+#         raise credentials_exception
 
-    return user
+#     return user

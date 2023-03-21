@@ -297,23 +297,14 @@ export default {
                 senha: this.senha,
                 senha_confirma: this.confirmaSenha
             }
-            
-            console.log(data)
 
-            return fetch('http://127.0.0.1:8000/user/signup', {
-                method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            })
-                .then((res) => res.json());
+            api.criarUsuario(data)
         },
     },
 }
 </script>
 
 <script setup>
+import api from '../../services/api.js'
 import Botao from './Botao.vue'
 </script>

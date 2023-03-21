@@ -172,15 +172,19 @@ export default {
     },
 
     methods: {
-        fazerBusca(string_busca) {
+        fazerBusca() {
             const data = {
-                categoria_selecionada: this.categoria_selecionada,
                 string_busca: this.string_busca
             }
-
-            api.getMovies(data.string_busca)
-                .then((resp) => console.log(resp))
-                
+            
+            if (this.categoria_selecionada == 0)
+            {
+                api.buscarUsuario(this.string_busca).then((resp) => console.log(resp))
+            }
+            else{
+                api.buscarFilmes(this.string_busca)
+                    .then((resp) => console.log(resp))
+            }
         },
     }
 }
