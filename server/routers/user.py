@@ -6,8 +6,7 @@ from model.schema import UsuarioCreate
 from model.schema import Usuario
 
 from services.user import oauth2_scheme
-# from services.user import autenticar, cadastrar, validar_token
-from services.user import cadastrar
+from services.user import autenticar, cadastrar, validar_token
 from services.user import get_user_by_nick, search_user_by_nick
 
 

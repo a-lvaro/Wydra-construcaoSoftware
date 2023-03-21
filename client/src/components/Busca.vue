@@ -168,10 +168,16 @@ export default {
             ],
             string_busca: '',
             categoria_selecionada: '',
+            resultados_busca: null
         }
     },
 
     methods: {
+        buscaFilmes() {
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=158133b16a544083e8506dccf5af2bd4&query=${this.string_busca}&language=pt-BR&page=1&include_adult=false`)
+                .then(response => response.json())
+                .then(data => (this.resultados_busca = data));
+        },
         fazerBusca() {
             const USUARIO = 0;
 
@@ -183,9 +189,12 @@ export default {
                 api.buscarUsuario(this.string_busca).then((res) => console.log(res))
             }
             else {
-                api.buscarFilmes(this.string_busca)
-                    .then((res) => console.log(res))
+                // api.buscarFilmes(this.string_busca)
+                //     .then((resultado) => (this.resultados_busca = resultado));
+                this.buscaFilmes()
             }
+
+            console.log(this.resultados_busca)
         },
     }
 }

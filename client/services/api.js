@@ -1,5 +1,5 @@
 function buscarFilmes(nome) {
-    return fetch(`https://api.themoviedb.org/3/search/movie?api_key=158133b16a544083e8506dccf5af2bd4&query=${nome}&language=pt-BR&page=1&include_adult=true`).then((res) => res.json());
+    return fetch(`https://api.themoviedb.org/3/search/movie?api_key=158133b16a544083e8506dccf5af2bd4&query=${nome}&language=pt-BR&page=1&include_adult=false`).then(res => res.json());
 }
 
 function buscarUsuario(nick) {
