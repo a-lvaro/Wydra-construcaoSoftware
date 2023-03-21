@@ -39,7 +39,7 @@
                     <h3>Gabriel García Márquez</h3>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -173,17 +173,18 @@ export default {
 
     methods: {
         fazerBusca() {
+            const USUARIO = 0;
+
             const data = {
                 string_busca: this.string_busca
             }
-            
-            if (this.categoria_selecionada == 0)
-            {
-                api.buscarUsuario(this.string_busca).then((resp) => console.log(resp))
+
+            if (this.categoria_selecionada == USUARIO) {
+                api.buscarUsuario(this.string_busca).then((res) => console.log(res))
             }
-            else{
+            else {
                 api.buscarFilmes(this.string_busca)
-                    .then((resp) => console.log(resp))
+                    .then((res) => console.log(res))
             }
         },
     }

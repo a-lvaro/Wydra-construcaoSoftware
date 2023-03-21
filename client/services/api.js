@@ -58,7 +58,7 @@ function editProducts(products, id) {
         },
         body: JSON.stringify(products)
     })
-        .then((res) => res.json());
+        .then((resp) => resp.json());
 }
 
 export default {
