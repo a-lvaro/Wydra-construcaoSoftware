@@ -26,17 +26,18 @@
         </form>
         <div class="retangulo-resultado">
             <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
-                <ResultadoBusca :nomePrincipal="item.title" :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
+                <ResultadoBusca tipo="/obra" :nomePrincipal="item.title"
+                    :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
             </div>
             <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
-                <ResultadoBusca :nomePrincipal="item.nome" :imagem="item.foto_pefil" />
+                <ResultadoBusca tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
+                    :nick="item.nick" />
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-
 .container-busca {
     flex-direction: row;
     display: flex;
@@ -75,7 +76,7 @@ form {
     border: 2px solid #000000ba;
     display: flex;
     flex-direction: column;
-    align-items:flex-start;
+    align-items: flex-start;
     overflow: auto;
     padding: 10px;
     border-top-right-radius: 10px;
@@ -131,10 +132,6 @@ input[type="search"] {
     align-items: center;
 }
 
-.textos-resultado {
-    margin-left: 8px;
-}
-
 .botao-buscar {
     padding-bottom: 30px;
 }
@@ -146,15 +143,15 @@ export default {
     name: "Busca",
     setup: () => {
         this.resultados_usuario = [],
-        this.resultados_filme = []
+            this.resultados_filme = []
     },
     data() {
         return {
             categorias: [
                 { id_categoria: 0, nome: "Usuário" },
-                { id_categoria: 1, nome: "Livro" },
-                { id_categoria: 2, nome: "Filme" },
-                { id_categoria: 3, nome: "Série" },
+                { id_categoria: 1, nome: "Filme" },
+                { id_categoria: 2, nome: "Série" },
+                { id_categoria: 3, nome: "Livro" },
                 { id_categoria: 4, nome: "Jogo" },
                 { id_categoria: 5, nome: "Álbum Musical" }
             ],
@@ -168,18 +165,21 @@ export default {
     methods: {
         fazerBusca() {
             const USUARIO = 0;
+            const FILME = 1;
+            const SERIE = 2;
 
             const data = {
                 string_busca: this.string_busca
             }
 
             if (this.categoria_selecionada == USUARIO) {
-                api.buscarUsuario(this.string_busca).then(data => (this.resultados_usuario = data.results));
+                this.resultados_filme = []
+                api.buscarUsuario(this.string_busca).then(data => (this.resultados_usuario = data));
             }
-            else {
+            else if (this.categoria_selecionada == FILME) {
+                this.resultados_usuario = []
                 api.buscarFilmes(this.string_busca).then(data => (this.resultados_filme = data.results));
             }
-
 
         },
     }
