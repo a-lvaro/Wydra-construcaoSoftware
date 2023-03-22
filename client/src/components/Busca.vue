@@ -25,30 +25,17 @@
             </div>
         </form>
         <div class="retangulo-resultado">
-            <RouterLink to="/obra" class="container-resultado">
-                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
-                <div class="textos-resultado">
-                    <h2>Cem anos de solidão</h2>
-                    <h3>Gabriel García Márquez </h3>
-                </div>
-            </RouterLink>
-            <div class="container-resultado">
-                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
-                <div class="textos-resultado">
-                    <h2>Cem anos de solidão</h2>
-                    <h3>Gabriel García Márquez</h3>
-                </div>
+            <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
+                <ResultadoBusca :nomePrincipal="item.title" :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
             </div>
-
+            <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
+                <ResultadoBusca :nomePrincipal="item.nome" :imagem="item.foto_pefil" />
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-/* AQUI A IMAGEM */
-img {
-    height: 100px;
-}
 
 .container-busca {
     flex-direction: row;
@@ -76,6 +63,7 @@ form {
     height: 420px;
     border-radius: 20px;
     border: 2px solid #000000ba;
+    align-self: flex-start;
 }
 
 .retangulo-resultado {
@@ -87,7 +75,7 @@ form {
     border: 2px solid #000000ba;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:flex-start;
     overflow: auto;
     padding: 10px;
     border-top-right-radius: 10px;
@@ -156,6 +144,10 @@ input[type="search"] {
 
 export default {
     name: "Busca",
+    setup: () => {
+        this.resultados_usuario = [],
+        this.resultados_filme = []
+    },
     data() {
         return {
             categorias: [
@@ -168,16 +160,12 @@ export default {
             ],
             string_busca: '',
             categoria_selecionada: '',
-            resultados_busca: null
+            resultados_filme: [],
+            resultados_usuario: [],
         }
     },
 
     methods: {
-        buscaFilmes() {
-            fetch(`https://api.themoviedb.org/3/search/movie?api_key=158133b16a544083e8506dccf5af2bd4&query=${this.string_busca}&language=pt-BR&page=1&include_adult=false`)
-                .then(response => response.json())
-                .then(data => (this.resultados_busca = data));
-        },
         fazerBusca() {
             const USUARIO = 0;
 
@@ -186,15 +174,13 @@ export default {
             }
 
             if (this.categoria_selecionada == USUARIO) {
-                api.buscarUsuario(this.string_busca).then((res) => console.log(res))
+                api.buscarUsuario(this.string_busca).then(data => (this.resultados_usuario = data.results));
             }
             else {
-                // api.buscarFilmes(this.string_busca)
-                //     .then((resultado) => (this.resultados_busca = resultado));
-                this.buscaFilmes()
+                api.buscarFilmes(this.string_busca).then(data => (this.resultados_filme = data.results));
             }
 
-            console.log(this.resultados_busca)
+
         },
     }
 }
@@ -202,5 +188,6 @@ export default {
 
 <script setup>
 import api from '../../services/api.js'
-import Botao from './Botao.vue' 
+import Botao from './Botao.vue'
+import ResultadoBusca from './ResultadoBusca.vue'
 </script>
