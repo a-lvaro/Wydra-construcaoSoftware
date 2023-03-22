@@ -10,7 +10,10 @@
 
       <label for="password">Senha:</label>
       <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
-      <Botao texto="Entrar"/>
+      <div class = "botoes">
+        <Botao class = "entrar" texto="Entrar"/>
+        <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
+      </div>
     </form>
   </div>
 </template>
@@ -63,11 +66,23 @@ label {
   margin: 50px auto;
   background-color: white;
   width: 420px;
-  height: 600px;
+  height: 680px;
   border-radius: 20px;
   /* Define o raio da borda */
   border: 2px solid #000000ba;
   /* Define a cor e largura da borda */
+}
+
+.botoes{
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.botoes .entrar{
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 </style>
@@ -90,6 +105,10 @@ export default {
       }
       console.log(data)
     },
+
+    irParaCadastro(){
+      this.$router.push({name:'cadastro'})
+    }
   },
 }
 </script>
