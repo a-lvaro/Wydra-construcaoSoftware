@@ -25,12 +25,15 @@
             </div>
         </form>
         <div class="retangulo-resultado">
+            <div class="imagem-placeholder">
+                <img src="https://cdn-icons-png.flaticon.com/512/6436/6436996.png" alt="sem resultados">
+            </div>
             <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
-                <ResultadoBusca tipo="/obra" :nomePrincipal="item.title"
+                <ResultadoBusca :json="item" tipo="/obra" :nomePrincipal="item.title"
                     :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
             </div>
             <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
-                <ResultadoBusca tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
+                <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
                     :nick="item.nick" />
             </div>
         </div>
@@ -81,6 +84,15 @@ form {
     padding: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.imagem-placeholder{
+    align-self: center;
+    margin-top: 50px;
+    display: none;
+}
+.imagem-placeholder img{
+    max-height: 300px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -150,10 +162,10 @@ export default {
             categorias: [
                 { id_categoria: 0, nome: "Usuário" },
                 { id_categoria: 1, nome: "Filme" },
-                { id_categoria: 2, nome: "Série" },
-                { id_categoria: 3, nome: "Livro" },
-                { id_categoria: 4, nome: "Jogo" },
-                { id_categoria: 5, nome: "Álbum Musical" }
+                // { id_categoria: 2, nome: "Série" },
+                // { id_categoria: 3, nome: "Livro" },
+                // { id_categoria: 4, nome: "Jogo" },
+                // { id_categoria: 5, nome: "Álbum Musical" }
             ],
             string_busca: '',
             categoria_selecionada: '',
@@ -168,6 +180,8 @@ export default {
             const FILME = 1;
             const SERIE = 2;
 
+            document.querySelector('.imagem-placeholder').style.display = 'none';
+
             const data = {
                 string_busca: this.string_busca
             }
@@ -180,6 +194,10 @@ export default {
                 this.resultados_usuario = []
                 api.buscarFilmes(this.string_busca).then(data => (this.resultados_filme = data.results));
             }
+
+            // if (this.resultados_filme.length == 0){
+            //     document.querySelector('.imagem-placeholder').style.display = 'flex';
+            // }
 
         },
     }
