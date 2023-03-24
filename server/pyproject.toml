@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "wydra-server"
+version = "0.1.0"
+description = "Wydra Server and API"
+authors = ["anabravn <bravinheloisa@gmail.com>"]
+readme = "README.md"
+packages = [{include = "wydra-server"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-jose = "^3.3.0"
+fastapi = "^0.95.0"
+bcrypt = "^4.0.1"
+pydantic = "^1.10.6"
+uvicorn = "^0.21.1"
+python-multipart = "^0.0.6"
+sqlalchemy = "^2.0.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
