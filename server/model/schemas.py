@@ -10,19 +10,26 @@ class UsuarioBase(BaseModel):
     nick: str
 
 
+# Classe Usuário para cadastro
 class UsuarioCreate(UsuarioBase):
     email: str
     senha: str
     senha_confirma: str
 
 
-def get_len(arg: Union[List | int]):
-    if type(arg) == int:
+# Retorna o número de seguidores da entidade
+# Usuário do orm (número de elementos na lista seguidores)
+def get_len(arg):
+    # retorna None se a lista for vazia
+    if type(arg) == list:
+        return len(arg)
+    elif arg:
         return arg
     else:
         return len(arg)
 
 
+# Classe Usuário para respostas
 class Usuario(UsuarioBase):
 
     class Config:
