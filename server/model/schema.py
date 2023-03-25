@@ -1,4 +1,7 @@
-from pydantic import BaseModel, validator
+from typing import Union, List, Optional
+
+from pydantic import BaseModel
+from datetime import datetime
 
 
 class UsuarioBase(BaseModel):
@@ -23,35 +26,11 @@ def get_len(arg):
     elif arg:
         return arg
     else:
-        return 0
+        return len(arg)
 
 
 # Classe Usuário para respostas
 class Usuario(UsuarioBase):
-    id: int
-
-    seguidores: int
-    _get_seguidores = validator(
-        'seguidores', pre=True, allow_reuse=True)(get_len)
-
-    seguindo: int
-    _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(get_len)
 
     class Config:
         orm_mode = True
-
-
-# Classe genérica para obra
-class Obra(BaseModel):
-    id: int
-    titulo: str
-    descricao: str
-    autor: str
-
-    class Config:
-        orm_mode = True
-
-
-# Classe Filme para respostas
-class Filme(Obra):
-    pass
