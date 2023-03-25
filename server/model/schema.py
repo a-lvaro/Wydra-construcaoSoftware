@@ -56,3 +56,15 @@ class Obra(BaseModel):
 # Classe Filme para respostas
 class Filme(Obra):
     pass
+
+
+class Estante(BaseModel):
+    idObra: int
+    idUsuario: int
+    estado: str
+    tipo: str
+    dataInicio: str
+    dataFim: str
+
+    class Config:
+        orm_mode = True
