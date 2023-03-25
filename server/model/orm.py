@@ -3,13 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy import Column, Integer, String, Enum
-from sqlalchemy import ForeignKey, DateTime
+from sqlalchemy import ForeignKey, DateTime, create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
 from datetime import datetime
 
 
-DATABASE_URL = 'sqlite:///model/Wydra.db'
+DATABASE_URL = 'sqlite:///server/model/Wydra.db'
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -25,8 +25,9 @@ relacao_seguidores = Table(
     Column("ID_SEGUIDOR", ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
 )
 
-
 # Entidade Usuário
+
+
 class Usuario(Base):
     __tablename__ = "USUARIO"
 
@@ -38,7 +39,6 @@ class Usuario(Base):
 
     nome = Column("NOME", String(64), nullable=False)
     sobrenome = Column("SOBRENOME", String(64), nullable=False)
-
     senha = Column("SENHA", String(64), nullable=False)
 
     data_cadastro = Column("DATA_CADASTRO", DateTime, nullable=False)
@@ -52,6 +52,9 @@ class Usuario(Base):
         secondaryjoin=id == relacao_seguidores.c.ID_SEGUIDOR,
         backref="seguindo"
     )
+
+    def __repr__(self) -> str:
+        return f"usuário(id={self.id!r}, nome={self.nome!r}, nick={self.nick!r})"
 
 
 # Entidade Estante
@@ -76,8 +79,12 @@ class Estante(Base):
         self.data_inicio = data_inicio
         self.data_fim = data_fim
 
+    def __repr__(self):
+        return f"Estante(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, estado={self.estado!r}, nota={self.nota!r}, data_inicio={self.data_inicio!r}, data_fim={self.data_fim!r})"
 
 # Entidade Avaliação
+
+
 class Avaliacao(Base):
     __tablename__ = "AVALIACAO"
 
@@ -95,3 +102,11 @@ class Avaliacao(Base):
         self.nota = nota
         self.texto = texto
         self.data_comentario = datetime.now()
+
+    def __repr__(self):
+        return f"Comentario(id_usuario={self.id_usuario!r}, id_obra={self.id_obra!r}, texto={self.texto!r}, data_comentario={self.data_comentario!r})"
+
+
+# cria as tabelas no banco de dados
+
+Base.metadata.create_all(bind=engine)
