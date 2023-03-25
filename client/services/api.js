@@ -2,7 +2,7 @@ function buscarFilmes(nome) {
     return fetch(`https://api.themoviedb.org/3/search/movie?api_key=158133b16a544083e8506dccf5af2bd4&query=${nome}&language=pt-BR&page=1&include_adult=false`).then(res => res.json());
 }
 
-function buscarUsuario(nick) {
+function buscarUsuarios(nick) {
     return fetch(`http://127.0.0.1:8000/user/search?nick=${nick}`).then((res) => res.json());
 }
 
@@ -62,5 +62,5 @@ function editProducts(products, id) {
 }
 
 export default {
-    buscarFilmes, criarUsuario, buscarUsuario
+    buscarFilmes, criarUsuario, buscarUsuarios
 };

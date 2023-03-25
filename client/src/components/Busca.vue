@@ -175,30 +175,27 @@ export default {
     },
 
     methods: {
+
         fazerBusca() {
             const USUARIO = 0;
             const FILME = 1;
             const SERIE = 2;
 
-            document.querySelector('.imagem-placeholder').style.display = 'none';
+            // document.querySelector('.imagem-placeholder').style.display = 'flex';
 
             const data = {
                 string_busca: this.string_busca
             }
 
+            this.resultados_filme = []
+            this.resultados_usuario = []
+
             if (this.categoria_selecionada == USUARIO) {
-                this.resultados_filme = []
-                api.buscarUsuario(this.string_busca).then(data => (this.resultados_usuario = data));
+                api.buscarUsuarios(this.string_busca).then(data => (this.resultados_usuario = data));
             }
             else if (this.categoria_selecionada == FILME) {
-                this.resultados_usuario = []
                 api.buscarFilmes(this.string_busca).then(data => (this.resultados_filme = data.results));
             }
-
-            // if (this.resultados_filme.length == 0){
-            //     document.querySelector('.imagem-placeholder').style.display = 'flex';
-            // }
-
         },
     }
 }
