@@ -1,5 +1,9 @@
+from fastapi import HTTPException
+from typing import List
+from bcrypt import checkpw
 from datetime import datetime
 
+from model.orm import Session
 from model import schema
 from model import orm
 
@@ -9,29 +13,16 @@ class ControladorUsuario:
         self.session = session
 
     def get(self, id: int) -> schema.Usuario:
-        user = self.session.query(orm.Usuario).filter(
-            orm.Usuario.id == id).first()
-        return user
+        return self.session.query(orm.Usuario).filter(orm.Usuario.id == id).first()
 
     def get_by_nick(self, nick: str):
-        user = self.session.query(orm.Usuario).filter(
-            orm.Usuario.nick == nick).first()
-        return user
-
-    def search_by_nick(self, nick: str, skip: int = 0, limit: int = 100):
-        user = self.session.query(orm.Usuario).filter(
-            orm.Usuario.nick.contains(nick)).offset(skip).limit(limit).all()
-        return user
+        return self.session.query(orm.Usuario).filter(orm.Usuario.nick == nick).first()
 
     def get_by_email(self, email: str):
-        user = self.session.query(orm.Usuario).filter(
-            orm.Usuario.email == email).first()
-        return user
+        return self.session.query(orm.Usuario).filter(orm.Usuario.email == email).first()
 
-    def search_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
-        user = self.session.query(orm.Usuario).filter(
-            orm.Usuario.nome.contains(nome)).offset(skip).limit(limit).all()
-        return user
+    def get_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
+        return self.session.query(orm.Usuario).filter(nome in orm.Usuario.nome).offset(skip).limit(limit).all()
 
     def create(self, user: schema.UsuarioCreate) -> schema.Usuario:
         db_user = orm.Usuario()
@@ -42,7 +33,7 @@ class ControladorUsuario:
 
         db_user.email = user.email
         db_user.senha = user.senha
-        db_user.data_cadastro = datetime.utcnow()
+        db_user.data_cadastro = datetime.now()
 
         self.session.add(db_user)
         self.session.commit()
