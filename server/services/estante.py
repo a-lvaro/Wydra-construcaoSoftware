@@ -1,28 +1,19 @@
 from model.schema import Estante
 
-
-def getEstanteUser(self, id) -> Estante:
-    estante = self.session.query(Estante).filter(Estante.user_id == id)
-    return estante
+from controller.estante import ControladorEstante
 
 
-def addEstante(self, estante) -> Estante:
-    self.session.add(estante)
-    self.session.commit()
-    return estante
+def getEstanteUsuario(idUsuario: str) -> Estante:
+    return ControladorEstante().getEstanteUsuario(idUsuario)
 
 
-def removeObra(self, idUsuario, idObra) -> Estante:
-    obra = self.session.query(Estante).filter(
-        Estante.user_id == idUsuario, Estante.obra_id == idObra)
-    self.session.delete(obra)
-    self.session.commit()
-    return obra
+def addEstante(estante: str) -> Estante:
+    return ControladorEstante().addEstante(estante)
 
 
-def alterarEstadoObra(self, idUsuario, idObra, estado) -> Estante:
-    obra = self.session.query(Estante).filter(
-        Estante.user_id == idUsuario, Estante.obra_id == idObra)
-    obra.estado = estado
-    self.session.commit()
-    return obra
+def removeObra(idUsuario: str, idObra: str) -> Estante:
+    return ControladorEstante().removeObra(idUsuario, idObra)
+
+
+def alterarEstadoObra(idUsuario: str, idObra: str, estado: str) -> Estante:
+    return ControladorEstante().alterarEstadoObra(idUsuario, idObra, estado)

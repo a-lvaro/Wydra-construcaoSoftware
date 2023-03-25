@@ -20,7 +20,7 @@ def root():
 
 @userRouter.getEstante("/{id}")
 def getEstanteUser(idUsuario: int) -> Estante:
-    return estanteService.getEstanteUser(idUsuario)
+    return estanteService.getEstanteUsuario(idUsuario)
 
 
 # add obra na estante
