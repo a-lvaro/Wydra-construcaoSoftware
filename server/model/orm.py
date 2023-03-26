@@ -80,10 +80,3 @@ class Avaliacao(Base):
     nota = Column("NOTA", Integer, nullable=True)
     texto = Column("TEXTO", String(300), nullable=False)
     data_comentario = Column("DATA_COMENTARIO", DateTime, nullable=False)
-
-    def __init__(self, id_usuario, id_obra, nota, texto):
-        self.id_usuario = id_usuario
-        self.id_obra = id_obra
-        self.nota = nota
-        self.texto = texto
-        self.data_comentario = datetime.now()

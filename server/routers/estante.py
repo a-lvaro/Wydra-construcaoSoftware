@@ -17,9 +17,10 @@ def root():
 
 
 # get estante do usuario
-@estanteRouter.get("/getEstante")
-def getEstante(idUsuario: int) -> Estante:
+@estanteRouter.get("/getEstante", response_model=List[Estante])
+def getEstante(idUsuario: int) -> List[Estante]:
     return estanteService.getEstanteUsuario(idUsuario)
+
 
 
 # add obra na estante
@@ -28,15 +29,11 @@ def addEstante(estante: Estante) -> Estante:
     return estanteService.addEstante(estante)
 
 # remove obra da estante
-
-
-@estanteRouter.delete("/remove")
-def removeObra(idUsuario: int, idObra: int) -> Estante:
-    return estanteService.removeObra(idUsuario, idObra)
+@estanteRouter.delete("/remover")
+def removerObra(idUsuario: int, idObra: int) -> Estante:
+    return estanteService.removerObra(idUsuario, idObra)
 
 # altera estado da obra
-
-
 @estanteRouter.put("/alterarEstado")
 def alterarEstadoObra(idUsuario: int, idObra: int, estado: str) -> Estante:
     return estanteService.alterarEstadoObra(idUsuario, idObra, estado)

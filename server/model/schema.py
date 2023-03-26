@@ -64,8 +64,6 @@ class Estante(BaseModel):
     id_obra: int
     estado: str
     tipo: str
-    data_inicio: datetime
-    data_fim: datetime
 
     class Config:
         orm_mode = True
