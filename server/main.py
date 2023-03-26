@@ -1,8 +1,12 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from routers import userRouter
+import logging
 
+from routers import userRouter
+from routers import estanteRouter
+
+logging.basicConfig(level=logging.DEBUG)
 
 wydra = FastAPI()
 
@@ -15,6 +19,7 @@ wydra.add_middleware(
 )
 
 wydra.include_router(userRouter)
+wydra.include_router(estanteRouter)
 
 
 @wydra.get("/")

@@ -1,13 +1,15 @@
 from model.schema import Estante
+from model import schema
 
 from controller.estante import ControladorEstante
+from model.schema import Estante
 
 
 def getEstanteUsuario(idUsuario: str) -> Estante:
     return ControladorEstante().getEstanteUsuario(idUsuario)
 
 
-def addEstante(estante: str) -> Estante:
+def addEstante(estante: Estante) -> Estante:
     return ControladorEstante().addEstante(estante)
 
 

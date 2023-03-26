@@ -1,19 +1,35 @@
 from model.orm import Session
+from model import orm
+from model import schema
+
 from model.schema import Estante
+
+from datetime import datetime
 
 
 class ControladorEstante:
     def __init__(self):
-        self.estante = Estante()
         self.session = Session()
 
-    def getEstanteUsuario(self, id):
-        estante = self.session.query(Estante).filter(Estante.idUsuario == id)
-        return estante
+    def getEstanteUsuario(self, idUsuario :str) -> schema.Estante:
+        return self.session.query(orm.Estante).filter(orm.Estante.id_usuario == idUsuario).all()
 
-    def addEstante(self, estante):
-        self.session.add(estante)
+    # TODO tratar exceções
+    def addEstante(self, estante :Estante) -> schema.Estante:
+        db_estante = orm.Estante()
+
+        db_estante.id_usuario = estante.id_usuario
+        db_estante.id_obra = estante.id_obra
+        db_estante.estado = estante.estado
+        db_estante.tipo = estante.tipo
+        db_estante.data_inicio = datetime.utcnow()
+        db_estante.data_fim = datetime.utcnow()
+
+
+        self.session.add(db_estante)
         self.session.commit()
+        self.session.refresh(db_estante)
+
         return estante
 
     def removeObra(self, idUsuario, idObra):
