@@ -123,6 +123,7 @@ def validar_token(token: str) -> schema.Usuario:
 
     return user
 
+# TODO foto de perfil 
 def editarPerfil(perfil: schema.Perfil) -> schema.Perfil:
     usuario = ControladorUsuario().editarPerfil(perfil)
     return schema.Perfil.from_orm(usuario) 
