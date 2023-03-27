@@ -1,12 +1,13 @@
 from datetime import datetime
 
+from model.orm import Session
 from model import schema
 from model import orm
 
 
 class ControladorUsuario:
-    def __init__(self, session):
-        self.session = session
+    def __init__(self):
+        self.session = Session()
 
     def get(self, id: int) -> schema.Usuario:
         user = self.session.query(orm.Usuario).filter(

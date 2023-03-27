@@ -10,7 +10,6 @@ from jose import JWTError, jwt
 
 from controller import ControladorUsuario
 
-from model.orm import Session
 from model.schema import UsuarioCreate
 from model.schema import Usuario
 
@@ -24,8 +23,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
 
 # Autenticação do Usuário
 def autenticar(nick, senha):
-    db = Session()
-    ctrl = ControladorUsuario(db)
+    ctrl = ControladorUsuario()
 
     db_user = ctrl.get_by_nick(nick)
 
@@ -42,8 +40,7 @@ def autenticar(nick, senha):
 
 # Cadastra um novo usuário
 def cadastrar(user: UsuarioCreate) -> Usuario:
-    db = Session()
-    ctrl = ControladorUsuario(db)
+    ctrl = ControladorUsuario()
 
     # TODO:
     # - Validar email (middleware?)
@@ -69,8 +66,7 @@ def cadastrar(user: UsuarioCreate) -> Usuario:
 
 # Retorna a entidade Usuário a partir de seu nick
 def get_user_by_nick(nick: str) -> Usuario:
-    db = Session()
-    ctrl = ControladorUsuario(db)
+    ctrl = ControladorUsuario()
 
     user = ctrl.get_by_nick(nick)
 
@@ -82,8 +78,7 @@ def get_user_by_nick(nick: str) -> Usuario:
 
 # Retorna uma lista de usuários cujo nick contém determinada string
 def search_user_by_nick(nick: str) -> List[Usuario]:
-    db = Session()
-    ctrl = ControladorUsuario(db)
+    ctrl = ControladorUsuario()
 
     results = ctrl.search_by_nick(nick)
     return results
@@ -122,8 +117,7 @@ def validar_token(token: str) -> Usuario:
     except JWTError:
         raise credentials_exception
 
-    db = Session()
-    ctrl = ControladorUsuario(db)
+    ctrl = ControladorUsuario()
     user = ctrl.get_by_nick(nick)
 
     if user is None:
