@@ -8,18 +8,18 @@ from fastapi.security import OAuth2PasswordBearer
 from bcrypt import hashpw, gensalt, checkpw
 from jose import JWTError, jwt
 
-from controller import ControladorUsuario
+from app.controllers.usuario import Controlador as ControladorUsuario
 
-from model.orm import Session
-from model.schema import UsuarioCreate
-from model.schema import Usuario
+from core.database import Session
+from app.schemas.usuario import UsuarioCreate
+from app.schemas.usuario import Usuario
 
 # TODO:
 # - Organizar esse código (talvez dividir em outros módulos)
 
 
 SECRET_KEY = "secret"  # por enquanto
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 # Autenticação do Usuário
@@ -32,7 +32,7 @@ def autenticar(nick, senha):
     if db_user and checkpw(senha.encode(), db_user.senha.encode()):
         user = Usuario.from_orm(db_user)
         token = create_token(user)
-        return {"acces_token": token, "token_type": "bearer"}
+        return {"access_token": token, "token_type": "bearer"}
     else:
         raise HTTPException(
             status_code=400,

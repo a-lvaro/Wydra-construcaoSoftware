@@ -2,26 +2,20 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import List, Annotated
 
-from model.schema import UsuarioCreate
-from model.schema import Usuario
+from app.schemas.usuario import UsuarioCreate
+from app.schemas.usuario import Usuario
 
 from services.user import oauth2_scheme
 from services.user import autenticar, cadastrar, validar_token
 from services.user import get_user_by_nick, search_user_by_nick
-
 
 userRouter = APIRouter(
     prefix="/user"
 )
 
 
-@userRouter.get("/")
-def root():
-    return {"info": "Wydra User API"}
-
-
-@userRouter.get("/me", response_model=Usuario)
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+@userRouter.post("/me", response_model=Usuario)
+async def get_current_user(token: str):
     user = validar_token(token)
     return user
 
@@ -47,5 +41,5 @@ def search_user(nick: str) -> List[Usuario]:
 
 @userRouter.get("/{nick}")
 def get_user(nick: str) -> Usuario:
-    user = get_user_by_nick()
+    user = get_user_by_nick(nick)
     return user

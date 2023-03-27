@@ -1,4 +1,8 @@
-from core.database import get_session
+from sqlalchemy import Column, Table
+from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, String, Integer, DateTime
+
+from core.database import Base
 
 # Relacionamento entre Seguidores
 relacao_seguidores = Table(

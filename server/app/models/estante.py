@@ -1,4 +1,7 @@
-from core.database import get_session
+from sqlalchemy import Column
+from sqlalchemy import ForeignKey, String, Integer, DateTime
+
+from core.database import Base
 
 # Entidade Estante
 class Estante(Base):
