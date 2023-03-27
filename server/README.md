@@ -23,5 +23,5 @@ Funcionalidade geral da API.
 - **models**: Modelos para tabelas do banco de dados
 - **schemas**: Classes pydantic para validação de dados
 
-### Services 
-Serviços oferecidos pela API, como autenticação e funcionalidades de alto nível.
+### Core
+Funcionalidades essenciais como acesso ao banco de dados e autenticaç
