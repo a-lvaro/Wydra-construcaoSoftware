@@ -1,7 +1,7 @@
 from model.orm import Session
 from model import orm
 
-from model.schema import Estante
+from model import schemaEstante
 
 from datetime import datetime
 
@@ -10,10 +10,10 @@ class ControladorEstante:
     def __init__(self):
         self.session = Session()
 
-    def getEstanteUsuario(self, idUsuario: int) -> Estante:
+    def getEstanteUsuario(self, idUsuario: int) -> schemaEstante:
         return self.session.query(orm.Estante).filter(orm.Estante.id_usuario == idUsuario).all()
 
-    def addEstante(self, estante: Estante) -> Estante:
+    def addEstante(self, estante: schemaEstante) -> schemaEstante:
         db_estante = orm.Estante()
 
         db_estante.id_usuario = estante.id_usuario
