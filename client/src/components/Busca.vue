@@ -25,7 +25,7 @@
             </div>
         </form>
         <div class="retangulo-resultado">
-            <div class="imagem-placeholder">
+            <div class="imagem-sem-resultados">
                 <img src="https://cdn-icons-png.flaticon.com/512/6436/6436996.png" alt="sem resultados">
             </div>
             <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
@@ -86,12 +86,12 @@ form {
     border-bottom-right-radius: 10px;
 }
 
-.imagem-placeholder{
+.imagem-sem-resultados{
     align-self: center;
     margin-top: 50px;
     display: none;
 }
-.imagem-placeholder img{
+.imagem-sem-resultados img{
     max-height: 300px;
 }
 
@@ -155,7 +155,7 @@ export default {
     name: "Busca",
     setup: () => {
         this.resultados_usuario = [],
-            this.resultados_filme = []
+        this.resultados_filme = []
     },
     data() {
         return {
