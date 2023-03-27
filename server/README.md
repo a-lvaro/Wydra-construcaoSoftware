@@ -4,7 +4,7 @@
 - [ ] Refatoração
     - [x] Reestruturar código para ORM e modelos
     - [ ] Mover código de autenticação para core/security
-    - [ ] Mover o resto do código do módulo services para o módulo api
+    - [ ] Mover o resto do código do módulo services para os módulos api e app
 - [ ] Melhorar autenticação
 
 ## Running
