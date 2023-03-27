@@ -24,4 +24,4 @@ Funcionalidade geral da API.
 - **schemas**: Classes pydantic para validação de dados
 
 ### Core
-Funcionalidades essenciais como acesso ao banco de dados e autenticação.
+Funcionalidades essenciais, como acesso ao banco de dados e autenticação.
