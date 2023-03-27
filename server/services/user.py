@@ -10,9 +10,7 @@ from jose import JWTError, jwt
 
 from controller import ControladorUsuario
 
-from model.schema import UsuarioCreate
-from model.schema import Usuario
-
+from model import schema
 # TODO:
 # - Organizar esse código (talvez dividir em outros módulos)
 
@@ -28,7 +26,7 @@ def autenticar(nick, senha):
     db_user = ctrl.get_by_nick(nick)
 
     if db_user and checkpw(senha.encode(), db_user.senha.encode()):
-        user = Usuario.from_orm(db_user)
+        user = schema.Usuario.from_orm(db_user)
         token = create_token(user)
         return {"acces_token": token, "token_type": "bearer"}
     else:
@@ -39,7 +37,7 @@ def autenticar(nick, senha):
 
 
 # Cadastra um novo usuário
-def cadastrar(user: UsuarioCreate) -> Usuario:
+def cadastrar(user: schema.UsuarioCreate) -> schema.Usuario:
     ctrl = ControladorUsuario()
 
     # TODO:
@@ -61,11 +59,11 @@ def cadastrar(user: UsuarioCreate) -> Usuario:
         # erro de integridade no db (nick ou email já cadastrado)
         raise HTTPException(status_code=400, detail="Usuário já cadastrado.")
 
-    return Usuario.from_orm(new_user)
+    return schema.Usuario.from_orm(new_user)
 
 
 # Retorna a entidade Usuário a partir de seu nick
-def get_user_by_nick(nick: str) -> Usuario:
+def get_user_by_nick(nick: str) -> schema.Usuario:
     ctrl = ControladorUsuario()
 
     user = ctrl.get_by_nick(nick)
@@ -77,7 +75,7 @@ def get_user_by_nick(nick: str) -> Usuario:
 
 
 # Retorna uma lista de usuários cujo nick contém determinada string
-def search_user_by_nick(nick: str) -> List[Usuario]:
+def search_user_by_nick(nick: str) -> List[schema.Usuario]:
     ctrl = ControladorUsuario()
 
     results = ctrl.search_by_nick(nick)
@@ -85,7 +83,7 @@ def search_user_by_nick(nick: str) -> List[Usuario]:
 
 
 # Cria um novo token de autenticação para o usuário
-def create_token(user: Usuario, expires_delta: timedelta = None) -> str:
+def create_token(user: schema.Usuario, expires_delta: timedelta = None) -> str:
     to_encode = user.dict()
 
     if expires_delta:
@@ -100,7 +98,7 @@ def create_token(user: Usuario, expires_delta: timedelta = None) -> str:
 
 
 # Decodifica o token e retorna o seu usuário
-def validar_token(token: str) -> Usuario:
+def validar_token(token: str) -> schema.Usuario:
     credentials_exception = HTTPException(
         status_code=401,
         detail="Credenciais inválidas.",
@@ -124,3 +122,7 @@ def validar_token(token: str) -> Usuario:
         raise credentials_exception
 
     return user
+
+def editarPerfil(perfil: schema.Perfil) -> schema.Perfil:
+    usuario = ControladorUsuario().editarPerfil(perfil)
+    return schema.Perfil.from_orm(usuario) 

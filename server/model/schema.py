@@ -1,5 +1,4 @@
 from pydantic import BaseModel, validator
-from datetime import datetime
 
 
 class UsuarioBase(BaseModel):
@@ -58,12 +57,14 @@ class Obra(BaseModel):
 class Filme(Obra):
     pass
 
-
-class Estante(BaseModel):
-    id_usuario: int
-    id_obra: int
-    estado: str
-    tipo: str
+class Perfil(BaseModel):
+    id :int
+    nome :str
+    sobrenome :str
+    nick :str
+    email :str
+    senha :str
 
     class Config:
         orm_mode = True
+

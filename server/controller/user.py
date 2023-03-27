@@ -59,3 +59,18 @@ class ControladorUsuario:
 
         self.session.delete(user)
         self.session.commit()
+
+    def editarPerfil(self, perfil :schema.Perfil) -> schema.Perfil:
+        usuario = self.session.query(orm.Usuario).filter(
+            orm.Usuario.id == perfil.id).first()
+
+        usuario.nome = perfil.nome
+        usuario.sobrenome = perfil.sobrenome
+        usuario.nick = perfil.nick
+        usuario.email = perfil.email
+        usuario.senha = perfil.senha
+
+        self.session.commit()
+        self.session.refresh(usuario)
+
+        return schema.Perfil.from_orm(usuario)
