@@ -1,17 +1,20 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, constr, validator
+from pydantic import EmailStr
+from typing import Optional
 
 
 class UsuarioBase(BaseModel):
     nome: str
     sobrenome: str
-    nick: str
+    nick: constr(min_length=3, max_length=64)
 
 
 # Classe Usuário para cadastro
+
 class UsuarioCreate(UsuarioBase):
-    email: str
-    senha: str
-    senha_confirma: str
+    email: EmailStr
+    senha: constr(min_length=8, max_length=64)
+    senha_confirma: constr(min_length=8, max_length=64)
 
 
 # Retorna o número de seguidores da entidade
@@ -30,28 +33,18 @@ def get_len(arg):
 class Usuario(UsuarioBase):
     id: int
 
-    seguidores: int
+    seguidores: Optional[int]
     _get_seguidores = validator(
         'seguidores', pre=True, allow_reuse=True)(get_len)
 
-    seguindo: int
+    seguindo: Optional[int]
     _get_seguindo = validator('seguindo', pre=True, allow_reuse=True)(get_len)
 
     class Config:
         orm_mode = True
 
 
-# Classe genérica para obra
-class Obra(BaseModel):
-    id: int
-    titulo: str
-    descricao: str
-    autor: str
-
-    class Config:
-        orm_mode = True
-
-
-# Classe Filme para respostas
-class Filme(Obra):
-    pass
+# Classe Usuario para login
+class UsuarioAuth(BaseModel):
+    nick: constr(min_length=3, max_length=64)
+    senha: constr(min_length=8, max_length=64)
