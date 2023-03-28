@@ -3,8 +3,9 @@
 ## TO-DO
 - [ ] Refatoração
     - [x] Reestruturar código para ORM e modelos
-    - [ ] Mover código de autenticação para core/security
-    - [ ] Mover o resto do código do módulo services para os módulos api e app
+    - [x] Mover código de autenticação para core/security
+    - [x] Mover o resto do código do módulo services para os módulos api e app
+    - [ ] Exception handling
 - [ ] Melhorar autenticação
 
 ## Running
