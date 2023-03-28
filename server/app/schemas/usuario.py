@@ -2,6 +2,7 @@ from pydantic import BaseModel, constr, validator
 from pydantic import EmailStr
 from typing import Optional
 
+
 class UsuarioBase(BaseModel):
     nome: str
     sobrenome: str
@@ -44,7 +45,6 @@ class Usuario(UsuarioBase):
 
 
 # Classe Usuario para login
-class UsuarioAuth(UsuarioBase):
+class UsuarioAuth(BaseModel):
     email: EmailStr
     senha: constr(min_length=8, max_length=64)
-    nick: constr(min_length=3, max_length=64)
