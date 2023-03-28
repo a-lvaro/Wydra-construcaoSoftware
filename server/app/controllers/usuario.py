@@ -1,38 +1,41 @@
 from datetime import datetime
+from pydantic import EmailStr
 
 from app.schemas.usuario import Usuario, UsuarioCreate
 from app.models.usuario import Usuario as ormUsuario
 
-class Controlador:
+class UserController:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id: int) -> Usuario:
+    async def get(self, id: int) -> Usuario:
         user = self.session.query(ormUsuario).filter(
             ormUsuario.id == id).first()
+        print(user)
+
         return user
 
-    def get_by_nick(self, nick: str):
+    async def get_by_nick(self, nick: str):
         user = self.session.query(ormUsuario).filter(
             ormUsuario.nick == nick).first()
         return user
 
-    def search_by_nick(self, nick: str, skip: int = 0, limit: int = 100):
+    async def search_by_nick(self, nick: str, skip: int = 0, limit: int = 100):
         user = self.session.query(ormUsuario).filter(
             ormUsuario.nick.contains(nick)).offset(skip).limit(limit).all()
         return user
 
-    def get_by_email(self, email: str):
+    async def get_by_email(self, email: EmailStr):
         user = self.session.query(ormUsuario).filter(
             ormUsuario.email == email).first()
         return user
 
-    def search_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
+    async def search_by_nome(self, nome: str, skip: int = 0, limit: int = 100):
         user = self.session.query(ormUsuario).filter(
             ormUsuario.nome.contains(nome)).offset(skip).limit(limit).all()
         return user
 
-    def create(self, user: UsuarioCreate) -> Usuario:
+    async def create(self, user: UsuarioCreate) -> Usuario:
         db_user = ormUsuario()
 
         db_user.nome = user.nome
@@ -47,13 +50,4 @@ class Controlador:
         self.session.commit()
         self.session.refresh(db_user)
 
-        user = self.get(db_user.id)
-
-        return Usuario.from_orm(user)
-
-    def delete(self, id: int):
-        user = self.session.query(ormUsuario).filter(
-            ormUsuario.id == id).first()
-
-        self.session.delete(user)
-        self.session.commit()
+        return db_user

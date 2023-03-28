@@ -11,10 +11,11 @@ python = "^3.10"
 python-jose = "^3.3.0"
 fastapi = "^0.95.0"
 bcrypt = "^4.0.1"
-pydantic = "^1.10.6"
+pydantic = {extras = ["email"], version = "^1.10.7"}
 uvicorn = "^0.21.1"
 python-multipart = "^0.0.6"
 sqlalchemy = "^2.0.7"
+passlib = "^1.7.4"
 
 [build-system]
 requires = ["poetry-core"]

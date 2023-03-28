@@ -39,4 +39,3 @@ class Usuario(Base):
         secondaryjoin=id == relacao_seguidores.c.ID_SEGUIDOR,
         backref="seguindo"
     )
-
