@@ -1,20 +1,18 @@
-from model.orm import Session
-from model import orm
-
-from model import schemaEstante
-
 from datetime import datetime
 
+from core.database import get_session
+from app.schemas.estante import Estante
+from app.models.estante import Estante as ormEstante
 
 class ControladorEstante:
     def __init__(self):
-        self.session = Session()
+        self.session = get_session()
 
-    def getEstanteUsuario(self, idUsuario: int) -> schemaEstante:
-        return self.session.query(orm.Estante).filter(orm.Estante.id_usuario == idUsuario).all()
+    def getEstanteUsuario(self, idUsuario: int) -> Estante:
+        return self.session.query(ormEstante).filter(ormEstante.id_usuario == idUsuario).all()
 
-    def addEstante(self, estante: schemaEstante) -> schemaEstante:
-        db_estante = orm.Estante()
+    def addEstante(self, estante: Estante) -> Estante:
+        db_estante = ormEstante()
 
         db_estante.id_usuario = estante.id_usuario
         db_estante.id_obra = estante.id_obra
@@ -35,16 +33,16 @@ class ControladorEstante:
         return estante
 
     def removerObra(self, idUsuario, idObra):
-        obra = self.session.query(orm.Estante).filter(
-            orm.Estante.id_usuario == idUsuario,
-            orm.Estante.id_obra == idObra).one()
+        obra = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario,
+            ormEstante.id_obra == idObra).one()
         self.session.delete(obra)
         self.session.commit()
         return obra
 
     def alterarEstadoObra(self, idUsuario, idObra, novoEstado):
-        obra = self.session.query(orm.Estante).filter(
-            orm.Estante.id_usuario == idUsuario, orm.Estante.id_obra == idObra).one()
+        obra = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario, ormEstante.id_obra == idObra).one()
         obra.estado = novoEstado
 
         if novoEstado in ['Finalizada', 'Abandonada']:

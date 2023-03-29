@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from typing import List
 
-from controllers.estante import ControladorEstante
-from app.schemas import Estante
+from app.controllers.estante import ControladorEstante
+from app.schemas.estante import Estante
 
 estanteRouter = APIRouter(
     prefix="/estante"
