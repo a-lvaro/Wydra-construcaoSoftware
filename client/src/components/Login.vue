@@ -2,6 +2,9 @@
   <div>
     <form class="retangulo-login" @submit.prevent="fazerLogin">
       <img src="../../wydra.png" class="lontra" alt="lontrinha">
+      <div class="titulo">
+        <h1>Login</h1>
+      </div>
       <label for="email">Email:</label>
       <input placeholder = "Digite seu login" type="email" id="email" name="email" required v-model="email" />
 
@@ -17,6 +20,10 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.titulo{
+  margin: 10px;
 }
 
 .lontra {
