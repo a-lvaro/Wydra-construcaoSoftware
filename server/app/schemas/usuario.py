@@ -10,7 +10,6 @@ class UsuarioBase(BaseModel):
 
 
 # Classe Usuário para cadastro
-
 class UsuarioCreate(UsuarioBase):
     email: EmailStr
     senha: constr(min_length=8, max_length=64)

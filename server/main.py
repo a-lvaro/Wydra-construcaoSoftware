@@ -1,11 +1,9 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-
-from api import userRouter
 import logging
 
-from routers import userRouter
-from routers import estanteRouter
+from api import userRouter
+from api import estanteRouter
 
 logging.basicConfig(level=logging.DEBUG)
 
