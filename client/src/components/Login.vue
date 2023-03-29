@@ -6,7 +6,7 @@
         <h1>Login</h1>
       </div>
       <label for="email">Email:</label>
-      <input placeholder = "Digite seu login" type="email" id="email" name="email" required v-model="email" />
+      <input placeholder = "Digite seu login" type="nick" id="email" name="email" required v-model="email" />
 
       <label for="password">Senha:</label>
       <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
@@ -33,6 +33,7 @@ form {
 }
 
 input[type="email"],
+input[type="nick"],
 input[type="password"] {
   padding: 12px;
   align-content: center;
@@ -84,11 +85,14 @@ export default {
 
   methods: {
     fazerLogin() {
-      const data = {
+      const data =
+      {
         email: this.email,
-        senha: this.senha
+        senha: this.senha,
       }
-      console.log(data)
+      api.fazerLogin(data)
+        .then(console.log('logado com sucesso!!'))
+        .then(this.$router.push('/cadastro'))
     },
   },
 }
@@ -96,4 +100,5 @@ export default {
 
 <script setup>
   import Botao from './Botao.vue'
+  import api from '../../services/api.js'
 </script>

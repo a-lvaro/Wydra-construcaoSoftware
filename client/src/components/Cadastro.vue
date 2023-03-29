@@ -298,7 +298,8 @@ export default {
                 senha_confirma: this.confirmaSenha
             }
 
-            api.criarUsuario(data)
+            api.criarUsuario(data);
+            this.$router.push('/login')
         },
     },
 }
