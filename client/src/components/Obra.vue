@@ -1,22 +1,27 @@
 <template>
     <div class="retangulo-obra">
         <div class="foto-obra">
-            <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
+            <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
         </div>
         <div class="container-infos-obra">
-            <h1>Cem Anos de Solidão</h1>
-            <h2>Gabriel García Márquez</h2>
-            <h3>Gênero: Realismo Mágico</h3>
+            <h1> {{ titulo }} </h1>
+            <div class="descricao-obra">
+                <h3>{{ descricao }}</h3>
+            </div>
         </div>
+        <form>
+
+        </form>
     </div>
 </template>
 
 <style scoped>
 .retangulo-obra {
     margin: 50px auto;
+    padding-right:20px;
     background-color: white;
     width: 900px;
-    height: 420px;
+    min-height: 420px;
     border-radius: 20px;
     border: 2px solid #000000ba;
     flex-direction: row;
@@ -38,9 +43,33 @@
 .container-infos-obra {
     display: flex;
     flex-direction: column;
+    text-align: justify;
+}
+
+.descricao-obra {
+    max-width: max-content;
+    overflow: auto;
 }
 </style>
 
-<script setup>
-
+<script>
+export default {
+    props: ['dados'],
+    setup: (props) => {
+        const { dados } = props
+    },
+    data() {
+    return {
+      titulo: null,
+      descricao: null,
+      foto: null
+    };
+  },
+  created() {
+    const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
+    this.titulo = dados.title;
+    this.descricao = dados.overview;
+    this.foto = dados.poster_path;
+  }
+};
 </script>

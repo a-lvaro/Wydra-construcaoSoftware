@@ -8,9 +8,9 @@
                 <label class="nome-filtro">Categoria
                     <select class="dropdown-categoria" required v-model="categoria_selecionada">
                         <option value="">Selecione o que deseja buscar</option>
-                        <!-- <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
+                        <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
                             {{ categoria.nome }}
-                        </option> -->
+                        </option>
                     </select>
                 </label>
             </div>
@@ -25,31 +25,22 @@
             </div>
         </form>
         <div class="retangulo-resultado">
-            <RouterLink to="/obra" class="container-resultado">
-                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
-                <div class="textos-resultado">
-                    <h2>Cem anos de solidão</h2>
-                    <h3>Gabriel García Márquez </h3>
-                </div>
-            </RouterLink>
-            <div class="container-resultado">
-                <img src="https://m.media-amazon.com/images/I/817esPahlrL.jpg" alt="capa cem anos">
-                <div class="textos-resultado">
-                    <h2>Cem anos de solidão</h2>
-                    <h3>Gabriel García Márquez</h3>
-                </div>
+            <div class="imagem-sem-resultados">
+                <img src="https://cdn-icons-png.flaticon.com/512/6436/6436996.png" alt="sem resultados">
             </div>
-
+            <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
+                <ResultadoBusca :json="item" tipo="/obra" :nomePrincipal="item.title"
+                    :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
+            </div>
+            <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
+                <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
+                    :nick="item.nick" />
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-/* AQUI A IMAGEM */
-img {
-    height: 100px;
-}
-
 .container-busca {
     flex-direction: row;
     display: flex;
@@ -76,6 +67,7 @@ form {
     height: 420px;
     border-radius: 20px;
     border: 2px solid #000000ba;
+    align-self: flex-start;
 }
 
 .retangulo-resultado {
@@ -87,11 +79,20 @@ form {
     border: 2px solid #000000ba;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     overflow: auto;
     padding: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.imagem-sem-resultados{
+    align-self: center;
+    margin-top: 50px;
+    display: none;
+}
+.imagem-sem-resultados img{
+    max-height: 300px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -143,10 +144,6 @@ input[type="search"] {
     align-items: center;
 }
 
-.textos-resultado {
-    margin-left: 8px;
-}
-
 .botao-buscar {
     padding-bottom: 30px;
 }
@@ -156,35 +153,48 @@ input[type="search"] {
 
 export default {
     name: "Busca",
+    setup: () => {
+        this.resultados_usuario = [],
+        this.resultados_filme = []
+    },
     data() {
         return {
             categorias: [
                 { id_categoria: 0, nome: "Usuário" },
-                { id_categoria: 1, nome: "Livro" },
-                { id_categoria: 2, nome: "Filme" },
-                { id_categoria: 3, nome: "Série" },
-                { id_categoria: 4, nome: "Jogo" },
-                { id_categoria: 5, nome: "Álbum Musical" }
+                { id_categoria: 1, nome: "Filme" },
+                // { id_categoria: 2, nome: "Série" },
+                // { id_categoria: 3, nome: "Livro" },
+                // { id_categoria: 4, nome: "Jogo" },
+                // { id_categoria: 5, nome: "Álbum Musical" }
             ],
             string_busca: '',
             categoria_selecionada: '',
+            resultados_filme: [],
+            resultados_usuario: [],
         }
     },
 
     methods: {
+
         fazerBusca() {
             const USUARIO = 0;
+            const FILME = 1;
+            const SERIE = 2;
+
+            // document.querySelector('.imagem-placeholder').style.display = 'flex';
 
             const data = {
                 string_busca: this.string_busca
             }
 
+            this.resultados_filme = []
+            this.resultados_usuario = []
+
             if (this.categoria_selecionada == USUARIO) {
-                api.buscarUsuario(this.string_busca).then((res) => console.log(res))
+                api.buscarUsuarios(this.string_busca).then(data => (this.resultados_usuario = data));
             }
-            else {
-                api.buscarFilmes(this.string_busca)
-                    .then((res) => console.log(res))
+            else if (this.categoria_selecionada == FILME) {
+                api.buscarFilmes(this.string_busca).then(data => (this.resultados_filme = data.results));
             }
         },
     }
@@ -193,5 +203,6 @@ export default {
 
 <script setup>
 import api from '../../services/api.js'
-import Botao from './Botao.vue' 
+import Botao from './Botao.vue'
+import ResultadoBusca from './ResultadoBusca.vue'
 </script>
