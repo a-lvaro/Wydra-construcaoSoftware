@@ -84,6 +84,10 @@ label {
   margin-bottom: 20px;
 }
 
+.criar-conta p{
+  margin-bottom: 10px;
+}
+
 </style>
 
 <script>
