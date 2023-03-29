@@ -19,7 +19,8 @@
                     <RouterLink to="/busca">Busca</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/Logout">Logout</RouterLink>
+                    <!-- <RouterLink v-on:click="logout" to="/Login">Logout</RouterLink> -->
+                    <a v-on:click="logout" href="#">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -27,6 +28,15 @@
 </template>
 
 <script>
+export default{
+    methods:{
+        logout()
+        {
+        localStorage.clear();
+        this.$router.push({name:'login'})
+        }
+    },
+}
 </script>
 
 <style scoped>
