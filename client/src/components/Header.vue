@@ -19,7 +19,8 @@
                     <RouterLink to="/busca">Busca</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/Logout">Logout</RouterLink>
+                    <!-- <RouterLink v-on:click="logout" to="/Login">Logout</RouterLink> -->
+                    <a v-on:click="logout" href="#">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -27,6 +28,15 @@
 </template>
 
 <script>
+export default{
+    methods:{
+        logout()
+        {
+        localStorage.clear();
+        this.$router.push({name:'login'})
+        }
+    },
+}
 </script>
 
 <style scoped>
@@ -43,8 +53,8 @@ header {
     justify-content: space-around;
     padding: 5px;
     align-items: center;
-    /* border-top: 1px solid cornflowerblue; */
-    border-bottom: 1px solid cornflowerblue;
+    /* border-top: 2px solid cornflowerblue; */
+    border-bottom: 2px solid cornflowerblue;
     width: 100%;
     height: 90px;
     bottom: 0px;
@@ -62,7 +72,6 @@ header {
 .menu li a {
     color: white;
     font-size: 20px;
-    font-family: 'Segoe UI';
     text-decoration: none;
 }
 </style>

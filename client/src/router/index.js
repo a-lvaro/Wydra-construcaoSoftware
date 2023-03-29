@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login.vue'
 import Cadastro from '../components/Cadastro.vue'
 import Busca from '../components/Busca.vue'
+import Perfil from '../components/Perfil.vue'
+import Obra from '../components/Obra.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,16 @@ const router = createRouter({
       path: '/busca',
       name: 'busca',
       component: Busca
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: Perfil
+    },
+    {
+      path: '/obra',
+      name: 'obra',
+      component: Obra
     },
   ]
 })

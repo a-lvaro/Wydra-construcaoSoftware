@@ -2,12 +2,19 @@
   <div>
     <form class="retangulo-login" @submit.prevent="fazerLogin">
       <img src="../../wydra.png" class="lontra" alt="lontrinha">
+      <div class="titulo">
+        <h1>Login</h1>
+      </div>
       <label for="email">Email:</label>
-      <input placeholder = "Digite seu login" type="email" id="email" name="email" required v-model="email" />
+      <input placeholder = "Digite seu login" type="nick" id="email" name="email" required v-model="email" />
 
       <label for="password">Senha:</label>
       <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
       <Botao texto="Entrar"/>
+      <div class="criar-conta">
+        <p>Ainda não tem conta?</p>
+        <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
+      </div>
     </form>
   </div>
 </template>
@@ -19,6 +26,10 @@ form {
   align-items: center;
 }
 
+.titulo{
+  margin: 10px;
+}
+
 .lontra {
   margin-top: 30px;
   align-content: center;
@@ -26,6 +37,7 @@ form {
 }
 
 input[type="email"],
+input[type="nick"],
 input[type="password"] {
   padding: 12px;
   align-content: center;
@@ -40,6 +52,7 @@ input[type="password"] {
 input:hover{
   background-color: #eeeeee75;
 }
+
 
 input[type="password"] {
   -webkit-text-security: disc;
@@ -56,11 +69,19 @@ label {
   margin: 50px auto;
   background-color: white;
   width: 420px;
-  height: 600px;
+  min-height: 680px;
   border-radius: 20px;
   /* Define o raio da borda */
   border: 2px solid #000000ba;
   /* Define a cor e largura da borda */
+}
+
+.criar-conta {
+  display: flex;
+  align-items:center;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 </style>
@@ -77,16 +98,24 @@ export default {
 
   methods: {
     fazerLogin() {
-      const data = {
+      const data =
+      {
         email: this.email,
-        senha: this.senha
+        senha: this.senha,
       }
-      console.log(data)
+      api.fazerLogin(data)
+        .then(console.log('logado com sucesso!!'))
+        .then(this.$router.push('/cadastro'))
     },
+
+    irParaCadastro(){
+      this.$router.push({name:'cadastro'})
+    }
   },
 }
 </script>
 
 <script setup>
   import Botao from './Botao.vue'
+  import api from '../../services/api.js'
 </script>
