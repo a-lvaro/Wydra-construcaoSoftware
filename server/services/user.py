@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 from bcrypt import hashpw, gensalt, checkpw
 from jose import JWTError, jwt
 
-from controller import ControladorUsuario
+import controller.user as ControladorUsuario
 
 from model import schema
 # TODO:
@@ -21,7 +21,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
 
 # Autenticação do Usuário
 def autenticar(nick, senha):
-    ctrl = ControladorUsuario()
+    ctrl = ControladorUsuario.ControladorUsuario()
 
     db_user = ctrl.get_by_nick(nick)
 
@@ -38,7 +38,7 @@ def autenticar(nick, senha):
 
 # Cadastra um novo usuário
 def cadastrar(user: schema.UsuarioCreate) -> schema.Usuario:
-    ctrl = ControladorUsuario()
+    ctrl = ControladorUsuario.ControladorUsuario()
 
     # TODO:
     # - Validar email (middleware?)
@@ -64,7 +64,7 @@ def cadastrar(user: schema.UsuarioCreate) -> schema.Usuario:
 
 # Retorna a entidade Usuário a partir de seu nick
 def get_user_by_nick(nick: str) -> schema.Usuario:
-    ctrl = ControladorUsuario()
+    ctrl = ControladorUsuario.ControladorUsuario()
 
     user = ctrl.get_by_nick(nick)
 
@@ -76,7 +76,7 @@ def get_user_by_nick(nick: str) -> schema.Usuario:
 
 # Retorna uma lista de usuários cujo nick contém determinada string
 def search_user_by_nick(nick: str) -> List[schema.Usuario]:
-    ctrl = ControladorUsuario()
+    ctrl = ControladorUsuario.ControladorUsuario()
 
     results = ctrl.search_by_nick(nick)
     return results
@@ -115,7 +115,7 @@ def validar_token(token: str) -> schema.Usuario:
     except JWTError:
         raise credentials_exception
 
-    ctrl = ControladorUsuario()
+    ctrl = ControladorUsuario.ControladorUsuario()
     user = ctrl.get_by_nick(nick)
 
     if user is None:
@@ -125,5 +125,5 @@ def validar_token(token: str) -> schema.Usuario:
 
 # TODO foto de perfil 
 def editarPerfil(perfil: schema.Perfil) -> schema.Perfil:
-    usuario = ControladorUsuario().editarPerfil(perfil)
+    usuario = ControladorUsuario.ControladorUsuario().editarPerfil(perfil)
     return schema.Perfil.from_orm(usuario) 

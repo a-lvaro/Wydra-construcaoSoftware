@@ -27,4 +27,9 @@ button[type="submit"] {
     min-width: 100px;
     justify-content: center;
 }
+
+button[type="submit"]:hover{
+  background-color: rgb(40, 112, 245);
+}
+
 </style>

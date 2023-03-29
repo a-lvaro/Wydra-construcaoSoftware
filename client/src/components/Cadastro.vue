@@ -12,7 +12,7 @@
                         </div>
                         <div class="botao-entrar">
                             <button>
-                                <RouterLink v-on:click="login" to="/login">Entrar</RouterLink>
+                                <RouterLink v-on:click="login" to="/login">Fazer Login</RouterLink>
                             </button>
                         </div>
                     </div>
@@ -53,7 +53,6 @@
                     </div>
 
                     <div class="continue-button">
-                        <!-- <button><a href="#">Continuar</a></button> -->
                         <Botao texto="Continuar" />
                     </div>
                 </form>
@@ -114,15 +113,22 @@
 }
 
 .botao-entrar button {
-    border: none;
-    background-color: #6c63ff;
-    padding: 0.5rem 5rem;
-    border-radius: 5px;
     cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    background-color: cornflowerblue;
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    min-width: 100px;
+    justify-content: center;
 }
 
 .botao-entrar button:hover {
-    background-color: #6c63ff;
+    background-color: rgb(40, 112, 245);
 }
 
 .botao-entrar button a {
@@ -136,7 +142,7 @@
     display: block;
     width: 5rem;
     height: 0.3rem;
-    background-color: #6c63ff;
+    background-color: cornflowerblue;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
