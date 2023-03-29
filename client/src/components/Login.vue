@@ -84,11 +84,6 @@ label {
   margin-bottom: 20px;
 }
 
-.botoes .entrar{
-  /* margin-right: 10px;
-  margin-left: 10px; */
-}
-
 </style>
 
 <script>
