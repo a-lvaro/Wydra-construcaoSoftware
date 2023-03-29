@@ -19,7 +19,7 @@ button[type="submit"] {
     font-size: 18px;
     background-color: cornflowerblue;
     color: white;
-    border: 3px solid black;
+    border: 2px solid black;
     border-radius: 10px;
     cursor: pointer;
     display: flex;

@@ -12,7 +12,7 @@
                         </div>
                         <div class="botao-entrar">
                             <button>
-                                <RouterLink to="/login">Entrar</RouterLink>
+                                <RouterLink v-on:click="login" to="/login">Entrar</RouterLink>
                             </button>
                         </div>
                     </div>
@@ -24,8 +24,7 @@
 
                         <div class="input-box">
                             <label for="name">Sobrenome </label>
-                            <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required
-                                v-model="sobrenome">
+                            <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required v-model="sobrenome">
                         </div>
 
                         <div class="input-box">
@@ -40,12 +39,6 @@
                                 required v-model="email">
                         </div>
 
-                        <!-- <div class="input-box">
-                            <label for="name">Telefone </label>
-                            <input placeholder=" (xx) xxxxx-xxxx" type="tel" id="telefone" name="telefone" required
-                                v-model="telefone">
-                        </div> -->
-
                         <div class="input-box">
                             <label for="passwordCadastro">Senha </label>
                             <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
@@ -59,32 +52,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="gender-inputs">
-                        <div class="genero-titulo">
-                            <h6>Gênero</h6>
-                        </div>
-                        <div class="gender-group">
-                            <div class="gender-input">
-                                <input type="radio" id="female" name="gender">
-                                <label for="female">Feminino</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input type="radio" id="male" name="gender">
-                                <label for="male">Masculino</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input type="radio" id="others" name="gender">
-                                <label for="others">Outros</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input type="radio" id="none" name="gender">
-                                <label for="none">Prefiro não dizer</label>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="continue-button">
                         <!-- <button><a href="#">Continuar</a></button> -->
                         <Botao texto="Continuar" />
@@ -300,6 +267,9 @@ export default {
 
             api.criarUsuario(data);
             this.$router.push('/login')
+        },
+        login(){
+            this.$router.push({name:'login'})
         },
     },
 }
