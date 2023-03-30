@@ -183,10 +183,6 @@ export default {
 
             // document.querySelector('.imagem-placeholder').style.display = 'flex';
 
-            const data = {
-                string_busca: this.string_busca
-            }
-
             this.resultados_filme = []
             this.resultados_usuario = []
 

@@ -5,20 +5,19 @@
         </div>
         <div class="container-infos-obra">
             <h1> {{ titulo }} </h1>
+            <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
+                Adicionar à Estante</RouterLink>
             <div class="descricao-obra">
                 <h3>{{ descricao }}</h3>
             </div>
         </div>
-        <form>
-
-        </form>
     </div>
 </template>
 
 <style scoped>
 .retangulo-obra {
     margin: 50px auto;
-    padding-right:20px;
+    padding-right: 20px;
     background-color: white;
     width: 900px;
     min-height: 420px;
@@ -46,6 +45,26 @@
     text-align: justify;
 }
 
+.botao-estante {
+    padding: 5px;
+    margin: 10px;
+    font-size: 18px;
+    background-color: cornflowerblue;
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    min-width: 100px;
+    max-width: 200px;
+    justify-content: center;
+}
+
+.botao-estante:hover {
+    background-color: rgb(40, 112, 245);
+}
+
 .descricao-obra {
     max-width: max-content;
     overflow: auto;
@@ -59,17 +78,17 @@ export default {
         const { dados } = props
     },
     data() {
-    return {
-      titulo: null,
-      descricao: null,
-      foto: null
-    };
-  },
-  created() {
-    const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
-    this.titulo = dados.title;
-    this.descricao = dados.overview;
-    this.foto = dados.poster_path;
-  }
+        return {
+            titulo: null,
+            descricao: null,
+            foto: null
+        };
+    },
+    created() {
+        const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
+        this.titulo = dados.title;
+        this.descricao = dados.overview;
+        this.foto = dados.poster_path;
+    }
 };
 </script>
