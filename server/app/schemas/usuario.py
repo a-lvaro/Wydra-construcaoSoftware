@@ -47,3 +47,12 @@ class Usuario(UsuarioBase):
 class UsuarioAuth(BaseModel):
     nick: constr(min_length=3, max_length=64)
     senha: constr(min_length=8, max_length=64)
+
+
+# Classe para configurar o perfil
+class Perfil(UsuarioBase):
+    email: str
+    senha: str
+
+    class Config:
+        orm_mode = True

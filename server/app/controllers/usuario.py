@@ -1,8 +1,9 @@
 from datetime import datetime
 from pydantic import EmailStr
 
-from app.schemas.usuario import Usuario, UsuarioCreate
+from app.schemas.usuario import Usuario, UsuarioCreate, Perfil
 from app.models.usuario import Usuario as ormUsuario
+
 
 class UserController:
     def __init__(self, session):
@@ -51,3 +52,18 @@ class UserController:
         self.session.refresh(db_user)
 
         return db_user
+
+    async def editar_perfil(self, id: int,  perfil: Perfil) -> Perfil:
+        usuario = self.session.query(ormUsuario).filter(
+            ormUsuario.id == id).first()
+
+        usuario.nome = perfil.nome
+        usuario.sobrenome = perfil.sobrenome
+        usuario.nick = perfil.nick
+        usuario.email = perfil.email
+        usuario.senha = perfil.senha
+
+        self.session.commit()
+        self.session.refresh(usuario)
+
+        return Perfil.from_orm(usuario)

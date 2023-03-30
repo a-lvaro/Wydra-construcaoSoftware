@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from app.controllers.usuario import UserController
 from app.controllers.auth import AuthController
 
-from app.schemas.usuario import UsuarioCreate, Usuario, UsuarioAuth
+from app.schemas.usuario import UsuarioCreate, Usuario, UsuarioAuth, Perfil
 
 from core.database import get_session
 
@@ -56,3 +56,13 @@ async def get_user(nick: str) -> Usuario:
     users = await user_controller.get_by_nick(nick)
 
     return users
+
+
+@userRouter.put("/editar")
+async def editar_perfil(perfil: Perfil, access_token: str) -> Perfil:
+    db = get_session()
+    auth_controller = AuthController(db)
+
+    user = await auth_controller.get_user(access_token)
+
+    return await auth_controller.editar_perfil(user.id, perfil)
