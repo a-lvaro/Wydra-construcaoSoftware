@@ -5,7 +5,7 @@ from app.schemas.usuario import Usuario, UsuarioCreate, Perfil
 from app.models.usuario import Usuario as ormUsuario
 
 
-class UserController:
+class ControladorUsuario:
     def __init__(self, session):
         self.session = session
 

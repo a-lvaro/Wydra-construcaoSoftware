@@ -4,6 +4,7 @@ from core.database import get_session
 from app.schemas.estante import Estante
 from app.models.estante import Estante as ormEstante
 
+
 class ControladorEstante:
     def __init__(self):
         self.session = get_session()
