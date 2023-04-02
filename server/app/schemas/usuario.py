@@ -1,5 +1,5 @@
 from pydantic import BaseModel, constr, validator
-from pydantic import EmailStr, Field
+from pydantic import EmailStr
 from typing import Optional
 
 
@@ -56,11 +56,3 @@ class Perfil(UsuarioBase):
 
     class Config:
         orm_mode = True
-
-
-# Classe para avaliações e resenhas
-class Avaliacao(BaseModel):
-    nota: int = Field(ge=1, le=5)
-    id_obra: int
-    usuario: Usuario
-    resenha: Optional[constr(min_length=100, max_length=1000)]

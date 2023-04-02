@@ -72,12 +72,17 @@ class Avaliacao(Base):
     usuario: Mapped["Usuario"] = relationship(back_populates="avaliacoes")
 
     id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
-    obra: Mapped["Obra"] = relationship()
+    obra: Mapped["Obra"] = relationship(back_populates="avaliacoes")
 
-    def __init__(self, usuario, id_obra, nota, resenha):
-        self.id_obra = id_obra
+    def __init__(self, usuario, nota, obra, resenha):
+        self.usuario = usuario
+        self.id_usuario = usuario.id
+
+        self.obra = obra
+        self.id_obra = obra.id
         self.nota = nota
         self.resenha = resenha
+
         self.data = datetime.now()
 
 
@@ -117,6 +122,9 @@ class Obra(Base):
     id: Mapped[int] = mapped_column("ID_OBRA", primary_key=True)
     tipo = Column('TIPO_OBRA', Integer, nullable=False)
     nota = Column('MEDIA_NOTA', Float, nullable=False)
+
+    avaliacoes: Mapped[Optional[List["Avaliacao"]]] = relationship(
+        back_populates="obra")
 
     def __init__(self, id, tipo):
         self.id = id
