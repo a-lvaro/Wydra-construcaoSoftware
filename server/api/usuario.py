@@ -48,7 +48,7 @@ def search_user(nick: str) -> List[Usuario]:
     return results
 
 
-@userRouter.get("/")
+@userRouter.get("/{nick}")
 def get_user(nick: str) -> Usuario:
     db = get_session()
     user_controller = ControladorUsuario(db)

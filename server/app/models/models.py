@@ -36,6 +36,9 @@ class Usuario(Base):
     avaliacoes: Mapped[Optional[List["Avaliacao"]]] = relationship(
         back_populates="usuario")
 
+    estante: Mapped[List["ItemEstante"]] = relationship(
+        back_populates="usuario")
+
     # Relacionamento entre Seguidores
     seguidores = relationship(
         "Usuario",
@@ -53,22 +56,54 @@ class Usuario(Base):
         self.senha = senha
         self.caminho_foto = caminho_foto
 
+        self.data_cadastro = datetime.now()
+
 
 # Entidade Avaliação
 class Avaliacao(Base):
     __tablename__ = "AVALIACAO"
 
-    id: Mapped[int] = mapped_column("ID_AVALIACAO", primary_key=True)
     nota = Column("NOTA", Integer, nullable=True)
     resenha = Column("RESENHA", String(1000), nullable=True)
     data = Column("DATA", DateTime, nullable=False)
 
-    id_usuario: Mapped[int] = mapped_column(ForeignKey("USUARIO.ID_USUARIO"))
+    id_usuario: Mapped[int] = mapped_column(
+        ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
+
     usuario: Mapped["Usuario"] = relationship(back_populates="avaliacoes")
-    id_obra = Column("ID_OBRA", Integer, nullable=False)
+    id_obra = Column("ID_OBRA", Integer, nullable=False, primary_key=True)
 
     def __init__(self, usuario, id_obra, nota, resenha):
         self.id_obra = id_obra
         self.nota = nota
         self.resenha = resenha
         self.data = datetime.now()
+
+
+class ItemEstante(Base):
+    __tablename__ = "ESTANTE"
+
+    id_usuario: Mapped[int] = mapped_column(
+        ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
+
+    usuario: Mapped["Usuario"] = relationship(back_populates="estante")
+
+    id_obra = Column("ID_OBRA", Integer, primary_key=True)
+    tipo = Column('TIPO_OBRA', Integer, nullable=False)
+    estado = Column('ESTADO', Integer, nullable=False)
+
+    data_inicio = Column("DATA_INICIO", DateTime, nullable=True)
+    data_fim = Column("DATA_FIM", DateTime, nullable=True)
+
+    def __init__(self, user, id_obra, tipo_obra, estado,
+                 data_inicio, data_fim):
+
+        self.usuario = user
+        self.id_usuario = user.id
+
+        self.id_obra = id_obra
+        self.estado = estado
+        self.tipo = tipo_obra
+
+        self.data_inicio = data_inicio
+        self.data_fim = data_fim
