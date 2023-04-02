@@ -11,7 +11,6 @@ class ControladorObra:
     def get(self, id: int) -> Obra:
         obra = self.session.query(ormObra).filter(
             ormObra.id == id).first()
-        print(obra)
 
         return obra
 

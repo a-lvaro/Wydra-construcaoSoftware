@@ -11,7 +11,6 @@ class ControladorUsuario:
     def get(self, id: int) -> Usuario:
         user = self.session.query(ormUsuario).filter(
             ormUsuario.id == id).first()
-        print(user)
 
         return user
 

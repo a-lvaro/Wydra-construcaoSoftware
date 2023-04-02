@@ -12,11 +12,11 @@ class ControladorEstante:
         self.obra_ctrl = ControladorObra(self.session)
         self.user_ctrl = ControladorUsuario(self.session)
 
-    def getEstanteUsuario(self, idUsuario: int) -> List[ItemEstante]:
+    def getEstanteUsuario(self, idUsuario: int) -> List[schemaEstante]:
         user = self.user_ctrl.get(idUsuario)
         return user.estante
 
-    def addItemEstante(self, user, estante: schemaEstante):
+    def addItemEstante(self, user, estante: schemaEstante) -> schemaEstante:
         if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
             data_fim = datetime.now()
@@ -29,7 +29,7 @@ class ControladorEstante:
             db_obra = self.obra_ctrl.create(estante.obra)
 
         db_estante = ItemEstante(user, db_obra, estante.estado, 
-                                data_inicio, data_fim)
+                                 data_inicio, data_fim)
 
         self.session.add(db_estante)
         self.session.commit()
@@ -37,14 +37,17 @@ class ControladorEstante:
 
         return estante
 
-    def removerObra(self, idUsuario, idObra):
-        obra = self.session.query(ItemEstante).filter(
+    def removerObra(self, idUsuario, idObra) -> schemaEstante:
+        item = self.session.query(ItemEstante).filter(
             ItemEstante.id_usuario == idUsuario,
             ItemEstante.id_obra == idObra).first()
 
-        self.session.delete(obra)
+        estante = schemaEstante.from_orm(item)
+
+        self.session.delete(item)
         self.session.commit()
-        return obra
+
+        return estante
 
     def alterarEstadoObra(self, idUsuario, idObra, novoEstado):
         obra = self.session.query(ItemEstante).filter(

@@ -114,7 +114,7 @@ class ItemEstante(Base):
 class Obra(Base):
     __tablename__ = "OBRA"
 
-    id: Mapped[int] = mapped_column("ID_OBRA", Integer, primary_key=True)
+    id: Mapped[int] = mapped_column("ID_OBRA", primary_key=True)
     tipo = Column('TIPO_OBRA', Integer, nullable=False)
     nota = Column('MEDIA_NOTA', Float, nullable=False)
 

@@ -25,19 +25,26 @@ def add_obra(token: str, estante: ItemEstante) -> ItemEstante:
 
 # remove obra da estante
 @estanteRouter.delete("/remover")
-def remover_obra(idUsuario: int, idObra: int) -> ItemEstante:
+def remover_obra(token: str, idObra: int) -> ItemEstante:
     db = get_session()
     controlador_estante = ControladorEstante(db)
-    return controlador_estante.removerObra(idUsuario, idObra)
+    controlador_auth = ControladorAuth(db)
+
+    user = controlador_auth.get_user(token)
+
+    return controlador_estante.removerObra(user.id, idObra)
 
 
 # altera estado da obra
 @estanteRouter.put("/alterar", response_model=ItemEstante)
-def alterar_estado(idUsuario: int, idObra: int, estado: EstadoObra):
+def alterar_estado(token: str, idObra: int, estado: EstadoObra):
     db = get_session()
     controlador_estante = ControladorEstante(db)
+    controlador_auth = ControladorAuth(db)
 
-    return controlador_estante.alterarEstadoObra(idUsuario, idObra, estado)
+    user = controlador_auth.get_user(token)
+
+    return controlador_estante.alterarEstadoObra(user.id, idObra, estado)
 
 
 # get estante do usuario
