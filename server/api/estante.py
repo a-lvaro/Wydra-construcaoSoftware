@@ -12,13 +12,13 @@ estanteRouter = APIRouter(
 
 # add obra na estante
 @estanteRouter.post("/add")
-def add_obra(estante: ItemEstante) -> ItemEstante:
+def add_obra(token: str, estante: ItemEstante) -> ItemEstante:
     db = get_session()
 
     controlador_estante = ControladorEstante(db)
     controlador_auth = ControladorAuth(db)
 
-    user = controlador_auth.get(estante.id_usuario)
+    user = controlador_auth.get_user(token)
 
     return controlador_estante.addItemEstante(user, estante)
 

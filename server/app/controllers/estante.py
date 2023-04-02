@@ -1,18 +1,22 @@
 from datetime import datetime
+from typing import List
 
 from app.models import ItemEstante
-from app.schemas import ItemEstante as schemaEstante, EstadoObra, Usuario
-
+from app.schemas import ItemEstante as schemaEstante, EstadoObra
+from .obra import ControladorObra
+from .usuario import ControladorUsuario
 
 class ControladorEstante:
     def __init__(self, session):
         self.session = session
+        self.obra_ctrl = ControladorObra(self.session)
+        self.user_ctrl = ControladorUsuario(self.session)
 
-    def getEstanteUsuario(self, idUsuario: int):
-        return self.session.query(ItemEstante).filter(
-            ItemEstante.id_usuario == idUsuario).all()
+    def getEstanteUsuario(self, idUsuario: int) -> List[ItemEstante]:
+        user = self.user_ctrl.get(idUsuario)
+        return user.estante
 
-    def addItemEstante(self, usuario: Usuario, estante: schemaEstante):
+    def addItemEstante(self, user, estante: schemaEstante):
         if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
             data_fim = datetime.now()
@@ -20,9 +24,12 @@ class ControladorEstante:
             data_inicio = datetime.now()
             data_fim = None
 
-        db_estante = ItemEstante(usuario, estante.id_obra,
-                                 estante.tipo_obra, estante.estado,
-                                 data_inicio, data_fim)
+        db_obra = self.obra_ctrl.get(estante.obra.id)
+        if not db_obra:
+            db_obra = self.obra_ctrl.create(estante.obra)
+
+        db_estante = ItemEstante(user, db_obra, estante.estado, 
+                                data_inicio, data_fim)
 
         self.session.add(db_estante)
         self.session.commit()
@@ -48,7 +55,7 @@ class ControladorEstante:
 
         if novoEstado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             obra.data_fim = datetime.now()
-        elif novoEstado == 'Em progresso':
+        elif novoEstado == EstadoObra.em_progresso:
             obra.data_inicio = datetime.now()
 
         self.session.commit()

@@ -16,15 +16,18 @@ class TipoObra(IntEnum):
 # Classe genérica para obra
 class Obra(BaseModel):
     id: int
+    tipo: TipoObra
+
+    class Config:
+        orm_mode = True
+
+# Classe para obra com nota
+class ObraNota(Obra):
     nota: float
-    tipo: TipoObra
 
-
+# Item na estante referente a uma obra
 class ItemEstante(BaseModel):
-    id_usuario: int
-    id_obra: int
-
-    tipo: TipoObra
+    obra: Obra
     estado: EstadoObra
 
     class Config:

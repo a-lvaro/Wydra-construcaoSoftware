@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Table, String, Integer
+from sqlalchemy import Column, Table, String, Integer, Float
 from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from typing import Optional, List
@@ -69,9 +69,10 @@ class Avaliacao(Base):
 
     id_usuario: Mapped[int] = mapped_column(
         ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
-
     usuario: Mapped["Usuario"] = relationship(back_populates="avaliacoes")
-    id_obra = Column("ID_OBRA", Integer, nullable=False, primary_key=True)
+
+    id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
+    obra: Mapped["Obra"] = relationship()
 
     def __init__(self, usuario, id_obra, nota, resenha):
         self.id_obra = id_obra
@@ -88,22 +89,36 @@ class ItemEstante(Base):
 
     usuario: Mapped["Usuario"] = relationship(back_populates="estante")
 
-    id_obra = Column("ID_OBRA", Integer, primary_key=True)
-    tipo = Column('TIPO_OBRA', Integer, nullable=False)
+    id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
+    obra: Mapped["Obra"] = relationship()
+
     estado = Column('ESTADO', Integer, nullable=False)
 
     data_inicio = Column("DATA_INICIO", DateTime, nullable=True)
     data_fim = Column("DATA_FIM", DateTime, nullable=True)
 
-    def __init__(self, user, id_obra, tipo_obra, estado,
+    def __init__(self, user, obra, estado,
                  data_inicio, data_fim):
 
         self.usuario = user
         self.id_usuario = user.id
 
-        self.id_obra = id_obra
+        self.obra = obra
+        self.id_obra = obra.id
+
         self.estado = estado
-        self.tipo = tipo_obra
 
         self.data_inicio = data_inicio
         self.data_fim = data_fim
+
+class Obra(Base):
+    __tablename__ = "OBRA"
+
+    id: Mapped[int] = mapped_column("ID_OBRA", Integer, primary_key=True)
+    tipo = Column('TIPO_OBRA', Integer, nullable=False)
+    nota = Column('MEDIA_NOTA', Float, nullable=False)
+
+    def __init__(self, id, tipo):
+        self.id = id
+        self.tipo = tipo
+        self.nota = 0
