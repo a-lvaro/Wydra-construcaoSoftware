@@ -12,6 +12,10 @@ class ControladorObra:
         obra = self.session.query(ormObra).filter(
             ormObra.id == id).first()
 
+        # cria obra no banco de dados quando ela não existe ainda
+        if not obra:
+            obra = self.obra_ctrl.create(estante.obra)
+
         return obra
 
     def create(self, obra: Obra):
