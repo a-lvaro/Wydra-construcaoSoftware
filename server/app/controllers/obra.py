@@ -1,6 +1,4 @@
-from pydantic import EmailStr
-
-from app.schemas import Obra
+from app.schemas import Obra, TipoObra
 from app.models import Obra as ormObra
 
 
@@ -8,13 +6,13 @@ class ControladorObra:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id: int) -> Obra:
+    def get(self, id: int, tipo: TipoObra = TipoObra.filme) -> Obra:
         obra = self.session.query(ormObra).filter(
             ormObra.id == id).first()
 
         # cria obra no banco de dados quando ela não existe ainda
         if not obra:
-            obra = self.obra_ctrl.create(estante.obra)
+            obra = self.create(Obra(id=id, tipo=tipo))
 
         return obra
 
