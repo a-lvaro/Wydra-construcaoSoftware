@@ -1,30 +1,35 @@
 from datetime import datetime
+from typing import List
 
-from core.database import get_session
-from app.schemas.estante import Estante
-from app.models.estante import Estante as ormEstante
+from app.models import ItemEstante
+from app.schemas import ItemEstante as schemaEstante, EstadoObra
+from .obra import ControladorObra
+from .usuario import ControladorUsuario
 
 class ControladorEstante:
-    def __init__(self):
-        self.session = get_session()
+    def __init__(self, session):
+        self.session = session
+        self.obra_ctrl = ControladorObra(self.session)
+        self.user_ctrl = ControladorUsuario(self.session)
 
-    def getEstanteUsuario(self, idUsuario: int) -> Estante:
-        return self.session.query(ormEstante).filter(ormEstante.id_usuario == idUsuario).all()
+    def getEstanteUsuario(self, idUsuario: int) -> List[schemaEstante]:
+        user = self.user_ctrl.get(idUsuario)
+        return user.estante
 
-    def addEstante(self, estante: Estante) -> Estante:
-        db_estante = ormEstante()
-
-        db_estante.id_usuario = estante.id_usuario
-        db_estante.id_obra = estante.id_obra
-        db_estante.estado = estante.estado
-        db_estante.tipo = estante.tipo
-
-        if estante.estado in ['Finalizada', 'Abandonada']:
-            db_estante.data_inicio = datetime.now()
-            db_estante.data_fim = datetime.now()
+    def addItemEstante(self, user, estante: schemaEstante) -> schemaEstante:
+        if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
+            data_inicio = datetime.now()
+            data_fim = datetime.now()
         else:
-            db_estante.data_inicio = datetime.now()
-            db_estante.data_fim = None
+            data_inicio = datetime.now()
+            data_fim = None
+
+        db_obra = self.obra_ctrl.get(estante.obra.id)
+        if not db_obra:
+            db_obra = self.obra_ctrl.create(estante.obra)
+
+        db_estante = ItemEstante(user, db_obra, estante.estado, 
+                                 data_inicio, data_fim)
 
         self.session.add(db_estante)
         self.session.commit()
@@ -32,24 +37,31 @@ class ControladorEstante:
 
         return estante
 
-    def removerObra(self, idUsuario, idObra):
-        obra = self.session.query(ormEstante).filter(
-            ormEstante.id_usuario == idUsuario,
-            ormEstante.id_obra == idObra).one()
-        self.session.delete(obra)
+    def removerObra(self, idUsuario, idObra) -> schemaEstante:
+        item = self.session.query(ItemEstante).filter(
+            ItemEstante.id_usuario == idUsuario,
+            ItemEstante.id_obra == idObra).first()
+
+        estante = schemaEstante.from_orm(item)
+
+        self.session.delete(item)
         self.session.commit()
-        return obra
+
+        return estante
 
     def alterarEstadoObra(self, idUsuario, idObra, novoEstado):
-        obra = self.session.query(ormEstante).filter(
-            ormEstante.id_usuario == idUsuario, ormEstante.id_obra == idObra).one()
+        obra = self.session.query(ItemEstante).filter(
+            ItemEstante.id_usuario == idUsuario, ItemEstante.id_obra == idObra
+        ).first()
+
         obra.estado = novoEstado
 
-        if novoEstado in ['Finalizada', 'Abandonada']:
+        if novoEstado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             obra.data_fim = datetime.now()
-        elif novoEstado == 'Em progresso':
+        elif novoEstado == EstadoObra.em_progresso:
             obra.data_inicio = datetime.now()
 
         self.session.commit()
         self.session.refresh(obra)
+
         return obra

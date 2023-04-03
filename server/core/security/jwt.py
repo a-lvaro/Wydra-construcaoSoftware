@@ -13,9 +13,11 @@ class JWTDecodeError(CustomException):
     code = 401
     message = "Invalid token"
 
+
 class JWTExpiredError(CustomException):
     code = 401
     message = "Token expired"
+
 
 class JWTHandler:
     secret_key = config.SECRET_KEY

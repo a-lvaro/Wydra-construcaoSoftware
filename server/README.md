@@ -1,12 +1,7 @@
 # Wydra API
-
 ## TO-DO
 
-- [ ] Refatoração
-    - [x] Reestruturar código para ORM e modelos
-    - [x] Mover código de autenticação para core/security
-    - [x] Mover o resto do código do módulo services para os módulos api e app
-    - [ ] Exception handling
+- [ ] Exception handling
 - [ ] Melhorar autenticação
 
 ## Running

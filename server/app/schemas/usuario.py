@@ -7,6 +7,7 @@ class UsuarioBase(BaseModel):
     nome: str
     sobrenome: str
     nick: constr(min_length=3, max_length=64)
+    caminho_foto: Optional[str]
 
 
 # Classe Usuário para cadastro
@@ -52,7 +53,6 @@ class UsuarioAuth(BaseModel):
 # Classe para configurar o perfil
 class Perfil(UsuarioBase):
     email: str
-    senha: str
 
     class Config:
         orm_mode = True

@@ -1,37 +1,55 @@
 from fastapi import APIRouter
 from typing import List
 
-from app.controllers.estante import ControladorEstante
-from app.schemas.estante import Estante
+from core.database import get_session
+from app.controllers import ControladorEstante, ControladorAuth
+from app.schemas import ItemEstante, EstadoObra
 
 estanteRouter = APIRouter(
     prefix="/estante"
 )
 
 
-# get estante do usuario
-@estanteRouter.get("/getEstante", response_model=List[Estante])
-def getEstante(idUsuario: int) -> List[Estante]:
-    controlador_estante = ControladorEstante()
-    return controlador_estante.getEstanteUsuario(idUsuario)
-
-
 # add obra na estante
 @estanteRouter.post("/add")
-def addEstante(estante: Estante) -> Estante:
-    controlador_estante = ControladorEstante()
-    return controlador_estante.addEstante(estante)
+def add_obra(token: str, estante: ItemEstante) -> ItemEstante:
+    db = get_session()
+
+    controlador_estante = ControladorEstante(db)
+    controlador_auth = ControladorAuth(db)
+
+    user = controlador_auth.get_user(token)
+
+    return controlador_estante.addItemEstante(user, estante)
 
 
 # remove obra da estante
 @estanteRouter.delete("/remover")
-def removerObra(idUsuario: int, idObra: int) -> Estante:
-    controlador_estante = ControladorEstante()
-    return controlador_estante.removerObra(idUsuario, idObra)
+def remover_obra(token: str, idObra: int) -> ItemEstante:
+    db = get_session()
+    controlador_estante = ControladorEstante(db)
+    controlador_auth = ControladorAuth(db)
+
+    user = controlador_auth.get_user(token)
+
+    return controlador_estante.removerObra(user.id, idObra)
 
 
 # altera estado da obra
-@estanteRouter.put("/alterarEstado")
-def alterarEstadoObra(idUsuario: int, idObra: int, estado: str) -> Estante:
-    controlador_estante = ControladorEstante()
-    return controlador_estante.alterarEstadoObra(idUsuario, idObra, estado)
+@estanteRouter.put("/alterar", response_model=ItemEstante)
+def alterar_estado(token: str, idObra: int, estado: EstadoObra):
+    db = get_session()
+    controlador_estante = ControladorEstante(db)
+    controlador_auth = ControladorAuth(db)
+
+    user = controlador_auth.get_user(token)
+
+    return controlador_estante.alterarEstadoObra(user.id, idObra, estado)
+
+
+# get estante do usuario
+@estanteRouter.get("/{id}")
+def get_estante(id: int) -> List[ItemEstante]:
+    db = get_session()
+    controlador_estante = ControladorEstante(db)
+    return controlador_estante.getEstanteUsuario(id)
