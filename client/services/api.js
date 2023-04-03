@@ -31,6 +31,7 @@ function fazerLogin(data){
 }
 
 
+
 // function getProductsById(id) {
 //     return fetch(`http://localhost:3333/products/${id}`).then((res) => res.json());
 // }

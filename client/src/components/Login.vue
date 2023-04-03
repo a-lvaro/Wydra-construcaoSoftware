@@ -104,12 +104,23 @@ export default {
     fazerLogin() {
       const data =
       {
-        email: this.email,
+        nick: this.email,
         senha: this.senha,
       }
       api.fazerLogin(data)
-        .then(console.log('logado com sucesso!!'))
-        .then(this.$router.push('/cadastro'))
+          .then(res => {
+            console.log(typeof res)
+            if(typeof res === "string"){
+              console.log('logado com sucesso!!')
+              localStorage.setItem('token', res)
+              // mudar isso
+              this.$router.push('/cadastro')
+              }
+            else{
+              console.log('erro ao logar')
+              }
+            }
+          )
     },
 
     irParaCadastro(){

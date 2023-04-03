@@ -33,6 +33,7 @@ export default{
         logout()
         {
         localStorage.clear();
+        console.log(localStorage.token)
         this.$router.push({name:'login'})
         }
     },

@@ -177,35 +177,12 @@
     outline: 1px solid #6c63ff;
 }
 
-.input-box label,
-.gender-inputs h6 {
+.input-box label {
     font-size: 1rem;
     font-weight: 600;
     color: black;
 }
 
-.gender-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.62rem;
-    padding: 0 0.5rem
-}
-
-.gender-input {
-    display: flex;
-    align-items: center;
-}
-
-.gender-input input {
-    margin-right: 0.35rem;
-}
-
-.gender-input label {
-    margin-right: 2rem;
-    font-size: 0.81rem;
-    font-weight: 600;
-    color: black;
-}
 
 .continue-button button {
     width: 100%;

@@ -4,6 +4,7 @@ import Cadastro from '../components/Cadastro.vue'
 import Busca from '../components/Busca.vue'
 import Perfil from '../components/Perfil.vue'
 import Obra from '../components/Obra.vue'
+import Estante from '../components/Estante.vue'
 import EstanteConfig from '../components/EstanteConfig.vue'
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/obra',
       name: 'obra',
       component: Obra
+    },
+    {
+      path: '/estante',
+      name: 'estante',
+      component: Estante
     },
     {
       path: '/estanteConfig',
