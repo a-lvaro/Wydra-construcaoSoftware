@@ -14,7 +14,7 @@ userRouter = APIRouter(
 
 
 @userRouter.post("/signup", status_code=201, response_model=Usuario)
-def register_user(user: UsuarioCreate):
+def register(user: UsuarioCreate):
     db = get_session()
     auth_controller = ControladorAuth(db)
 
@@ -22,7 +22,7 @@ def register_user(user: UsuarioCreate):
 
 
 @userRouter.post("/login")
-def login_user(login_user_request: UsuarioAuth) -> str:
+def login(login_user_request: UsuarioAuth) -> str:
     db = get_session()
     auth_controller = ControladorAuth(db)
 
@@ -36,7 +36,7 @@ def get_current_user(access_token: str) -> Usuario:
     db = get_session()
     auth_controller = ControladorAuth(db)
 
-    user = auth_controller.get_user(access_token)
+    user = auth_controller.get_by_token(access_token)
     return user
 
 
@@ -59,10 +59,10 @@ def get_user(nick: str) -> Usuario:
 
 
 @userRouter.put("/editar")
-def editar_perfil(perfil: Perfil, access_token: str) -> Perfil:
+def edit_user(perfil: Perfil, access_token: str) -> Perfil:
     db = get_session()
     auth_controller = ControladorAuth(db)
 
     user = auth_controller.get_user(access_token)
 
-    return auth_controller.editar_perfil(user.id, perfil)
+    return auth_controller.edit(user.id, perfil)

@@ -20,8 +20,6 @@ class ControladorAvaliacao:
 
     def create(self, usuario: Usuario, avaliacao: AvaliacaoBase) -> Avaliacao:
         db_obra = self.obra_ctrl.get(avaliacao.obra.id)
-        if not db_obra:
-            db_obra = self.obra_ctrl.create(avaliacao.obra)
 
         db_avaliacao = ormAvaliacao(usuario, avaliacao.nota, db_obra, avaliacao.resenha)
 

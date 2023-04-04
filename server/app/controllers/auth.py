@@ -36,7 +36,7 @@ class ControladorAuth(ControladorUsuario):
         access_token = JWTHandler.encode(payload={"usuario_id": user.id})
         return access_token
 
-    def get_user(self, token: str) -> Usuario:
+    def get_by_token(self, token: str) -> Usuario:
         payload = JWTHandler.decode(token)
         id = payload['usuario_id']
 

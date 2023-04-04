@@ -20,7 +20,6 @@ class UsuarioCreate(UsuarioBase):
 # Retorna o número de seguidores da entidade
 # Usuário do orm (número de elementos na lista seguidores)
 def get_len(arg):
-    # retorna None se a lista for vazia
     if type(arg) == list:
         return len(arg)
     elif arg:
