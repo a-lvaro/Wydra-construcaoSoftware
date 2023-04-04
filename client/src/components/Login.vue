@@ -111,7 +111,6 @@ export default {
           .then(res => {
             console.log(typeof res)
             if(typeof res === "string"){
-              console.log('logado com sucesso!!')
               localStorage.setItem('token', res)
               // mudar isso
               this.$router.push('/cadastro')
