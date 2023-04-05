@@ -117,6 +117,7 @@ export default {
               api.getUsuarioLogado(res).then(data => {
                 this.usuario = data
                 localStorage.setItem('usuario', JSON.stringify(data))
+                localStorage.setItem('idUsuario', data.id)
                 localStorage.setItem('mostrarItem', 'true')
                 this.$router.push(`/perfil?dados=${encodeURIComponent(localStorage.getItem('usuario'))}`)
               }

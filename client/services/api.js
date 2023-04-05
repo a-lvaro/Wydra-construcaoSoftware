@@ -43,13 +43,23 @@ function fazerLogin(data){
 }
 
 function adicionarObraEstante(token, data) {
-    return fetch(`http://127.0.0.1:8000/user/signuphttp://127.0.0.1:8000/estante/add?access_token=${token}`, {
+    return fetch(`http://127.0.0.1:8000/estante/add?access_token=${token}`, {
         method: 'POST',
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
+    })
+        .then((res) => res.json());
+}
+
+function alterarObraEstante(token, idObra, estado) {
+    return fetch(`http://127.0.0.1:8000/estante/alterar?access_token=${token}&idObra=${idObra}&estado=${estado}`, {
+        method: 'PUT',
+        headers: {
+            'accept': 'application/json'
+        }
     })
         .then((res) => res.json());
 }
@@ -96,5 +106,6 @@ function adicionarObraEstante(token, data) {
 // }
 
 export default {
-    buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, adicionarObraEstante
+    buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
+    adicionarObraEstante, alterarObraEstante
 };
