@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="container-busca">
         <form class="retangulo-busca" @submit.prevent="fazerBusca">
             <div class="titulo">
@@ -202,4 +203,5 @@ export default {
 import api from '../../services/api.js'
 import Botao from './Botao.vue'
 import ResultadoBusca from './ResultadoBusca.vue'
+import Header from './Header.vue'
 </script>

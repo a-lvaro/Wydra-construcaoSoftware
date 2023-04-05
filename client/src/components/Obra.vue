@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="retangulo-obra">
         <div class="foto-obra">
             <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
@@ -91,4 +92,8 @@ export default {
         this.foto = dados.poster_path;
     }
 };
+</script>
+
+<script setup>
+import Header from './Header.vue'
 </script>

@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="cadastro">
         <div class="container">
             <div class="form-image">
@@ -261,4 +262,5 @@ export default {
 <script setup>
 import api from '../../services/api.js'
 import Botao from './Botao.vue'
+import Header from './Header.vue'
 </script>

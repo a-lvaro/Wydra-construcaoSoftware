@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="retangulo-perfil">
         <div class="container-foto-perfil">
             <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`foto ${nick}`">
@@ -67,11 +68,15 @@ props: ['dados'],
   },
   created() {
     const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
-    this.nome = dados.nome + dados.sobrenome;
+    this.nome = dados.nome + ' ' + dados.sobrenome;
     this.nick = dados.nick;
     this.foto = dados.foto_perfil;
     this.id = dados.id
   }
 }
+</script>
+
+<script setup>
+import Header from './Header.vue'
 </script>
   

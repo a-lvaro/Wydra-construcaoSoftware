@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div>
     <form class="retangulo-login" @submit.prevent="fazerLogin">
       <img src="../../wydra.png" class="lontra" alt="lontrinha">
@@ -96,7 +97,8 @@ export default {
   data() {
     return {
       email: "",
-      senha: ""
+      senha: "",
+      usuario: {}
     }
   },
 
@@ -109,18 +111,23 @@ export default {
       }
       api.fazerLogin(data)
           .then(res => {
-            console.log(typeof res)
             if(typeof res === "string"){
               localStorage.setItem('token', res)
-              // mudar isso
-              this.$router.push('/cadastro')
+              console.log(localStorage.getItem('token')),
+              api.getUsuarioLogado(res).then(data => {
+                this.usuario = data
+                localStorage.setItem('usuario', JSON.stringify(data))
+                localStorage.setItem('mostrarItem', 'true')
+                this.$router.push(`/perfil?dados=${encodeURIComponent(localStorage.getItem('usuario'))}`)
               }
+              )
+            }
             else{
               console.log('erro ao logar')
               }
             }
-          )
-    },
+            )
+          },
 
     irParaCadastro(){
       this.$router.push({name:'cadastro'})
@@ -132,4 +139,5 @@ export default {
 <script setup>
   import Botao from './Botao.vue'
   import api from '../../services/api.js'
+  import Header from './Header.vue'
 </script>

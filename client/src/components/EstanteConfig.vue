@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="retangulo-estante-config">
         <div class="foto-obra">
             <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
@@ -80,10 +81,10 @@ export default {
             foto: null,
             status_selecionado: null,
             status: [
-                { id_status: "Lista de Desejos", nome: "Lista de Desejos" },
-                { id_status: "Em Progresso", nome: "Em Progresso" },
-                { id_status: "Finalizada", nome: "Finalizada" },
-                { id_status: "Abandonada", nome: "Abandonada" }
+                { id_status: 1, nome: "Lista de Desejos" },
+                { id_status: 2, nome: "Em Progresso" },
+                { id_status: 3, nome: "Finalizada" },
+                { id_status: 4, nome: "Abandonada" }
             ],
         };
     },
@@ -96,7 +97,15 @@ export default {
 
     methods: {
         adicionarEstante() {
-            
+            const data = {
+                'obra' : {
+                    'id': this.id,
+                    'tipo' : 1,
+                },
+                'estado' : this.status_selecionado
+            }
+
+
         }
     }
 };
@@ -104,4 +113,5 @@ export default {
 
 <script setup>
 import Botao from './Botao.vue'
+import Header from './Header.vue'
 </script>

@@ -3,23 +3,16 @@
         <p class="nomePagina">Wydra</p>
         <nav>
             <ul class="menu">
-                <li>
-                    <RouterLink to="/cadastro">Cadastro</RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/login">Login</RouterLink>
-                </li>
-                <li>
+                <li v-if="mostrarItem">
                     <RouterLink to="/estante">Estante</RouterLink>
                 </li>
-                <li>
-                    <RouterLink to="/perfil">Perfil</RouterLink>
+                <li v-if="mostrarItem">
+                    <RouterLink :to="`/perfil?dados=${encodeURIComponent(JSON.stringify(usuario))}`">Perfil</RouterLink>
                 </li>
-                <li>
+                <li v-if="mostrarItem">
                     <RouterLink to="/busca">Busca</RouterLink>
                 </li>
-                <li>
-                    <!-- <RouterLink v-on:click="logout" to="/Login">Logout</RouterLink> -->
+                <li v-if="mostrarItem">
                     <a v-on:click="logout" href="#">Logout</a>
                 </li>
             </ul>
@@ -29,12 +22,20 @@
 
 <script>
 export default{
-    methods:{
+    data() {
+        return {
+            mostrarItem: localStorage.getItem('mostrarItem') === 'true',
+            usuario: JSON.parse(localStorage.getItem('usuario'))
+        };
+    },
+    methods: {
         logout()
         {
-        localStorage.clear();
-        console.log(localStorage.token)
-        this.$router.push({name:'login'})
+            localStorage.clear()
+            localStorage.setItem('token', null)
+            localStorage.setItem('usuario', null)
+            localStorage.setItem('mostrarItem', 'false')
+            this.$router.push({name:'login'})
         }
     },
 }
