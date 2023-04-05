@@ -113,7 +113,6 @@ export default {
           .then(res => {
             if(typeof res === "string"){
               localStorage.setItem('token', res)
-              console.log(localStorage.getItem('token')),
               api.getUsuarioLogado(res).then(data => {
                 this.usuario = data
                 localStorage.setItem('usuario', JSON.stringify(data))
