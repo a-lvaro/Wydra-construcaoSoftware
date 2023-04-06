@@ -11,7 +11,7 @@
             <div class="nick-usuario">
                 <h2>{{ nick }}</h2>
             </div>
-            <RouterLink to="/estante"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
+            <RouterLink :to="`/estante?dados=${this.$route.query.dados}`"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
         </div>
     </div>
 </template>
@@ -27,7 +27,13 @@
     border: 2px solid #000000ba;
     flex-direction: row;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+}
+
+.container-infos-perfil {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 10px;
 }
 
 .container-foto-perfil {
@@ -37,7 +43,6 @@
     margin-right: 20px;
     border-radius: 100%;
     border: 2px solid black;
-    align-self:flex-start;
 }
 
 .container-foto-perfil img{
@@ -48,7 +53,7 @@
 
 .botao-estante{
     text-decoration: none;
-    color: #2c3e50;
+    color: rgb(34, 84, 176);
 }
 </style>
 

@@ -1,10 +1,10 @@
 <template>
     <header>
-        <p class="nomePagina">Wydra</p>
+        <a v-on:click="login" class="nomePagina">Wydra</a>
         <nav>
             <ul class="menu">
                 <li v-if="mostrarItem">
-                    <RouterLink to="/estante">Estante</RouterLink>
+                    <RouterLink :to="`/estante?dados=${encodeURIComponent(JSON.stringify(usuario))}`">Estante</RouterLink>
                 </li>
                 <li v-if="mostrarItem">
                     <RouterLink :to="`/perfil?dados=${encodeURIComponent(JSON.stringify(usuario))}`">Perfil</RouterLink>
@@ -29,6 +29,9 @@ export default{
         };
     },
     methods: {
+        login(){
+            this.$router.push({name:'login'})
+        },
         logout()
         {
             localStorage.clear()
@@ -44,9 +47,8 @@ export default{
 <style scoped>
 .nomePagina {
     font-size: 35px;
-    /* Altere o tamanho do texto para o desejado */
-    font-family: 'Segoe UI';
     color: rgb(229, 228, 228);
+    text-decoration: none;
 }
 
 header {

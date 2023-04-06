@@ -6,8 +6,8 @@
       <div class="titulo">
         <h1>Login</h1>
       </div>
-      <label for="email">Email:</label>
-      <input placeholder = "Digite seu login" type="nick" id="email" name="email" required v-model="email" />
+      <label for="nick">Nome de Usuário:</label>
+      <input placeholder = "Digite seu apelido" type="nick" id="nick" name="nick" required v-model="nick" />
 
       <label for="password">Senha:</label>
       <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
@@ -96,7 +96,7 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "",
+      nick: "",
       senha: "",
       usuario: {}
     }
@@ -106,7 +106,7 @@ export default {
     fazerLogin() {
       const data =
       {
-        nick: this.email,
+        nick: this.nick,
         senha: this.senha,
       }
       api.fazerLogin(data)

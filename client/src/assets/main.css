@@ -9,8 +9,12 @@ body {
   font-family: 'Segoe UI';
 }
 
+/* 
+  cor da fonte: #2C3E50 
+  cor de texto clicável: rgb(34, 84, 176)
+*/
+
 body,
 .App {
-  /* background-color: rgba(0, 0, 0, 0.671); */
   background-color: white;
 }
