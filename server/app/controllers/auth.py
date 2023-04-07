@@ -42,3 +42,10 @@ class ControladorAuth(ControladorUsuario):
 
         user = self.get(id)
         return user
+    
+    def get_user(self, token: str) -> Usuario:
+        payload = JWTHandler.decode(token)
+        id = payload['usuario_id']
+
+        user = self.get(id)
+        return user

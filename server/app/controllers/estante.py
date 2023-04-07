@@ -1,6 +1,9 @@
 from datetime import datetime
 from typing import List
 
+from sqlalchemy.orm.exc import NoResultFound
+from fastapi import HTTPException
+
 from app.models import ItemEstante
 from app.schemas import ItemEstante as schemaEstante, EstadoObra
 from .obra import ControladorObra
@@ -17,13 +20,17 @@ class ControladorEstante:
         return user.estante
     
     def getObraUsuario(self, idUsuario: int, idObra: int) -> schemaEstante:
-        obraUsuario = self.session.query(ItemEstante).filter(
-            ItemEstante.id_usuario == idUsuario,
-            ItemEstante.id_obra == idObra).one()
+        try:
+            obraEstanteUsuario = self.session.query(ItemEstante).filter(
+                ItemEstante.id_usuario == idUsuario,
+                ItemEstante.id_obra == idObra).one()
 
-        return obraUsuario
+            return obraEstanteUsuario
+        except NoResultFound:
+            raise HTTPException(status_code=404, detail="Item not found")
 
-    def add(self, user, estante: schemaEstante) -> schemaEstante:
+
+    def add(self, user :int, estante: schemaEstante) -> schemaEstante:
         if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
             data_fim = datetime.now()
@@ -41,7 +48,7 @@ class ControladorEstante:
 
         return estante
 
-    def remove_item(self, idUsuario, idObra) -> schemaEstante:
+    def remove_item(self, idUsuario :int, idObra :int) -> schemaEstante:
         item = self.session.query(ItemEstante).filter(
             ItemEstante.id_usuario == idUsuario,
             ItemEstante.id_obra == idObra).first()
@@ -53,7 +60,7 @@ class ControladorEstante:
 
         return estante
 
-    def update_item(self, idUsuario, idObra, novoEstado):
+    def update_item(self, idUsuario :int, idObra :int, novoEstado :int):
         obra = self.session.query(ItemEstante).filter(
             ItemEstante.id_usuario == idUsuario, ItemEstante.id_obra == idObra
         ).first()
