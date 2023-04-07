@@ -14,6 +14,10 @@ function getUsuarioLogado(token) {
     return fetch(`http://127.0.0.1:8000/user/me?access_token=${token}`).then((res) => res.json());
 }
 
+function getObraID(idUsuario, idObra) {
+    return fetch(`http://127.0.0.1:8000/estante/obraUsuario/${idUsuario}/${idObra}`).then((res) => res.json());
+}
+
 function getEstanteID(id) {
     return fetch(`http://127.0.0.1:8000/estante/${id}`).then((res) => res.json());
 }
@@ -107,5 +111,5 @@ function alterarObraEstante(token, idObra, estado) {
 
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
-    adicionarObraEstante, alterarObraEstante
+    adicionarObraEstante, alterarObraEstante, getObraID
 };

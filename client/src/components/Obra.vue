@@ -6,10 +6,16 @@
         </div>
         <div class="container-infos-obra">
             <h1> {{ titulo }} </h1>
-            <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
-                Adicionar à Estante</RouterLink>
+            <!-- <div v-if="jaNaEstante" class="botao-estante">
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
+                    Alterar Estado</RouterLink>
+            </div>
+            <div v-else class="botao-estante"> 
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
+                    Adicionar à Estante</RouterLink>
+            </div> -->
             <div class="descricao-obra">
-                <h3>{{ descricao }}</h3>
+                <h4>{{ descricao }}</h4>
             </div>
         </div>
     </div>
@@ -82,7 +88,8 @@ export default {
         return {
             titulo: null,
             descricao: null,
-            foto: null
+            foto: null,
+            idObra: null
         };
     },
     created() {
@@ -90,10 +97,24 @@ export default {
         this.titulo = dados.title;
         this.descricao = dados.overview;
         this.foto = dados.poster_path;
+        this.idObra = dados.id;
+        this.jaNaEstante()
+    },
+    methods: {
+        jaNaEstante() {
+            try {   
+                api.getObraID(localStorage.getItem('idUsuario'), this.idObra);
+            }
+            catch(err) {
+                console.log(err)
+                return false
+            }
+        }
     }
 };
 </script>
 
 <script setup>
+import api from '../../services/api';
 import Header from './Header.vue'
 </script>

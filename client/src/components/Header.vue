@@ -57,7 +57,6 @@ header {
     justify-content: space-around;
     padding: 5px;
     align-items: center;
-    /* border-top: 2px solid cornflowerblue; */
     border-bottom: 2px solid cornflowerblue;
     width: 100%;
     height: 90px;

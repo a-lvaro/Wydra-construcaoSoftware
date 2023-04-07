@@ -186,7 +186,6 @@ export default {
 
             this.resultados_filme = []
             this.resultados_usuario = []
-            console.log(localStorage.token)
 
             if (this.categoria_selecionada == USUARIO) {
                 api.buscarUsuarios(this.string_busca).then(data => (this.resultados_usuario = data));
