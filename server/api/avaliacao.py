@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from app.controllers import ControladorAuth
 from app.controllers import ControladorAvaliacao
 
-from app.schemas import Usuario, Avaliacao, AvaliacaoBase
+from app.schemas import Avaliacao, AvaliacaoBase
 
 from core.database import get_session
 

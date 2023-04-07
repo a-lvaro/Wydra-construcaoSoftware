@@ -34,6 +34,7 @@ def remove_item(token: str, idObra: int) -> ItemEstante:
 
     return controlador_estante.remove_item(user.id, idObra)
 
+# get obra do usuario
 @estanteRouter.get("/obraUsuario/{idUsuario}/{idObra}")
 def getObraUsuario(idUsuario: int, idObra: int) -> ItemEstante:
     db = get_session()

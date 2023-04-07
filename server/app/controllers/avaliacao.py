@@ -28,7 +28,7 @@ class ControladorAvaliacao:
         self.session.refresh(db_avaliacao)
 
         return avaliacao
-
+    
     def get_by_user(self, id: int) -> List[AvaliacaoBase]:
         user = self.user_ctrl.get(id)
         return user.avaliacoes
