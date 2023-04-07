@@ -38,3 +38,15 @@ def get_obra(id: int) -> List[Avaliacao]:
     db = get_session()
     controlador_estante = ControladorAvaliacao(db)
     return controlador_estante.get_by_obra(id)
+
+# curtir obra
+@avaliacaoRouter.post("/curtir")
+def curtir_obra(token: str, idObra: int, curtir: bool) -> Avaliacao:
+    db = get_session()
+
+    controlador_avaliacao = ControladorAvaliacao(db)
+    controlador_auth = ControladorAuth(db)
+
+    user = controlador_auth.get_user(token)
+
+    return controlador_avaliacao.curtirObra(user.id, idObra, curtir)

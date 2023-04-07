@@ -29,6 +29,21 @@ class ControladorAvaliacao:
 
         return avaliacao
     
+    def curtirObra(self, idUsuario: int, idObra: int, curtir: bool) -> Avaliacao:
+        db_avaliacao = self.session.query(ormAvaliacao).filter(
+            ormAvaliacao.id_usuario == idUsuario,
+            ormAvaliacao.id_obra == idObra).first()
+
+        if curtir:
+            db_avaliacao.curtir += 1
+        else:
+            db_avaliacao.curtir -= 1
+
+        self.session.commit()
+        self.session.refresh(db_avaliacao)
+
+        return db_avaliacao
+    
     def get_by_user(self, id: int) -> List[AvaliacaoBase]:
         user = self.user_ctrl.get(id)
         return user.avaliacoes

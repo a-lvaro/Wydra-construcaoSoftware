@@ -15,3 +15,11 @@ class AvaliacaoBase(BaseModel):
 # Classe para criar avaliações e resenhas
 class Avaliacao(AvaliacaoBase):
     usuario: Usuario
+
+class curtirObra(BaseModel):
+    idUsuario: int
+    idObra: int
+    curtir : bool
+
+    class Config:
+        orm_mode = True
