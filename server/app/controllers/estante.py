@@ -15,6 +15,13 @@ class ControladorEstante:
     def get_by_user(self, idUsuario: int) -> List[schemaEstante]:
         user = self.user_ctrl.get(idUsuario)
         return user.estante
+    
+    def getObraUsuario(self, idUsuario: int, idObra: int) -> schemaEstante:
+        obraUsuario = self.session.query(ItemEstante).filter(
+            ItemEstante.id_usuario == idUsuario,
+            ItemEstante.id_obra == idObra).one()
+
+        return obraUsuario
 
     def add(self, user, estante: schemaEstante) -> schemaEstante:
         if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
