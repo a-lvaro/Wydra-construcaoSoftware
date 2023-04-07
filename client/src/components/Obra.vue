@@ -6,14 +6,14 @@
         </div>
         <div class="container-infos-obra">
             <h1> {{ titulo }} </h1>
-            <!-- <div v-if="jaNaEstante" class="botao-estante">
-                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
+            <div v-if="naEstante" class="container-botoes">
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true`" class="botao-estante">
                     Alterar Estado</RouterLink>
             </div>
-            <div v-else class="botao-estante"> 
-                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
+            <div v-else class="container-botoes"> 
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
                     Adicionar à Estante</RouterLink>
-            </div> -->
+            </div>
             <div class="descricao-obra">
                 <h4>{{ descricao }}</h4>
             </div>
@@ -46,14 +46,14 @@
     max-height: 350px;
 }
 
-.container-infos-obra {
+.container-botoes{
     display: flex;
-    flex-direction: column;
-    text-align: justify;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .botao-estante {
-    padding: 5px;
+    padding: 5px 10px;
     margin: 10px;
     font-size: 18px;
     background-color: cornflowerblue;
@@ -72,6 +72,13 @@
     background-color: rgb(40, 112, 245);
 }
 
+.container-infos-obra {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+}
+
+
 .descricao-obra {
     max-width: max-content;
     overflow: auto;
@@ -89,7 +96,8 @@ export default {
             titulo: null,
             descricao: null,
             foto: null,
-            idObra: null
+            idObra: null,
+            naEstante: false
         };
     },
     created() {
@@ -98,17 +106,20 @@ export default {
         this.descricao = dados.overview;
         this.foto = dados.poster_path;
         this.idObra = dados.id;
-        this.jaNaEstante()
+        this.jaNaEstante();
     },
     methods: {
         jaNaEstante() {
-            try {   
-                api.getObraID(localStorage.getItem('idUsuario'), this.idObra);
-            }
-            catch(err) {
-                console.log(err)
-                return false
-            }
+            api.getObraID(localStorage.getItem('idUsuario'), this.idObra).then((res) => {
+                console.log(res.detail === undefined)
+                console.log(res)
+                if(res.detail === undefined){
+                    this.naEstante = true;
+                }
+                else{
+                    this.naEstante = false;   
+                }
+            });
         }
     }
 };

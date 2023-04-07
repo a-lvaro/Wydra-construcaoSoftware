@@ -68,6 +68,16 @@ function alterarObraEstante(token, idObra, estado) {
         .then((res) => res.json());
 }
 
+function removerObraEstante(token, idObra) {
+    return fetch(`http://127.0.0.1:8000/estante/remover?token=${token}&idObra=${idObra}`, {
+        method: 'DELETE',
+        headers: {
+            'accept': 'application/json'
+        }
+    })
+        .then((res) => res.json());
+}
+
 // function getProductsById(id) {
 //     return fetch(`http://localhost:3333/products/${id}`).then((res) => res.json());
 // }
@@ -111,5 +121,5 @@ function alterarObraEstante(token, idObra, estado) {
 
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
-    adicionarObraEstante, alterarObraEstante, getObraID
+    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante
 };

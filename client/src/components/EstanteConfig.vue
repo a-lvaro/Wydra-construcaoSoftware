@@ -5,8 +5,10 @@
             <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
         </div>
         <form class="retangulo-add-estante" @submit.prevent="adicionarEstante">
+            <RouterLink :to="`/obra?dados=${this.$route.query.dados}`" class="botao-voltar">{{'<'}} Voltar</RouterLink>
             <div class="enunciado">
-                <h2> Você deseja adicionar "{{ titulo }}" à sua Estante</h2>
+                <h2 v-if="naEstante"> Você deseja alterar o estado de "{{ titulo }}"</h2>
+                <h2 v-else> Você deseja adicionar "{{ titulo }}" à sua Estante</h2>
             </div>
             <div class="selecao-estado">
                 <label class="label-estado">Estado: 
@@ -19,8 +21,10 @@
                 </label>
             </div>
             <div class="botao-adicionar">
-                <Botao texto="Adicionar à Estante" />
+                <Botao v-if="naEstante" texto="Alterar Estado" />
+                <Botao v-else texto="Adicionar à Estante" />
             </div>
+            <a v-if="naEstante" class="botao-remover" v-on:click="removerDaEstante" href="#">Remover da Estante</a>
         </form>
     </div>
 </template>
@@ -54,7 +58,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    
+}
 
+.botao-voltar{
+    margin-bottom: 20px;
+    width: 90px;
+    padding: 5px;
+    text-decoration: none;
+    color: rgb(34, 84, 176);
+    font-size: large;
+}
+
+.botao-voltar:hover{
+    color: rgb(40, 112, 245);
 }
 
 .enunciado{
@@ -64,15 +81,36 @@
 .selecao-estado{
     margin-bottom: 20px;
 }
-
+.botao-adicionar{
+    width: 200px;
+}
+.botao-remover {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: cornflowerblue;
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    width: 135px;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+}
+.botao-remover:hover {
+    background-color: rgb(40, 112, 245);
+}
 
 </style>
 
 <script>
 export default {
-    props: ['dados'],
+    props: ['dados', 'naEstante'],
     setup: (props) => {
-        const { dados } = props
+        const { dados, naEstante } = props
     },
     data() {
         return {
@@ -80,6 +118,8 @@ export default {
             descricao: null,
             foto: null,
             estado_selecionado: null,
+            naEstante: null,
+            idObra: null,
             estante: [],
             estados: [
                 { id_estado: 1, nome: "Lista de Desejos" },
@@ -94,6 +134,7 @@ export default {
         this.titulo = dados.title;
         this.idObra = dados.id;
         this.foto = dados.poster_path;
+        this.naEstante = JSON.parse(decodeURIComponent(this.$route.query.naEstante));
     },
 
     methods: {
@@ -125,6 +166,12 @@ export default {
                 this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
             });
 
+        },
+
+        removerDaEstante(){
+            api.removerObraEstante(localStorage.getItem('token'), this.idObra).then(() => {
+                this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
+            })
         }
     }
 };
