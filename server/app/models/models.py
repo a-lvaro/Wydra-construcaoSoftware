@@ -66,6 +66,7 @@ class Avaliacao(Base):
     nota = Column("NOTA", Integer, nullable=True)
     resenha = Column("RESENHA", String(1000), nullable=True)
     data = Column("DATA", DateTime, nullable=False)
+    curtida = Column("CURTIDA", Integer, nullable=True, default=0)
 
     id_usuario: Mapped[int] = mapped_column(
         ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
@@ -74,7 +75,7 @@ class Avaliacao(Base):
     id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
     obra: Mapped["Obra"] = relationship(back_populates="avaliacoes")
 
-    def __init__(self, usuario, nota, obra, resenha):
+    def __init__(self, usuario, nota, obra, resenha, curtida):
         self.usuario = usuario
         self.id_usuario = usuario.id
 
@@ -82,7 +83,7 @@ class Avaliacao(Base):
         self.id_obra = obra.id
         self.nota = nota
         self.resenha = resenha
-
+        self.curtida = curtida 
         self.data = datetime.now()
 
 
@@ -107,12 +108,9 @@ class ItemEstante(Base):
 
         self.usuario = user
         self.id_usuario = user.id
-
         self.obra = obra
         self.id_obra = obra.id
-
         self.estado = estado
-
         self.data_inicio = data_inicio
         self.data_fim = data_fim
 
