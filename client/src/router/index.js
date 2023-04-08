@@ -6,6 +6,7 @@ import Perfil from '../components/Perfil.vue'
 import Obra from '../components/Obra.vue'
 import Estante from '../components/Estante.vue'
 import EstanteConfig from '../components/EstanteConfig.vue'
+import Resenha from '../components/Resenha.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/cadastro',
       name: 'cadastro',
       component: Cadastro
+    },
+    {
+      path: '/resenha',
+      name: 'resenha',
+      component: Resenha
     },
     {
       path: '/busca',

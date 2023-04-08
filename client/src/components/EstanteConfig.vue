@@ -18,7 +18,7 @@
                 </label>
             </div>
             <div class="botao-adicionar">
-                <Botao texto="Adicionar à Estante" />
+                <Botao v-on:click="adicionarEstante" texto="Adicionar à Estante" />
             </div>
         </form>
     </div>
@@ -96,7 +96,7 @@ export default {
 
     methods: {
         adicionarEstante() {
-            
+            this.$router.push({name:'resenha'})
         }
     }
 };
