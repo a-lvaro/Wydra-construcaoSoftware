@@ -148,6 +148,7 @@ export default {
                 },
                 "estado": this.estado_selecionado
             }
+            console.log(data)
             
             api.getEstanteID(localStorage.getItem('idUsuario')).then(estante => {
                 this.estante = estante;

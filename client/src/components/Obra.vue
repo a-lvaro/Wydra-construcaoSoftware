@@ -1,21 +1,26 @@
 <template>
-    <Header />
-    <div class="retangulo-obra">
-        <div class="foto-obra">
-            <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
-        </div>
-        <div class="container-infos-obra">
-            <h1> {{ titulo }} </h1>
-            <div v-if="naEstante" class="container-botoes">
-                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true`" class="botao-estante">
-                    Alterar Estado</RouterLink>
+    <div>
+        <Header />
+        <div class="retangulo-obra">
+            <div class="foto-obra">
+                <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
             </div>
-            <div v-else class="container-botoes"> 
-                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
-                    Adicionar à Estante</RouterLink>
-            </div>
-            <div class="descricao-obra">
-                <h4>{{ descricao }}</h4>
+            <div class="container-infos-obra">
+                <h1> {{ titulo }} </h1>
+                <div v-if="naEstante" class="container-botoes">
+                    <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true`" class="botao-estante">
+                        Alterar Estado</RouterLink>
+                        
+                    </div>
+                    <div v-else class="container-botoes"> 
+                        <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
+                            Adicionar à Estante</RouterLink>
+                        <RouterLink :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
+                            Avaliar Obra</RouterLink>
+                </div>
+                <div class="descricao-obra">
+                    <h4>{{ descricao }}</h4>
+                </div>
             </div>
         </div>
     </div>
@@ -125,5 +130,5 @@ export default {
 
 <script setup>
 import api from '../../services/api';
-import Header from './Header.vue'
+import Header from './Header.vue';
 </script>
