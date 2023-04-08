@@ -111,8 +111,6 @@ export default {
     methods: {
         jaNaEstante() {
             api.getObraID(localStorage.getItem('idUsuario'), this.idObra).then((res) => {
-                console.log(res.detail === undefined)
-                console.log(res)
                 if(res.detail === undefined){
                     this.naEstante = true;
                 }
