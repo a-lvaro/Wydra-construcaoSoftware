@@ -1,14 +1,21 @@
 <template>
+    <Header />
     <div class="retangulo-obra">
         <div class="foto-obra">
             <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
         </div>
         <div class="container-infos-obra">
             <h1> {{ titulo }} </h1>
-            <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante">
-                Adicionar à Estante</RouterLink>
+            <div v-if="naEstante" class="container-botoes">
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true`" class="botao-estante">
+                    Alterar Estado</RouterLink>
+            </div>
+            <div v-else class="container-botoes"> 
+                <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
+                    Adicionar à Estante</RouterLink>
+            </div>
             <div class="descricao-obra">
-                <h3>{{ descricao }}</h3>
+                <h4>{{ descricao }}</h4>
             </div>
         </div>
     </div>
@@ -39,14 +46,14 @@
     max-height: 350px;
 }
 
-.container-infos-obra {
+.container-botoes{
     display: flex;
-    flex-direction: column;
-    text-align: justify;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .botao-estante {
-    padding: 5px;
+    padding: 5px 10px;
     margin: 10px;
     font-size: 18px;
     background-color: cornflowerblue;
@@ -65,6 +72,13 @@
     background-color: rgb(40, 112, 245);
 }
 
+.container-infos-obra {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+}
+
+
 .descricao-obra {
     max-width: max-content;
     overflow: auto;
@@ -81,7 +95,9 @@ export default {
         return {
             titulo: null,
             descricao: null,
-            foto: null
+            foto: null,
+            idObra: null,
+            naEstante: false
         };
     },
     created() {
@@ -89,6 +105,27 @@ export default {
         this.titulo = dados.title;
         this.descricao = dados.overview;
         this.foto = dados.poster_path;
+        this.idObra = dados.id;
+        this.jaNaEstante();
+    },
+    methods: {
+        jaNaEstante() {
+            api.getObraID(localStorage.getItem('idUsuario'), this.idObra).then((res) => {
+                console.log(res.detail === undefined)
+                console.log(res)
+                if(res.detail === undefined){
+                    this.naEstante = true;
+                }
+                else{
+                    this.naEstante = false;   
+                }
+            });
+        }
     }
 };
+</script>
+
+<script setup>
+import api from '../../services/api';
+import Header from './Header.vue'
 </script>

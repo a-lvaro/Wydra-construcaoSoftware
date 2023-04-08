@@ -20,8 +20,6 @@ class ControladorAvaliacao:
 
     def create(self, usuario: Usuario, avaliacao: AvaliacaoBase) -> Avaliacao:
         db_obra = self.obra_ctrl.get(avaliacao.obra.id)
-        if not db_obra:
-            db_obra = self.obra_ctrl.create(avaliacao.obra)
 
         db_avaliacao = ormAvaliacao(usuario, avaliacao.nota, db_obra, avaliacao.resenha)
 
@@ -30,7 +28,7 @@ class ControladorAvaliacao:
         self.session.refresh(db_avaliacao)
 
         return avaliacao
-
+    
     def get_by_user(self, id: int) -> List[AvaliacaoBase]:
         user = self.user_ctrl.get(id)
         return user.avaliacoes

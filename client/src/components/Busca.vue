@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="container-busca">
         <form class="retangulo-busca" @submit.prevent="fazerBusca">
             <div class="titulo">
@@ -185,7 +186,6 @@ export default {
 
             this.resultados_filme = []
             this.resultados_usuario = []
-            console.log(localStorage.token)
 
             if (this.categoria_selecionada == USUARIO) {
                 api.buscarUsuarios(this.string_busca).then(data => (this.resultados_usuario = data));
@@ -202,4 +202,5 @@ export default {
 import api from '../../services/api.js'
 import Botao from './Botao.vue'
 import ResultadoBusca from './ResultadoBusca.vue'
+import Header from './Header.vue'
 </script>

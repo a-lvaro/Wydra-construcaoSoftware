@@ -1,12 +1,13 @@
 <template>
+  <Header />
   <div>
     <form class="retangulo-login" @submit.prevent="fazerLogin">
       <img src="../../wydra.png" class="lontra" alt="lontrinha">
       <div class="titulo">
         <h1>Login</h1>
       </div>
-      <label for="email">Email:</label>
-      <input placeholder = "Digite seu login" type="nick" id="email" name="email" required v-model="email" />
+      <label for="nick">Nome de Usuário:</label>
+      <input placeholder = "Digite seu apelido" type="nick" id="nick" name="nick" required v-model="nick" />
 
       <label for="password">Senha:</label>
       <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
@@ -95,8 +96,9 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      senha: ""
+      nick: "",
+      senha: "",
+      usuario: {}
     }
   },
 
@@ -104,24 +106,28 @@ export default {
     fazerLogin() {
       const data =
       {
-        nick: this.email,
+        nick: this.nick,
         senha: this.senha,
       }
       api.fazerLogin(data)
           .then(res => {
-            console.log(typeof res)
             if(typeof res === "string"){
-              console.log('logado com sucesso!!')
               localStorage.setItem('token', res)
-              // mudar isso
-              this.$router.push('/cadastro')
+              api.getUsuarioLogado(res).then(data => {
+                this.usuario = data
+                localStorage.setItem('usuario', JSON.stringify(data))
+                localStorage.setItem('idUsuario', data.id)
+                localStorage.setItem('mostrarItem', 'true')
+                this.$router.push(`/perfil?dados=${encodeURIComponent(localStorage.getItem('usuario'))}`)
               }
+              )
+            }
             else{
               console.log('erro ao logar')
               }
             }
-          )
-    },
+            )
+          },
 
     irParaCadastro(){
       this.$router.push({name:'cadastro'})
@@ -133,4 +139,5 @@ export default {
 <script setup>
   import Botao from './Botao.vue'
   import api from '../../services/api.js'
+  import Header from './Header.vue'
 </script>

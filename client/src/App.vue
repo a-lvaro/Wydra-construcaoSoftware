@@ -6,10 +6,19 @@ import Footer from './components/Footer.vue'
 
 <template>
   <div class="App">
-    <Header />
     <RouterView />
     <Footer />
   </div>
 </template> 
 
 <style scoped></style>
+
+<script>
+export default{
+  mounted() {
+    localStorage.setItem('mostrarItem', 'false');
+    localStorage.setItem('token', null);
+    localStorage.setItem('usuario', null);
+  },
+}
+</script>

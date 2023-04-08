@@ -1,8 +1,6 @@
 <template>
-    <RouterLink :to="`${tipo}?dados=${encodeURIComponent(JSON.stringify(json))}`" class="container-resultado">
+    <RouterLink :to="`/obra?dados=${encodeURIComponent(JSON.stringify(json))}`" class="container-resultado">
         <img :src="imagem" alt="imagem de capa ou perfil">
-        <div class="textos-resultado">
-        </div>
     </RouterLink>
 </template>
 
@@ -15,12 +13,6 @@
     text-decoration: none;
     
 }
-
-.textos-resultado {
-    margin-left: 30px;
-    color: #2C3E50;
-}
-
 .container-resultado img {
     height: 150px;
     border: 1px solid black;
@@ -29,9 +21,9 @@
 
 <script>
 export default {
-    props: ['json', 'tipo', 'nomePrincipal', 'imagem', 'nick'],
+    props: ['json', 'imagem'],
     setup: (props) => {
-        const { json, tipo, nomePrincipal, imagem, nick} = props
+        const { json, imagem} = props
     },
 }
 

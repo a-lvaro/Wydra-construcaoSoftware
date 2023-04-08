@@ -44,7 +44,7 @@ class ControladorUsuario:
 
         return db_user
 
-    def editar_perfil(self, id: int,  perfil: Perfil) -> Perfil:
+    def edit(self, id: int,  perfil: Perfil) -> Perfil:
         usuario = self.session.query(ormUsuario).filter(
             ormUsuario.id == id).first()
 
