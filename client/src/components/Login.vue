@@ -1,22 +1,24 @@
 <template>
-  <Header />
   <div>
-    <form class="retangulo-login" @submit.prevent="fazerLogin">
-      <img src="../../wydra.png" class="lontra" alt="lontrinha">
-      <div class="titulo">
-        <h1>Login</h1>
-      </div>
-      <label for="nick">Nome de Usuário:</label>
-      <input placeholder = "Digite seu apelido" type="nick" id="nick" name="nick" required v-model="nick" />
-
-      <label for="password">Senha:</label>
-      <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
-      <Botao texto="Entrar"/>
-      <div class="criar-conta">
-        <p>Ainda não tem conta?</p>
-        <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
-      </div>
-    </form>
+    <Header />
+    <div>
+      <form class="retangulo-login" @submit.prevent="fazerLogin">
+        <img src="../../wydra.png" class="lontra" alt="lontrinha">
+        <div class="titulo">
+          <h1>Login</h1>
+        </div>
+        <label for="nick">Nome de Usuário:</label>
+        <input placeholder = "Digite seu apelido" type="nick" id="nick" name="nick" required v-model="nick" />
+  
+        <label for="password">Senha:</label>
+        <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
+        <Botao texto="Entrar"/>
+        <div class="criar-conta">
+          <p>Ainda não tem conta?</p>
+          <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
   
