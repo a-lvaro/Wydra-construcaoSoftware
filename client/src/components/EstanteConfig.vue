@@ -4,6 +4,10 @@
         <div class="retangulo-estante-config">
             <div class="foto-obra">
                 <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
+                <div v-if="estadoAnterior === 1" class="estado-lista-desejos" />
+                <div v-if="estadoAnterior === 2" class="estado-em-progresso" />
+                <div v-if="estadoAnterior === 3" class="estado-finalizado" />
+                <div v-if="estadoAnterior === 4" class="estado-abandonado" />
             </div>
             <form class="retangulo-add-estante" @submit.prevent="adicionarEstante">
                 <RouterLink :to="`/obra?dados=${this.$route.query.dados}`" class="botao-voltar">{{'<'}} Voltar</RouterLink>
@@ -18,6 +22,10 @@
                             <option v-for="estado in estados" v-bind:value="estado.id_estado">
                                 {{ estado.nome }}
                             </option>
+                            <div v-if="estado_selecionado === 1" class="estado-lista-desejos" />
+                            <div v-if="estado_selecionado === 2" class="estado-em-progresso" />
+                            <div v-if="estado_selecionado === 3" class="estado-finalizado" />
+                            <div v-if="estado_selecionado === 4" class="estado-abandonado" />
                         </select>
                     </label>
                 </div>
@@ -47,9 +55,36 @@
 
 .foto-obra {
     margin: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.foto-obra img {
     border: 1px solid;
     border-radius: 3px;
-    display: flex;
+    max-height: 350px;
+}
+
+.estado-lista-desejos, .estado-em-progresso, .estado-finalizado, .estado-abandonado {
+    height: 10px;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+.estado-lista-desejos{
+    background-color: rgb(245, 245, 65);
+}
+
+.estado-em-progresso{
+    background-color: rgb(90, 83, 228);
+}
+
+.estado-finalizado{
+    background-color: rgb(49, 157, 49);
+}
+
+.estado-abandonado{
+    background-color: rgb(248, 59, 59);
 }
 
 .foto-obra img {
@@ -110,9 +145,9 @@
 
 <script>
 export default {
-    props: ['dados', 'naEstante'],
+    props: ['dados', 'naEstante', 'estado'],
     setup: (props) => {
-        const { dados, naEstante } = props
+        const { dados, naEstante, estado } = props
     },
     data() {
         return {
@@ -122,6 +157,7 @@ export default {
             estado_selecionado: null,
             naEstante: null,
             idObra: null,
+            estadoAnterior: null,
             estante: [],
             estados: [
                 { id_estado: 1, nome: "Lista de Desejos" },
@@ -137,6 +173,9 @@ export default {
         this.idObra = dados.id;
         this.foto = dados.poster_path;
         this.naEstante = JSON.parse(decodeURIComponent(this.$route.query.naEstante));
+        if (this.naEstante){
+            this.estadoAnterior = JSON.parse(decodeURIComponent(this.$route.query.estado));
+        }
     },
 
     methods: {
@@ -148,7 +187,6 @@ export default {
                 },
                 "estado": this.estado_selecionado
             }
-            console.log(data)
             
             api.getEstanteID(localStorage.getItem('idUsuario')).then(estante => {
                 this.estante = estante;
@@ -165,7 +203,7 @@ export default {
                 else{
                     api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
                 }
-
+            }).then(() => {
                 this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
             });
 

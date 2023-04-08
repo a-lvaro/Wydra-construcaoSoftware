@@ -6,9 +6,9 @@
 
 <style scooped>
 .container-resultado {
-    margin: 8px;
+    margin: 8px;    
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     text-decoration: none;
     

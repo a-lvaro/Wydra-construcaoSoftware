@@ -4,19 +4,22 @@
         <div class="retangulo-obra">
             <div class="foto-obra">
                 <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
+                <div v-if="estado === 1" class="estado-lista-desejos" />
+                <div v-if="estado === 2" class="estado-em-progresso" />
+                <div v-if="estado === 3" class="estado-finalizado" />
+                <div v-if="estado === 4" class="estado-abandonado" />
             </div>
             <div class="container-infos-obra">
                 <h1> {{ titulo }} </h1>
                 <div v-if="naEstante" class="container-botoes">
-                    <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true`" class="botao-estante">
+                    <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true&estado=${estado}`" class="botao-estante">
                         Alterar Estado</RouterLink>
-                        
+                        <RouterLink :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
+                            Avaliar Obra</RouterLink>     
                     </div>
                     <div v-else class="container-botoes"> 
                         <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
                             Adicionar à Estante</RouterLink>
-                        <RouterLink :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
-                            Avaliar Obra</RouterLink>
                 </div>
                 <div class="descricao-obra">
                     <h4>{{ descricao }}</h4>
@@ -42,15 +45,37 @@
 
 .foto-obra {
     margin: 30px;
-    border: 1px solid;
-    border-radius: 3px;
     display: flex;
+    flex-direction: column;
 }
 
 .foto-obra img {
+    border: 1px solid;
+    border-radius: 3px;
     max-height: 350px;
 }
 
+.estado-lista-desejos, .estado-em-progresso, .estado-finalizado, .estado-abandonado {
+    height: 10px;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+.estado-lista-desejos{
+    background-color: rgb(245, 245, 65);
+}
+
+.estado-em-progresso{
+    background-color: rgb(90, 83, 228);
+}
+
+.estado-finalizado{
+    background-color: rgb(49, 157, 49);
+}
+
+.estado-abandonado{
+    background-color: rgb(248, 59, 59);
+}
 .container-botoes{
     display: flex;
     flex-direction: row;
@@ -102,7 +127,8 @@ export default {
             descricao: null,
             foto: null,
             idObra: null,
-            naEstante: false
+            naEstante: false,
+            estado: null
         };
     },
     created() {
@@ -118,6 +144,7 @@ export default {
             api.getObraID(localStorage.getItem('idUsuario'), this.idObra).then((res) => {
                 if(res.detail === undefined){
                     this.naEstante = true;
+                    this.estado = res.estado;
                 }
                 else{
                     this.naEstante = false;   

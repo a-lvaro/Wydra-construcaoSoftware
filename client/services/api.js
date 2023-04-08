@@ -78,6 +78,18 @@ function removerObraEstante(token, idObra) {
         .then((res) => res.json());
 }
 
+function publicarResenha(token, data) {
+    return fetch(`http://localhost:8000/avaliacao/add?token=${token}`, {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => res.json());
+}
+
 // function getProductsById(id) {
 //     return fetch(`http://localhost:3333/products/${id}`).then((res) => res.json());
 // }
@@ -116,10 +128,10 @@ function removerObraEstante(token, idObra) {
 //         },
 //         body: JSON.stringify(products)
 //     })
-//         .then((resp) => resp.json());
+//         .then((resp) => resp.json());    
 // }
 
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
-    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante
+    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha    
 };
