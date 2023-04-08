@@ -16,6 +16,7 @@ uvicorn = "^0.21.1"
 python-multipart = "^0.0.6"
 sqlalchemy = "^2.0.7"
 passlib = "^1.7.4"
+sqlalchemy-utils = "^0.40.0"
 
 [build-system]
 requires = ["poetry-core"]

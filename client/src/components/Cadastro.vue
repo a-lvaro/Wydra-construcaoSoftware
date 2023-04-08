@@ -1,4 +1,5 @@
 <template>
+    <Header />
     <div class="cadastro">
         <div class="container">
             <div class="form-image">
@@ -12,7 +13,7 @@
                         </div>
                         <div class="botao-entrar">
                             <button>
-                                <RouterLink v-on:click="login" to="/login">Entrar</RouterLink>
+                                <RouterLink v-on:click="login" to="/login">Fazer Login</RouterLink>
                             </button>
                         </div>
                     </div>
@@ -53,7 +54,6 @@
                     </div>
 
                     <div class="continue-button">
-                        <!-- <button><a href="#">Continuar</a></button> -->
                         <Botao texto="Continuar" />
                     </div>
                 </form>
@@ -114,15 +114,22 @@
 }
 
 .botao-entrar button {
-    border: none;
-    background-color: #6c63ff;
-    padding: 0.5rem 5rem;
-    border-radius: 5px;
     cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    background-color: cornflowerblue;
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    min-width: 100px;
+    justify-content: center;
 }
 
 .botao-entrar button:hover {
-    background-color: #6c63ff;
+    background-color: rgb(40, 112, 245);
 }
 
 .botao-entrar button a {
@@ -136,7 +143,7 @@
     display: block;
     width: 5rem;
     height: 0.3rem;
-    background-color: #6c63ff;
+    background-color: cornflowerblue;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
@@ -171,35 +178,12 @@
     outline: 1px solid #6c63ff;
 }
 
-.input-box label,
-.gender-inputs h6 {
+.input-box label {
     font-size: 1rem;
     font-weight: 600;
     color: black;
 }
 
-.gender-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.62rem;
-    padding: 0 0.5rem
-}
-
-.gender-input {
-    display: flex;
-    align-items: center;
-}
-
-.gender-input input {
-    margin-right: 0.35rem;
-}
-
-.gender-input label {
-    margin-right: 2rem;
-    font-size: 0.81rem;
-    font-weight: 600;
-    color: black;
-}
 
 .continue-button button {
     width: 100%;
@@ -278,4 +262,5 @@ export default {
 <script setup>
 import api from '../../services/api.js'
 import Botao from './Botao.vue'
+import Header from './Header.vue'
 </script>

@@ -1,42 +1,46 @@
 <template>
-    <div class="container-busca">
-        <form class="retangulo-busca" @submit.prevent="fazerBusca">
-            <div class="titulo">
-                <h1>Busca</h1>
-            </div>
-            <div class="fitro-categoria">
-                <label class="nome-filtro">Categoria
-                    <select class="dropdown-categoria" required v-model="categoria_selecionada">
-                        <option value="">Selecione o que deseja buscar</option>
-                        <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
-                            {{ categoria.nome }}
-                        </option>
-                    </select>
-                </label>
-            </div>
-            <div class="campo-busca">
-                <label class="nome-campo-busca">Nome
-                    <input placeholder="Digite o nome" type="search" id="busca" name="busca" required
-                        v-model="string_busca" />
-                </label>
-            </div>
-            <div class="botao-buscar">
-                <Botao texto="Buscar" />
-            </div>
-        </form>
-        <div class="retangulo-resultado">
-            <div class="imagem-sem-resultados">
-                <img src="https://cdn-icons-png.flaticon.com/512/6436/6436996.png" alt="sem resultados">
-            </div>
-            <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
-                <ResultadoBusca :json="item" tipo="/obra" :nomePrincipal="item.title"
-                    :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
-            </div>
-            <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
-                <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
-                    :nick="item.nick" />
+    <div>
+        <Header />
+        <div class="container-busca">
+            <form class="retangulo-busca" @submit.prevent="fazerBusca">
+                <div class="titulo">
+                    <h1>Busca</h1>
+                </div>
+                <div class="fitro-categoria">
+                    <label class="nome-filtro">Categoria
+                        <select class="dropdown-categoria" required v-model="categoria_selecionada">
+                            <option value="">Selecione o que deseja buscar</option>
+                            <option v-for="categoria in categorias" v-bind:value="categoria.id_categoria">
+                                {{ categoria.nome }}
+                            </option>
+                        </select>
+                    </label>
+                </div>
+                <div class="campo-busca">
+                    <label class="nome-campo-busca">Nome
+                        <input placeholder="Digite o nome" type="search" id="busca" name="busca" required
+                            v-model="string_busca" />
+                    </label>
+                </div>
+                <div class="botao-buscar">
+                    <Botao texto="Buscar" />
+                </div>
+            </form>
+            <div class="retangulo-resultado">
+                <div class="imagem-sem-resultados">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6436/6436996.png" alt="sem resultados">
+                </div>
+                <div v-for="(item, index) in resultados_filme" :key="index" class="container-resultado">
+                    <ResultadoBusca :json="item" tipo="/obra" :nomePrincipal="item.title"
+                        :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
+                </div>
+                <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
+                    <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
+                        :nick="item.nick" />
+                </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -183,10 +187,6 @@ export default {
 
             // document.querySelector('.imagem-placeholder').style.display = 'flex';
 
-            const data = {
-                string_busca: this.string_busca
-            }
-
             this.resultados_filme = []
             this.resultados_usuario = []
 
@@ -205,4 +205,5 @@ export default {
 import api from '../../services/api.js'
 import Botao from './Botao.vue'
 import ResultadoBusca from './ResultadoBusca.vue'
+import Header from './Header.vue'
 </script>

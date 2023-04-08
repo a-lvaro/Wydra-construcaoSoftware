@@ -1,25 +1,18 @@
 <template>
     <header>
-        <p class="nomePagina">Wydra</p>
+        <a v-on:click="login" class="nomePagina">Wydra</a>
         <nav>
             <ul class="menu">
-                <li>
-                    <RouterLink to="/cadastro">Cadastro</RouterLink>
+                <li v-if="mostrarItem">
+                    <RouterLink :to="`/estante?dados=${encodeURIComponent(JSON.stringify(usuario))}`">Estante</RouterLink>
                 </li>
-                <li>
-                    <RouterLink to="/login">Login</RouterLink>
+                <li v-if="mostrarItem">
+                    <RouterLink :to="`/perfil?dados=${encodeURIComponent(JSON.stringify(usuario))}`">Perfil</RouterLink>
                 </li>
-                <li>
-                    <RouterLink to="/estante">Estante</RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/perfil">Perfil</RouterLink>
-                </li>
-                <li>
+                <li v-if="mostrarItem">
                     <RouterLink to="/busca">Busca</RouterLink>
                 </li>
-                <li>
-                    <!-- <RouterLink v-on:click="logout" to="/Login">Logout</RouterLink> -->
+                <li v-if="mostrarItem">
                     <a v-on:click="logout" href="#">Logout</a>
                 </li>
             </ul>
@@ -29,11 +22,23 @@
 
 <script>
 export default{
-    methods:{
+    data() {
+        return {
+            mostrarItem: localStorage.getItem('mostrarItem') === 'true',
+            usuario: JSON.parse(localStorage.getItem('usuario'))
+        };
+    },
+    methods: {
+        login(){
+            this.$router.push({name:'login'})
+        },
         logout()
         {
-        localStorage.clear();
-        this.$router.push({name:'login'})
+            localStorage.clear()
+            localStorage.setItem('token', null)
+            localStorage.setItem('usuario', null)
+            localStorage.setItem('mostrarItem', 'false')
+            this.$router.push({name:'login'})
         }
     },
 }
@@ -42,9 +47,8 @@ export default{
 <style scoped>
 .nomePagina {
     font-size: 35px;
-    /* Altere o tamanho do texto para o desejado */
-    font-family: 'Segoe UI';
     color: rgb(229, 228, 228);
+    text-decoration: none;
 }
 
 header {
@@ -53,7 +57,6 @@ header {
     justify-content: space-around;
     padding: 5px;
     align-items: center;
-    /* border-top: 2px solid cornflowerblue; */
     border-bottom: 2px solid cornflowerblue;
     width: 100%;
     height: 90px;

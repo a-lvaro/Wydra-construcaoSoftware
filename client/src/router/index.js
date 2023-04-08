@@ -4,11 +4,15 @@ import Cadastro from '../components/Cadastro.vue'
 import Busca from '../components/Busca.vue'
 import Perfil from '../components/Perfil.vue'
 import Obra from '../components/Obra.vue'
-// import EditarPerfil from '../components/EditarPerfil.vue'
+import EstanteConfig from '../components/EstanteConfig.vue'
+import Resenha from '../components/Resenha.vue'
+import Estante from '../components/Estante.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: '/', redirect: '/login'},
     {
       path: '/login',
       name: 'login',
@@ -18,6 +22,11 @@ const router = createRouter({
       path: '/cadastro',
       name: 'cadastro',
       component: Cadastro
+    },
+    {
+      path: '/resenha',
+      name: 'resenha',
+      component: Resenha
     },
     {
       path: '/busca',
@@ -30,14 +39,19 @@ const router = createRouter({
       component: Perfil
     },
     {
-      path: '/editarPerfil',
-      name: 'editarPerfil',
-      component: EditarPerfil
-    },
-    {
       path: '/obra',
       name: 'obra',
       component: Obra
+    },
+    {
+    path: '/estante',
+    name: 'estante',
+    component: Estante
+    },
+    {
+      path: '/estanteConfig',
+      name: 'estanteConfig',
+      component: EstanteConfig
     },
   ]
 })

@@ -1,21 +1,16 @@
 from datetime import datetime, timedelta
 from jose import ExpiredSignatureError, JWTError, jwt
 
-from core.exceptions import CustomException
+from core.exceptions import UnauthorizedException
 from core.config import config
 
-secret_key = config.SECRET_KEY
-algorithm = config.JWT_ALGORITHM
-expire_minutes = config.JWT_EXPIRE_MINUTES
+class JWTDecodeError(UnauthorizedException):
+    detail = "Token de autenticação inválido."
 
 
-class JWTDecodeError(CustomException):
-    code = 401
-    message = "Invalid token"
+class JWTExpiredError(UnauthorizedException):
+    detail = "Token de autenticação expirado."
 
-class JWTExpiredError(CustomException):
-    code = 401
-    message = "Token expired"
 
 class JWTHandler:
     secret_key = config.SECRET_KEY

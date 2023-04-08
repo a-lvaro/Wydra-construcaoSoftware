@@ -7,10 +7,10 @@ class UsuarioBase(BaseModel):
     nome: str
     sobrenome: str
     nick: constr(min_length=3, max_length=64)
+    caminho_foto: Optional[str]
 
 
 # Classe Usuário para cadastro
-
 class UsuarioCreate(UsuarioBase):
     email: EmailStr
     senha: constr(min_length=8, max_length=64)
@@ -20,7 +20,6 @@ class UsuarioCreate(UsuarioBase):
 # Retorna o número de seguidores da entidade
 # Usuário do orm (número de elementos na lista seguidores)
 def get_len(arg):
-    # retorna None se a lista for vazia
     if type(arg) == list:
         return len(arg)
     elif arg:
@@ -48,3 +47,11 @@ class Usuario(UsuarioBase):
 class UsuarioAuth(BaseModel):
     nick: constr(min_length=3, max_length=64)
     senha: constr(min_length=8, max_length=64)
+
+
+# Classe para configurar o perfil
+class Perfil(UsuarioBase):
+    email: str
+
+    class Config:
+        orm_mode = True

@@ -21,21 +21,7 @@ class NotFoundException(CustomException):
     detail = HTTPStatus.NOT_FOUND.description
 
 
-class ForbiddenException(CustomException):
-    statu_code = HTTPStatus.FORBIDDEN
-    detail = HTTPStatus.FORBIDDEN.description
-
-
 class UnauthorizedException(CustomException):
     status_code = HTTPStatus.UNAUTHORIZED
     detail = HTTPStatus.UNAUTHORIZED.description
 
-
-class UnprocessableEntity(CustomException):
-    status_code = HTTPStatus.UNPROCESSABLE_ENTITY
-    detail = HTTPStatus.UNPROCESSABLE_ENTITY.description
-
-
-class DuplicateValueException(CustomException):
-    status_code = HTTPStatus.UNPROCESSABLE_ENTITY
-    detail = HTTPStatus.UNPROCESSABLE_ENTITY.description

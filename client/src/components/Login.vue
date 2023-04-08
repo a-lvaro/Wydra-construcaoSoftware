@@ -1,20 +1,24 @@
 <template>
   <div>
-    <form class="retangulo-login" @submit.prevent="fazerLogin">
-      <img src="../../wydra.png" class="lontra" alt="lontrinha">
-      <div class="titulo">
-        <h1>Login</h1>
-      </div>
-      <label for="email">Email:</label>
-      <input placeholder = "Digite seu login" type="nick" id="email" name="email" required v-model="email" />
-
-      <label for="password">Senha:</label>
-      <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
-      <div class = "botoes">
-        <Botao class = "entrar" texto="Entrar"/>
-        <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
-      </div>
-    </form>
+    <Header />
+    <div>
+      <form class="retangulo-login" @submit.prevent="fazerLogin">
+        <img src="../../wydra.png" class="lontra" alt="lontrinha">
+        <div class="titulo">
+          <h1>Login</h1>
+        </div>
+        <label for="nick">Nome de Usuário:</label>
+        <input placeholder = "Digite seu apelido" type="nick" id="nick" name="nick" required v-model="nick" />
+  
+        <label for="password">Senha:</label>
+        <input placeholder = "Digite sua senha" type="password" id="password" name="password" required v-model="senha" />
+        <Botao texto="Entrar"/>
+        <div class="criar-conta">
+          <p>Ainda não tem conta?</p>
+          <Botao v-on:click="irParaCadastro" texto="Criar conta"/>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
   
@@ -52,6 +56,7 @@ input:hover{
   background-color: #eeeeee75;
 }
 
+
 input[type="password"] {
   -webkit-text-security: disc;
   -moz-text-security: disc;
@@ -67,23 +72,23 @@ label {
   margin: 50px auto;
   background-color: white;
   width: 420px;
-  height: 680px;
+  min-height: 680px;
   border-radius: 20px;
   /* Define o raio da borda */
   border: 2px solid #000000ba;
   /* Define a cor e largura da borda */
 }
 
-.botoes{
+.criar-conta {
   display: flex;
   align-items:center;
-  justify-content: space-between;
-  padding: 10px;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.botoes .entrar{
-  margin-right: 10px;
-  margin-left: 10px;
+.criar-conta p{
+  margin-bottom: 10px;
 }
 
 </style>
@@ -93,8 +98,9 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      senha: ""
+      nick: "",
+      senha: "",
+      usuario: {}
     }
   },
 
@@ -102,13 +108,28 @@ export default {
     fazerLogin() {
       const data =
       {
-        email: this.email,
+        nick: this.nick,
         senha: this.senha,
       }
       api.fazerLogin(data)
-        .then(console.log('logado com sucesso!!'))
-        .then(this.$router.push('/cadastro'))
-    },
+          .then(res => {
+            if(typeof res === "string"){
+              localStorage.setItem('token', res)
+              api.getUsuarioLogado(res).then(data => {
+                this.usuario = data
+                localStorage.setItem('usuario', JSON.stringify(data))
+                localStorage.setItem('idUsuario', data.id)
+                localStorage.setItem('mostrarItem', 'true')
+                this.$router.push(`/perfil?dados=${encodeURIComponent(localStorage.getItem('usuario'))}`)
+              }
+              )
+            }
+            else{
+              console.log('erro ao logar')
+              }
+            }
+            )
+          },
 
     irParaCadastro(){
       this.$router.push({name:'cadastro'})
@@ -120,4 +141,5 @@ export default {
 <script setup>
   import Botao from './Botao.vue'
   import api from '../../services/api.js'
+  import Header from './Header.vue'
 </script>
