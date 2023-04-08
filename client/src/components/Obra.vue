@@ -5,9 +5,9 @@
             <div class="foto-obra">
                 <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
                 <div v-if="estado === 1" class="estado-lista-desejos" />
-                <div v-if="estado === 2" class="estado-em-progresso" />
-                <div v-if="estado === 3" class="estado-finalizado" />
-                <div v-if="estado === 4" class="estado-abandonado" />
+                <div v-else-if="estado === 2" class="estado-em-progresso" />
+                <div v-else-if="estado === 3" class="estado-finalizado" />
+                <div v-else-if="estado === 4" class="estado-abandonado" />
             </div>
             <div class="container-infos-obra">
                 <h1> {{ titulo }} </h1>

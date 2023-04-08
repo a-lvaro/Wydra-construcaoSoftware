@@ -5,9 +5,9 @@
             <div class="foto-obra">
                 <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
                 <div v-if="estadoAnterior === 1" class="estado-lista-desejos" />
-                <div v-if="estadoAnterior === 2" class="estado-em-progresso" />
-                <div v-if="estadoAnterior === 3" class="estado-finalizado" />
-                <div v-if="estadoAnterior === 4" class="estado-abandonado" />
+                <div v-else-if="estadoAnterior === 2" class="estado-em-progresso" />
+                <div v-else-if="estadoAnterior === 3" class="estado-finalizado" />
+                <div v-else-if="estadoAnterior === 4" class="estado-abandonado" />
             </div>
             <form class="retangulo-add-estante" @submit.prevent="adicionarEstante">
                 <RouterLink :to="`/obra?dados=${this.$route.query.dados}`" class="botao-voltar">{{'<'}} Voltar</RouterLink>
@@ -22,10 +22,6 @@
                             <option v-for="estado in estados" v-bind:value="estado.id_estado">
                                 {{ estado.nome }}
                             </option>
-                            <div v-if="estado_selecionado === 1" class="estado-lista-desejos" />
-                            <div v-if="estado_selecionado === 2" class="estado-em-progresso" />
-                            <div v-if="estado_selecionado === 3" class="estado-finalizado" />
-                            <div v-if="estado_selecionado === 4" class="estado-abandonado" />
                         </select>
                     </label>
                 </div>

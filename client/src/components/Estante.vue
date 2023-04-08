@@ -7,7 +7,7 @@
             </RouterLink>
             <div class="container-obras">
                 <div v-for="(item, index) in obrasEstante" :key="index" class="container-resultado">
-                    <ObraEstante :json="item" :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
+                    <ObraEstante :json="item.obra" :imagem="'https://image.tmdb.org/t/p/w500/' + item.obra.poster_path" :estado="item.estado" />
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@ export default {
                 nome: '',
                 sobrenome: ''
             },
-            estanteID: [],
+            estanteIDs: [],
             obrasEstante: []
         };
     },
@@ -62,15 +62,23 @@ export default {
 
         api.getEstanteID(this.usuario.id).then((res) => 
         {
-                res.forEach(obraID => {
-                    this.estanteID.push(obraID.obra.id)
+            res.forEach(obraID => {
+                let item_estante = {
+                    "obraID": obraID.obra.id,
+                    "estado": obraID.estado
+                }
+                this.estanteIDs.push(item_estante)
             });
         }).then(() => 
         {
-            this.estanteID.forEach(obraID => {
-                api.getFilmeID(obraID).then((res) => {
+            this.estanteIDs.forEach(item_estante => {
+                api.getFilmeID(item_estante.obraID).then((res) => {
                     if(res.success === undefined){
-                        this.obrasEstante.push(res)
+                        let obraEstado = {
+                            "obra": res,
+                            "estado": item_estante.estado
+                        }
+                        this.obrasEstante.push(obraEstado)
                     }
                 })
             })
