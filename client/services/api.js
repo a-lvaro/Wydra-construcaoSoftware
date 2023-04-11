@@ -22,6 +22,14 @@ function getEstanteID(id) {
     return fetch(`http://127.0.0.1:8000/estante/${id}`).then((res) => res.json());
 }
 
+function getResenhasUsuario(id) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/user/${id}`).then((res) => res.json());
+}
+
+function getResenhasObra(id) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/obra/${id}`).then((res) => res.json());
+}
+
 function criarUsuario(data) {
     return fetch('http://127.0.0.1:8000/user/signup', {
         method: 'POST',
@@ -133,5 +141,6 @@ function publicarResenha(token, data) {
 
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
-    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha    
+    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha,
+    getResenhasUsuario, getResenhasObra  
 };

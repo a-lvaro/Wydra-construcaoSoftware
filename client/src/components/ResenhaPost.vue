@@ -3,15 +3,14 @@
         <div class="container-resenha">
             <div class="container-infos-obra">
                 <div class="foto-obra">
-                    <img :src="foto" :alt="`poster ${titulo}`">
-                    <!-- <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`"> -->
+                    <img :src="'https://image.tmdb.org/t/p/w500/' + poster" :alt="`poster ${titulo}`">
                 </div>
                 <h3> {{ titulo }} </h3>
             </div>
             <div class="container-infos-post">
                 <div class="container-infos-usuario">
                     <div class="container-foto-perfil">
-                        <!-- <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`foto ${nick}`"> -->
+                        <img :src="foto" :alt="`foto ${nick}`">
                     </div>
                     <div class="container-nome-nick">
                         <div class="nome-usuario">
@@ -37,16 +36,15 @@
 
 <style scoped>
 .container-resenha {
-    margin-top: 10px;
+    margin: 10px 0px;
     padding-right: 20px;
     background-color: white;
     width: 600px;
-    min-height: 300px;
+    min-height: 200px;
     border-radius: 10px;
     border: 1px solid #000000ba;
     flex-direction: row;
     display: flex;
-    /* align-items: center; */
 }
 
 .container-infos-obra {
@@ -94,6 +92,9 @@
 
 .resenha {
     text-align: justify;
+    max-width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 </style>
@@ -106,42 +107,48 @@ export default {
     },
     data() {
         return {
-            titulo: 'shrek',
-            foto: 'https://a-static.mlcdn.com.br/1500x1500/poster-cartaz-shrek-terceiro-pop-arte-poster/poparteskins2/15938523793/11b7dfef967c3668a49c679cd55c8dd7.jpeg',
-            nome: 'joao',
-            nick: 'jj',
-            resenha: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. N',
-            nota: 5
+            titulo: '',
+            poster: '',
+            nome: '',
+            nick: '',
+            foto: '',
+            resenha: '',
+            nota: null,
         };
     },
-    // created() {
-    //     const infosResenha = this.dadosResenha;
-    //     this.resenha = infosResenha.resenha;
-    //     this.nota = infosResenha.nota;
-    //     const infosObra = this.dadosObra??this.getObraAPI();
-    //     const infosUsuario = this.dadosUsuario??this.getUsuarioAPI();
-    // },
-    // methods: {
-    //     setObra() {
-    //         const infosObra = this.dadosObra;
-    //         this.titulo = infosObra.titulo;
-    //         this.foto = infosObra.foto;
-    //     },
-    //     setUsuario() {
-    //         const infosUsuario = this.dadosUsuario;
-    //         this.nome = infosUsuario.nome;
-    //         this.nick = infosUsuario.nick;
-    //     },
-    //     // getObraAPI() {
-    //     //     const infosObra = 0;
-    //     //     api.getFilmeID(this.dadosResenha.obra.id).then((res) => {
-    //     //         infosObra = res.data;
-    //     //     });
-    //     // },
-    //     // getUsuarioAPI() {
-    //     //     const infosUsuario =0;
-    //     // }
-    // }
+    created() {
+        const infosResenha = this.dadosResenha;
+        this.resenha = infosResenha.resenha;
+        this.nota = infosResenha.nota;
+        
+        if (this.dadosObra === undefined){
+            this.getObraAPI();
+        } 
+        else {
+            this.titulo = this.dadosObra.title;
+            this.poster = this.dadosObra.poster_path;
+        }
+
+        if (this.dadosUsuario === undefined){
+            this.nome = this.dadosResenha.usuario.nome + ' ' + this.dadosResenha.usuario.sobrenome;
+            this.nick = this.dadosResenha.usuario.nick;
+            this.foto = this.dadosResenha.usuario.caminho_foto;
+        } 
+        else {
+            this.nome = this.dadosUsuario.nome + ' ' + this.dadosUsuario.sobrenome;
+            this.nick = this.dadosUsuario.nick;
+            this.foto = this.dadosUsuario.caminho_foto;
+        }
+    },
+
+    methods: {
+        getObraAPI() {
+            api.getFilmeID(this.dadosResenha.obra.id).then((res) => {
+                this.titulo = res.title;
+                this.poster = res.poster_path;
+            });
+        }
+    }
 };
 </script>
 

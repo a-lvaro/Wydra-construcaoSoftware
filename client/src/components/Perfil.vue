@@ -12,7 +12,9 @@
                 <h2>{{ nick }}</h2>
             </div>
             <RouterLink :to="`/estante?dados=${this.$route.query.dados}`"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
-            <ResenhaPost /> 
+            <div v-for="(item, index) in resenhas" :key="index" class="container-resenha">
+                <ResenhaPost :dados-usuario="usuario" :dados-resenha="item"/>
+            </div>
         </div>
     </div>
 </template>
@@ -66,23 +68,37 @@ props: ['dados'],
     },
     data() {
     return {
+      usuario: {},
       nome: null,
       nick: null,
       foto: null,
-      id: null
+      idUsuario: null,
+      resenhas: []
     };
   },
   created() {
     const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
+    this.usuario = dados;
     this.nome = dados.nome + ' ' + dados.sobrenome;
     this.nick = dados.nick;
     this.foto = dados.foto_perfil;
-    this.id = dados.id
+    this.idUsuario = dados.id
+    this.getResenhas()
+    window.scrollTo(0, this.top);
+  },
+
+  methods: {
+    getResenhas(){
+        api.getResenhasUsuario(this.idUsuario).then(res => {
+            this.resenhas = res
+        })
+    }
   }
 }
 </script>
 
 <script setup>
+import api from '../../services/api';
 import Header from './Header.vue'
 import ResenhaPost from './ResenhaPost.vue';
 </script>
