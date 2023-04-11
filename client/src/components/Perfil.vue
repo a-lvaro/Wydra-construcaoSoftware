@@ -14,6 +14,7 @@
             <RouterLink :to="`/estante?dados=${this.$route.query.dados}`"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
         </div>
     </div>
+    <ResenhaPost />
 </template>
 
 <style>
@@ -83,5 +84,6 @@ props: ['dados'],
 
 <script setup>
 import Header from './Header.vue'
+import ResenhaPost from './ResenhaPost.vue';
 </script>
   
