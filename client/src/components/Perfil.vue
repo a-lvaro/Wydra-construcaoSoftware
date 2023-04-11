@@ -12,9 +12,9 @@
                 <h2>{{ nick }}</h2>
             </div>
             <RouterLink :to="`/estante?dados=${this.$route.query.dados}`"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
+            <ResenhaPost /> 
         </div>
     </div>
-    <ResenhaPost />
 </template>
 
 <style>

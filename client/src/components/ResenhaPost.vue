@@ -42,8 +42,8 @@
     background-color: white;
     width: 600px;
     min-height: 300px;
-    border-radius: 20px;
-    border: 2px solid #000000ba;
+    border-radius: 10px;
+    border: 1px solid #000000ba;
     flex-direction: row;
     display: flex;
     /* align-items: center; */
