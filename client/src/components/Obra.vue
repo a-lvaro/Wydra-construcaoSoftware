@@ -4,8 +4,8 @@
         <div class="retangulo-obra">
             <div class="container-obra">
 
-                    <div class="foto-obra">
-                        <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
+                <div class="foto-obra">
+                    <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
                     <div v-if="estado === 1" class="estado-lista-desejos" />
                     <div v-else-if="estado === 2" class="estado-em-progresso" />
                     <div v-else-if="estado === 3" class="estado-finalizado" />
@@ -16,7 +16,7 @@
                     <div v-if="naEstante" class="container-botoes">
                         <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true&estado=${estado}`" class="botao-estante">
                             Alterar Estado</RouterLink>
-                            <RouterLink v-if="estado === 3" :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
+                            <RouterLink v-if="estado === 3 && !jaResenhada" :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
                                 Avaliar Obra</RouterLink>     
                         </div>
                         <div v-else class="container-botoes"> 
@@ -141,7 +141,8 @@ export default {
             idObra: null,
             naEstante: false,
             estado: null,
-            resenhas: null
+            resenhas: null,
+            jaResenhada: false
         };
     },
     created() {
@@ -151,8 +152,16 @@ export default {
         this.foto = dados.poster_path;
         this.idObra = dados.id;
         this.jaNaEstante();
-        this.getResenhas()
+        this.getResenhas();
         window.scrollTo(0, this.top);
+
+        api.getResenhasUsuario(localStorage.getItem('idUsuario')).then((res) => {
+            res.forEach(resenha => {
+                if(resenha.obra.id === this.idObra){
+                    this.jaResenhada = true;
+                }
+            });
+        })
     },
     methods: {
         jaNaEstante() {
