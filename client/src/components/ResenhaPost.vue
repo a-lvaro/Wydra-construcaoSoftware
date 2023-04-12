@@ -1,14 +1,14 @@
 <template>
     <div>
         <div class="container-resenha">
-            <div class="container-infos-obra">
+            <RouterLink :to="pathObra" class="container-infos-obra">
                 <div class="foto-obra">
                     <img :src="'https://image.tmdb.org/t/p/w500/' + poster" :alt="`poster ${titulo}`">
                 </div>
                 <h3> {{ titulo }} </h3>
-            </div>
+            </RouterLink>
             <div class="container-infos-post">
-                <div class="container-infos-usuario">
+                <RouterLink :to="retornaPerfil()" class="container-infos-usuario">
                     <div class="container-foto-perfil">
                         <img :src="foto" :alt="`foto ${nick}`">
                     </div>
@@ -20,7 +20,7 @@
                             <h5>{{ nick }}</h5>
                         </div>
                     </div>
-                </div>
+                </RouterLink>
                 <div class="container-resenha-nota">
                     <div class="nota">
                         <img v-for="n in nota" src="https://cdn-icons-png.flaticon.com/512/148/148839.png">
@@ -52,6 +52,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: none;
+    color: #2C3E50;
 }
 
 .foto-obra img {
@@ -70,6 +72,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    text-decoration: none;
+    color: #2C3E50;
 }
 
 .container-foto-perfil {
@@ -113,6 +117,7 @@ export default {
             nick: '',
             foto: '',
             resenha: '',
+            pathObra: '',
             nota: null,
         };
     },
@@ -139,6 +144,8 @@ export default {
             this.nick = this.dadosUsuario.nick;
             this.foto = this.dadosUsuario.caminho_foto;
         }
+
+        this.retornaObra();
     },
 
     methods: {
@@ -147,6 +154,24 @@ export default {
                 this.titulo = res.title;
                 this.poster = res.poster_path;
             });
+        },
+        retornaPerfil(){
+            if (this.dadosUsuario === undefined){
+                return `/perfil?dados=${encodeURIComponent(JSON.stringify(this.dadosResenha.usuario))}`
+            }
+            else{
+                return `/perfil?dados=${encodeURIComponent(JSON.stringify(this.dadosUsuario))}`
+            }
+        },
+        retornaObra(){
+            if (this.dadosObra === undefined){
+                api.getFilmeID(this.dadosResenha.obra.id).then((res) => {
+                this.pathObra = `/obra?dados=${encodeURIComponent(JSON.stringify(res))}`
+            });
+            }
+            else{
+                this.pathObra = `/obra?dados=${encodeURIComponent(JSON.stringify(this.dadosObra))}`
+            }
         }
     }
 };
