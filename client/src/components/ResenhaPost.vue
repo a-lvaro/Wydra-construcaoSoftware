@@ -21,6 +21,11 @@
                         </div>
                     </div>
                 </RouterLink>
+                <a class="botao-like" @click="darLike">
+                    <p>{{ likes }}</p>
+                    <img v-if="likado" class="botao-like" src="..\assets\heart_filled.png">
+                    <img v-else class="botao-like" src="..\assets\heart_empty.png">
+                </a>
                 <div class="container-resenha-nota">
                     <div class="nota">
                         <img v-for="n in nota" src="https://cdn-icons-png.flaticon.com/512/148/148839.png">
@@ -85,6 +90,14 @@
     border: 1px solid black;
 }
 
+.botao-like{
+    align-self: flex-end;
+    margin: 0px 20px;
+    width: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
 .container-resenha-nota{
     margin-left: 10px;
     margin-bottom: 10px;
@@ -119,12 +132,16 @@ export default {
             resenha: '',
             pathObra: '',
             nota: null,
+            likado: false,
+            idObra: null,
+            idUsuario: null
         };
     },
     created() {
         const infosResenha = this.dadosResenha;
         this.resenha = infosResenha.resenha;
         this.nota = infosResenha.nota;
+        this.likes = infosResenha.curtidas;
         
         if (this.dadosObra === undefined){
             this.getObraAPI();
@@ -132,17 +149,20 @@ export default {
         else {
             this.titulo = this.dadosObra.title;
             this.poster = this.dadosObra.poster_path;
+            this.idObra = this.dadosObra.id;
         }
 
         if (this.dadosUsuario === undefined){
             this.nome = this.dadosResenha.usuario.nome + ' ' + this.dadosResenha.usuario.sobrenome;
             this.nick = this.dadosResenha.usuario.nick;
             this.foto = this.dadosResenha.usuario.caminho_foto;
+            this.idUsuario = this.dadosResenha.usuario.id;
         } 
         else {
             this.nome = this.dadosUsuario.nome + ' ' + this.dadosUsuario.sobrenome;
             this.nick = this.dadosUsuario.nick;
             this.foto = this.dadosUsuario.caminho_foto;
+            this.idUsuario = this.dadosResenha.usuario.id;
         }
 
         this.retornaObra();
@@ -153,6 +173,7 @@ export default {
             api.getFilmeID(this.dadosResenha.obra.id).then((res) => {
                 this.titulo = res.title;
                 this.poster = res.poster_path;
+                this.idObra = res.id;
             });
         },
         retornaPerfil(){
@@ -171,6 +192,16 @@ export default {
             }
             else{
                 this.pathObra = `/obra?dados=${encodeURIComponent(JSON.stringify(this.dadosObra))}`
+            }
+        },
+        darLike(){
+            if (this.likado){
+                
+            }
+            else{
+                api.darLikeResenha(localStorage.getItem('token'), this.idUsuario, this.idObra).then(() => {
+                    this.likado = true;
+                });
             }
         }
     }

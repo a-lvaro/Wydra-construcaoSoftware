@@ -200,14 +200,14 @@ export default {
                     await api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
                 }
             }).then(() => {
-                this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
+                this.$router.push({name:'obra', query: {dados: this.$route.query.dados}})
             });
 
         },
 
         async removerDaEstante(){
             await api.removerObraEstante(localStorage.getItem('token'), this.idObra)
-            this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
+            this.$router.push({name:'obra', query: {dados: this.$route.query.dados}})
         }
     }
 };
