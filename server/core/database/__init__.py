@@ -9,10 +9,11 @@ engine = create_engine(DATABASE_URL,
                        connect_args={"check_same_thread": False},
                        pool_size=20, max_overflow=30)
 
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Session = sessionmaker(bind=engine, expire_on_commit=False)
+
 Base = declarative_base()
 
 
 def get_session():
-    db = Session()
+    db = Session(autobegin=True)
     return db

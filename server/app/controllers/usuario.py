@@ -53,11 +53,10 @@ class ControladorUsuario:
 
         self.session.add(db_user)
         self.session.commit()
-        self.session.refresh(db_user)
 
         return db_user
 
-    def edit(self, id: int,  perfil: Perfil) -> Perfil:
+    def edit(self, id: int,  perfil: Perfil):
         usuario = self.get(id)
 
         usuario.nome = perfil.nome
@@ -66,6 +65,5 @@ class ControladorUsuario:
         usuario.email = perfil.email
 
         self.session.commit()
-        self.session.refresh(usuario)
 
-        return Perfil.from_orm(usuario)
+        return usuario
