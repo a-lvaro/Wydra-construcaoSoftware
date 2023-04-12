@@ -175,7 +175,7 @@ export default {
     },
 
     methods: {
-        adicionarEstante() {
+        async adicionarEstante() {
             const data = {
                 "obra": {
                     "id": this.idObra,
@@ -184,7 +184,7 @@ export default {
                 "estado": this.estado_selecionado
             }
             
-            api.getEstanteID(localStorage.getItem('idUsuario')).then(estante => {
+            api.getEstanteID(localStorage.getItem('idUsuario')).then(async estante => {
                 this.estante = estante;
                 let obraNaEstante = false;
                 let i;
@@ -194,10 +194,10 @@ export default {
                     }
                 }
                 if (!obraNaEstante){
-                    api.adicionarObraEstante(localStorage.getItem('token'), data)
+                    await api.adicionarObraEstante(localStorage.getItem('token'), data)
                 }
                 else{
-                    api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
+                    await api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
                 }
             }).then(() => {
                 this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
@@ -205,10 +205,9 @@ export default {
 
         },
 
-        removerDaEstante(){
-            api.removerObraEstante(localStorage.getItem('token'), this.idObra).then(() => {
-                this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
-            })
+        async removerDaEstante(){
+            await api.removerObraEstante(localStorage.getItem('token'), this.idObra)
+            this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
         }
     }
 };
