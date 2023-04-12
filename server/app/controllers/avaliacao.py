@@ -1,6 +1,7 @@
+from sqlalchemy.exc import IntegrityError
 from typing import List
 
-from core.exceptions import NotFoundException
+from core.exceptions import NotFoundException, BadRequestException
 from app.schemas import Avaliacao, AvaliacaoBase, Usuario
 from app.models import Avaliacao as ormAvaliacao
 
@@ -20,15 +21,17 @@ class ControladorAvaliacao:
         db_avaliacao = ormAvaliacao(
             usuario, avaliacao.nota, db_obra, avaliacao.resenha, 0)
 
-        self.session.add(db_avaliacao)
-        self.session.commit()
-        self.session.refresh(db_avaliacao)
+        try:
+            self.session.add(db_avaliacao)
+            self.session.commit()
 
-        return avaliacao
+        except IntegrityError:
+            raise BadRequestException(detail="Avaliação já existe")
+
+        return db_avaliacao
 
     def curtir(self, idUsuario: int, idObra: int,
                curtida: bool) -> Avaliacao:
-
         db_avaliacao = self.session.query(ormAvaliacao).filter(
             ormAvaliacao.id_usuario == idUsuario,
             ormAvaliacao.id_obra == idObra).first()
@@ -42,14 +45,13 @@ class ControladorAvaliacao:
             db_avaliacao.curtidas -= 1
 
         self.session.commit()
-        self.session.refresh(db_avaliacao)
 
         return db_avaliacao
 
-    def get_by_user(self, id: int) -> List[AvaliacaoBase]:
+    def get_by_user(self, id: int):
         user = self.user_ctrl.get(id)
         return user.avaliacoes
 
-    def get_by_obra(self, id: int) -> List[Avaliacao]:
+    def get_by_obra(self, id: int):
         obra = self.obra_ctrl.get(id)
         return obra.avaliacoes

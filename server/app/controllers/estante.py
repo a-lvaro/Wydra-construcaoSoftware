@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import List
 
-from sqlalchemy.exc import NoResultFound, IntegrityError
+from sqlalchemy.exc import IntegrityError
 
 from core.exceptions import NotFoundException, BadRequestException
 
-from app.models import ItemEstante
-from app.schemas import ItemEstante as schemaEstante, EstadoObra
+from app.models import ItemEstante as ormEstante
+from app.schemas import ItemEstante, EstadoObra
 
 from .obra import ControladorObra
 from .usuario import ControladorUsuario
@@ -18,44 +17,46 @@ class ControladorEstante:
         self.obra_ctrl = ControladorObra(self.session)
         self.user_ctrl = ControladorUsuario(self.session)
 
-    def get_by_user(self, idUsuario: int) -> List[schemaEstante]:
-        user = self.user_ctrl.get(idUsuario)
-        return user.estante
+    def get_by_user(self, idUsuario: int):
+        estante = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario).all()
 
-    def get_obra_user(self, idUsuario: int, idObra: int) -> schemaEstante:
-        try:
-            item = self.session.query(ItemEstante).filter(
-                ItemEstante.id_usuario == idUsuario,
-                ItemEstante.id_obra == idObra).one()
+        return estante
 
-            return item
-        except NoResultFound:
+    def get_obra_user(self, idUsuario: int, idObra: int):
+        item = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario,
+            ormEstante.id_obra == idObra).first()
+
+        if not item:
             raise NotFoundException(detail="Obra não existe na estante.")
 
-    def add(self, user: int, estante: schemaEstante) -> schemaEstante:
-        if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
+        return item
+
+    def add(self, user, item: ItemEstante):
+
+        if item.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
             data_fim = datetime.now()
         else:
             data_inicio = datetime.now()
             data_fim = None
 
-        db_obra = self.obra_ctrl.get(estante.obra.id)
-        db_estante = ItemEstante(user, db_obra, estante.estado,
-                                 data_inicio, data_fim)
+        db_obra = self.obra_ctrl.get(item.obra.id)
+        db_item = ormEstante(user, db_obra, item.estado,
+                             data_inicio, data_fim)
 
         try:
-            self.session.add(db_estante)
+            self.session.add(db_item)
             self.session.commit()
-            self.session.refresh(db_estante)
         except IntegrityError:
             raise BadRequestException(detail="Obra já existe na estante.")
 
-        return estante
+        return db_item
 
-    def remove_item(self, idUsuario: int, idObra: int) -> schemaEstante:
+    def remove_item(self, idUsuario: int, idObra: int):
         item = self.get_obra_user(idUsuario, idObra)
-        res = schemaEstante.from_orm(item)
+        res = ItemEstante.from_orm(item)
 
         self.session.delete(item)
         self.session.commit()
@@ -73,6 +74,5 @@ class ControladorEstante:
             obra.data_inicio = datetime.now()
 
         self.session.commit()
-        self.session.refresh(obra)
 
         return obra

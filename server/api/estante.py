@@ -3,7 +3,7 @@ from typing import List
 
 from core.database import get_session
 from app.controllers import ControladorEstante, ControladorAuth
-from app.schemas import ItemEstante, EstadoObra
+from app.schemas import ItemEstante, EstadoObra, ItemEstanteData
 
 estanteRouter = APIRouter(
     prefix="/estante"
@@ -12,14 +12,15 @@ estanteRouter = APIRouter(
 
 # add obra na estante
 @estanteRouter.post("/add")
-def add_item(access_token: str, estante: ItemEstante) -> ItemEstante:
+def add_item(access_token: str, item: ItemEstante) -> ItemEstanteData:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
         controlador_auth = ControladorAuth(db)
 
         user = controlador_auth.get_by_token(access_token)
+        item = controlador_estante.add(user, item)
 
-        return controlador_estante.add(user, estante)
+        return ItemEstanteData.from_orm(item)
 
 
 # remove obra da estante
@@ -30,33 +31,39 @@ def remove_item(token: str, idObra: int) -> ItemEstante:
         controlador_auth = ControladorAuth(db)
 
         user = controlador_auth.get_user(token)
+        item = controlador_estante.remove_item(user.id, idObra)
 
-        return controlador_estante.remove_item(user.id, idObra)
+        return item
 
 
 # altera estado da obra
-@estanteRouter.put("/alterar", response_model=ItemEstante)
+@estanteRouter.put("/alterar", response_model=ItemEstanteData)
 def update_item(access_token: str, idObra: int, estado: EstadoObra):
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
         controlador_auth = ControladorAuth(db)
 
         user = controlador_auth.get_by_token(access_token)
+        item = controlador_estante.update_item(user.id, idObra, estado)
 
-        return controlador_estante.update_item(user.id, idObra, estado)
+        return ItemEstanteData.from_orm(item)
 
 
 # get estante do usuario
 @estanteRouter.get("/{id}")
-def get_by_user(id: int) -> List[ItemEstante]:
+def get_by_user(id: int) -> List[ItemEstanteData]:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
-        return controlador_estante.get_by_user(id)
+        estante = controlador_estante.get_by_user(id)
+
+        return [ItemEstanteData.from_orm(item) for item in estante]
 
 
 # get obra do usuario
 @estanteRouter.get("/{id_user}/{id_obra}")
-def get_obra_user(id_user: int, id_obra: int) -> ItemEstante:
+def get_obra_user(id_user: int, id_obra: int) -> ItemEstanteData:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
-        return controlador_estante.get_obra_user(id_user, id_obra)
+        obra = controlador_estante.get_obra_user(id_user, id_obra)
+
+        return ItemEstanteData.from_orm(obra)
