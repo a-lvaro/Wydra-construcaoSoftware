@@ -66,15 +66,17 @@ class Avaliacao(Base):
     nota = Column("NOTA", Integer, nullable=True)
     resenha = Column("RESENHA", String(1000), nullable=True)
     data = Column("DATA", DateTime, nullable=False)
+    curtidas = Column("CURTIDA", Integer, nullable=True, default=0)
 
     id_usuario: Mapped[int] = mapped_column(
         ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
     usuario: Mapped["Usuario"] = relationship(back_populates="avaliacoes")
 
-    id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
+    id_obra: Mapped[int] = mapped_column(
+        ForeignKey("OBRA.ID_OBRA"), primary_key=True)
     obra: Mapped["Obra"] = relationship(back_populates="avaliacoes")
 
-    def __init__(self, usuario, nota, obra, resenha):
+    def __init__(self, usuario, nota, obra, resenha, curtida):
         self.usuario = usuario
         self.id_usuario = usuario.id
 
@@ -82,7 +84,7 @@ class Avaliacao(Base):
         self.id_obra = obra.id
         self.nota = nota
         self.resenha = resenha
-
+        self.curtida = curtida
         self.data = datetime.now()
 
 
@@ -94,7 +96,8 @@ class ItemEstante(Base):
 
     usuario: Mapped["Usuario"] = relationship(back_populates="estante")
 
-    id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
+    id_obra: Mapped[int] = mapped_column(
+        ForeignKey("OBRA.ID_OBRA"), primary_key=True)
     obra: Mapped["Obra"] = relationship()
 
     estado = Column('ESTADO', Integer, nullable=False)
@@ -107,19 +110,18 @@ class ItemEstante(Base):
 
         self.usuario = user
         self.id_usuario = user.id
-
         self.obra = obra
         self.id_obra = obra.id
-
         self.estado = estado
-
         self.data_inicio = data_inicio
         self.data_fim = data_fim
+
 
 class Obra(Base):
     __tablename__ = "OBRA"
 
-    id: Mapped[int] = mapped_column("ID_OBRA", primary_key=True)
+    id = Column("ID_OBRA", Integer, nullable=False,
+                primary_key=True, autoincrement=False)
     tipo = Column('TIPO_OBRA', Integer, nullable=False)
     nota = Column('MEDIA_NOTA', Float, nullable=False)
 
