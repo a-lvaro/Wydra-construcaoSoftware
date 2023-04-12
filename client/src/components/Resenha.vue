@@ -16,7 +16,7 @@
                             <label style = "font-size: large;" for="nota">Digite sua nota (1 a 5):</label>
                             <br>
                             <div class = "container-nota">
-                                <input required v-model="nota" type="number" id="nota" name="nota" min="0" max="10" step="1">
+                                <input required v-model="nota" type="number" id="nota" name="nota" min="1" max="5" step="1">
                                 <Botao class = "botao-resenha" texto="Publicar resenha" />
                             </div>
                         <br>
@@ -49,7 +49,7 @@ export default {
     },
 
     methods: {
-        publicarResenha(){
+        async publicarResenha(){
             const avaliacao = {
                 "nota": this.nota,
                 "resenha": this.resenha,
@@ -58,8 +58,8 @@ export default {
                     "tipo": 1
                 }
             }
-            api.publicarResenha(localStorage.getItem('token'), avaliacao) 
-            this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}}) 
+           await api.publicarResenha(localStorage.getItem('token'), avaliacao) 
+            this.$router.push({name:'obra', query: {dados: this.$route.query.dados}}) 
         }
     }
 }
