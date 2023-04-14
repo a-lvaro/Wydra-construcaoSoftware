@@ -16,7 +16,7 @@ class TipoObra(IntEnum):
 # Classe genérica para obra
 class Obra(BaseModel):
     id: int
-    tipo: TipoObra
+    tipo: TipoObra = TipoObra.filme
 
     class Config:
         orm_mode = True
