@@ -49,7 +49,7 @@ def login(login_user_request: UsuarioAuth) -> str:
 @userRouter.get(
     "/me",
     summary="Usuário Atual",
-    description="Retorna informações sobre o usuário portador do token",
+    description="Retorna informações sobre o usuário portador do token.",
     tags=[Tags.user],
 )
 def get_current_user(access_token: str) -> Usuario:
