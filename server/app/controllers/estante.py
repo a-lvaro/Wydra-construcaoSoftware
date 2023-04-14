@@ -42,7 +42,7 @@ class ControladorEstante:
             data_inicio = datetime.now()
             data_fim = None
 
-        db_obra = self.obra_ctrl.get(item.obra.id)
+        db_obra = self.obra_ctrl.get_or_create(item.obra.id)
         db_item = ormEstante(user, db_obra, item.estado,
                              data_inicio, data_fim)
 

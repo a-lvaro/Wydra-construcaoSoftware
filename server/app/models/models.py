@@ -128,7 +128,7 @@ class Obra(Base):
     avaliacoes: Mapped[Optional[List["Avaliacao"]]] = relationship(
         back_populates="obra")
 
-    def __init__(self, id, tipo):
+    def __init__(self, id, tipo, nota=0):
         self.id = id
         self.tipo = tipo
-        self.nota = 0
+        self.nota = nota

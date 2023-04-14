@@ -2,7 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from typing import List
 
 from core.exceptions import NotFoundException, BadRequestException
-from app.schemas import Avaliacao, AvaliacaoBase, Usuario
+from app.schemas import Avaliacao, AvaliacaoBase, Usuario, ObraNota
 from app.models import Avaliacao as ormAvaliacao
 
 from .usuario import ControladorUsuario
@@ -17,6 +17,14 @@ class ControladorAvaliacao:
 
     def create(self, usuario: Usuario, avaliacao: AvaliacaoBase) -> Avaliacao:
         db_obra = self.obra_ctrl.get(avaliacao.obra.id)
+
+        if db_obra:
+            # atualiza a nota da obra se ela existe
+            db_obra.nota = (db_obra.nota + avaliacao.nota) / 2
+        else:
+            # cria uma nova obra com a nota da avaliação
+            obra = ObraNota(id=avaliacao.obra.id, nota=avaliacao.nota)
+            db_obra = self.obra_ctrl.create(obra)
 
         db_avaliacao = ormAvaliacao(
             usuario, avaliacao.nota, db_obra, avaliacao.resenha, 0)
@@ -53,5 +61,6 @@ class ControladorAvaliacao:
         return user.avaliacoes
 
     def get_by_obra(self, id: int):
-        obra = self.obra_ctrl.get(id)
+        obra = self.obra_ctrl.get_or_create(id)
         return obra.avaliacoes
+

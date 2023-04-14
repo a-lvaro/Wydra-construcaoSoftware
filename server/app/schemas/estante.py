@@ -2,12 +2,12 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-from .obra import Obra, EstadoObra
+from .obra import ObraNota, EstadoObra
 
 
 # Item na estante referente a uma obra
 class ItemEstante(BaseModel):
-    obra: Obra
+    obra: ObraNota
     estado: EstadoObra
 
     class Config:
