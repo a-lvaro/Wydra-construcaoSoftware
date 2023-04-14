@@ -2,7 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from typing import List
 
 from core.exceptions import NotFoundException, BadRequestException
-from app.schemas import Avaliacao, AvaliacaoBase, Usuario, ObraNota
+from app.schemas import Avaliacao, AvaliacaoCreate, Usuario, ObraNota
 from app.models import Avaliacao as ormAvaliacao
 
 from .usuario import ControladorUsuario
@@ -15,7 +15,7 @@ class ControladorAvaliacao:
         self.user_ctrl = ControladorUsuario(session)
         self.obra_ctrl = ControladorObra(session)
 
-    def create(self, usuario: Usuario, avaliacao: AvaliacaoBase) -> Avaliacao:
+    def create(self, usuario: Usuario, avaliacao: AvaliacaoCreate) -> Avaliacao:
         db_obra = self.obra_ctrl.get(avaliacao.obra.id)
 
         if db_obra:
