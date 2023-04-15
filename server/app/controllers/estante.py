@@ -1,13 +1,15 @@
 from datetime import datetime
-from typing import List
 
-from sqlalchemy.orm.exc import NoResultFound
-from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 
-from app.models import ItemEstante
-from app.schemas import ItemEstante as schemaEstante, EstadoObra
+from core.exceptions import NotFoundException, BadRequestException
+
+from app.models import ItemEstante as ormEstante
+from app.schemas import ItemEstante, EstadoObra
+
 from .obra import ControladorObra
 from .usuario import ControladorUsuario
+
 
 class ControladorEstante:
     def __init__(self, session):
@@ -15,55 +17,54 @@ class ControladorEstante:
         self.obra_ctrl = ControladorObra(self.session)
         self.user_ctrl = ControladorUsuario(self.session)
 
-    def get_by_user(self, idUsuario: int) -> List[schemaEstante]:
-        user = self.user_ctrl.get(idUsuario)
-        return user.estante
-    
-    def getObraUsuario(self, idUsuario: int, idObra: int) -> schemaEstante:
-        try:
-            obraEstanteUsuario = self.session.query(ItemEstante).filter(
-                ItemEstante.id_usuario == idUsuario,
-                ItemEstante.id_obra == idObra).one()
+    def get_by_user(self, idUsuario: int):
+        estante = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario).all()
 
-            return obraEstanteUsuario
-        except NoResultFound:
-            raise HTTPException(status_code=404, detail="Item not found")
+        return estante
 
+    def get_obra_user(self, idUsuario: int, idObra: int):
+        item = self.session.query(ormEstante).filter(
+            ormEstante.id_usuario == idUsuario,
+            ormEstante.id_obra == idObra).first()
 
-    def add(self, user :int, estante: schemaEstante) -> schemaEstante:
-        if estante.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
+        if not item:
+            raise NotFoundException(detail="Obra não existe na estante.")
+
+        return item
+
+    def add(self, user, item: ItemEstante):
+
+        if item.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
             data_fim = datetime.now()
         else:
             data_inicio = datetime.now()
             data_fim = None
 
-        db_obra = self.obra_ctrl.get(estante.obra.id)
-        db_estante = ItemEstante(user, db_obra, estante.estado, 
-                                 data_inicio, data_fim)
+        db_obra = self.obra_ctrl.get_or_create(item.obra.id)
+        db_item = ormEstante(user, db_obra, item.estado,
+                             data_inicio, data_fim)
 
-        self.session.add(db_estante)
-        self.session.commit()
-        self.session.refresh(db_estante)
+        try:
+            self.session.add(db_item)
+            self.session.commit()
+        except IntegrityError:
+            raise BadRequestException(detail="Obra já existe na estante.")
 
-        return estante
+        return db_item
 
-    def remove_item(self, idUsuario :int, idObra :int) -> schemaEstante:
-        item = self.session.query(ItemEstante).filter(
-            ItemEstante.id_usuario == idUsuario,
-            ItemEstante.id_obra == idObra).first()
-
-        estante = schemaEstante.from_orm(item)
+    def remove_item(self, idUsuario: int, idObra: int):
+        item = self.get_obra_user(idUsuario, idObra)
+        res = ItemEstante.from_orm(item)
 
         self.session.delete(item)
         self.session.commit()
 
-        return estante
+        return res
 
-    def update_item(self, idUsuario :int, idObra :int, novoEstado :int):
-        obra = self.session.query(ItemEstante).filter(
-            ItemEstante.id_usuario == idUsuario, ItemEstante.id_obra == idObra
-        ).first()
+    def update_item(self, idUsuario: int, idObra: int, novoEstado: int):
+        obra = self.get_obra_user(idUsuario, idObra)
 
         obra.estado = novoEstado
 
@@ -73,6 +74,5 @@ class ControladorEstante:
             obra.data_inicio = datetime.now()
 
         self.session.commit()
-        self.session.refresh(obra)
 
         return obra

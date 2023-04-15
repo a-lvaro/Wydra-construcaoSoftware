@@ -1,24 +1,22 @@
-from core.exceptions import BadRequestException
+from core.exceptions import BadRequestException, NotFoundException
 from core.security import JWTHandler, PasswordHandler
 
 from app.schemas.usuario import Usuario, UsuarioCreate
-
 from app.controllers.usuario import ControladorUsuario
 
 
 class ControladorAuth(ControladorUsuario):
     def register(self, new_user: UsuarioCreate) -> Usuario:
         # Check if Usuario exists with nick
-        user = self.get_by_nick(new_user.nick)
 
-        if user:
-            raise BadRequestException("Já existe um usuário com esse nick.")
+        try:
+            user = self.get_by_nick(new_user.nick)
 
-        # Check if Usuario exists with nick
-        user = self.get_by_nick(new_user.nick)
-
-        if user:
-            raise BadRequestException("Já existe um usuário com esse nick.")
+            if user:
+                raise BadRequestException(
+                    "Já existe um usuário com esse nick.")
+        except NotFoundException:
+            pass
 
         new_user.senha = PasswordHandler.hash(new_user.senha)
 
@@ -26,9 +24,6 @@ class ControladorAuth(ControladorUsuario):
 
     def login(self, nick: str, senha: str) -> str:
         user = self.get_by_nick(nick)
-
-        if not user:
-            raise BadRequestException("Usuário não existe.")
 
         if not PasswordHandler.verify(user.senha, senha):
             raise BadRequestException("Senha incorreta.")
@@ -42,7 +37,7 @@ class ControladorAuth(ControladorUsuario):
 
         user = self.get(id)
         return user
-    
+
     def get_user(self, token: str) -> Usuario:
         payload = JWTHandler.decode(token)
         id = payload['usuario_id']

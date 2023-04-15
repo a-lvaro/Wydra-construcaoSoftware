@@ -5,6 +5,7 @@ import logging
 from api import userRouter
 from api import estanteRouter
 from api import avaliacaoRouter
+from api import obraRouter
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -21,6 +22,7 @@ wydra.add_middleware(
 wydra.include_router(userRouter)
 wydra.include_router(estanteRouter)
 wydra.include_router(avaliacaoRouter)
+wydra.include_router(obraRouter)
 
 
 @wydra.get("/")

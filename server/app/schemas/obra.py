@@ -1,5 +1,6 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from enum import IntEnum
+
 
 class EstadoObra(IntEnum):
     lista_de_desejos = 1
@@ -15,11 +16,15 @@ class TipoObra(IntEnum):
 # Classe genérica para obra
 class Obra(BaseModel):
     id: int
-    tipo: TipoObra
+    tipo: TipoObra = TipoObra.filme
 
     class Config:
         orm_mode = True
 
+
 # Classe para obra com nota
 class ObraNota(Obra):
     nota: float
+
+    class Config:
+        orm_mode = True
