@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from core.exceptions import NotFoundException, BadRequestException
 
 from app.models import ItemEstante as ormEstante
-from app.schemas import ItemEstante, EstadoObra
+from app.schemas import ItemEstante, EstadoObra, ObraNota
 
 from .obra import ControladorObra
 from .usuario import ControladorUsuario
@@ -42,7 +42,12 @@ class ControladorEstante:
             data_inicio = datetime.now()
             data_fim = None
 
-        db_obra = self.obra_ctrl.get_or_create(item.obra.id)
+        db_obra = self.obra_ctrl.get(item.obra.id)
+
+        if not db_obra:
+                obra = ObraNota(id=item.obra.id)
+                db_obra = self.obra_ctrl.create(obra)
+
         db_item = ormEstante(user, db_obra, item.estado,
                              data_inicio, data_fim)
 
