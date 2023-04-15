@@ -1,6 +1,5 @@
 from passlib.context import CryptContext
 
-
 class PasswordHandler:
     pwd_context = CryptContext(
         schemes=["bcrypt"],

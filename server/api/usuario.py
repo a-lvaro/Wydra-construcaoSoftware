@@ -6,7 +6,7 @@ from core.config import Tags
 from app.controllers import ControladorUsuario
 from app.controllers import ControladorAuth
 
-from app.schemas import UsuarioCreate, Usuario, UsuarioAuth, Perfil
+from app.schemas import UsuarioCreate, Usuario, UsuarioAuth
 
 from core.database import get_session
 
@@ -94,10 +94,10 @@ def get_user(nick: str) -> Usuario:
     description="Atualiza as informações visíveis no perfil do usuário portador do token.",
     tags=[Tags.user]
 )
-def edit_user(perfil: Perfil, access_token: str) -> Perfil:
+def edit_user(perfil: UsuarioCreate, access_token: str) -> Usuario:
     with get_session() as db:
         auth_controller = ControladorAuth(db)
         user = auth_controller.get_user(access_token)
-        user = auth_controller.edit(user.id, perfil)
+        user = auth_controller.edit(access_token, perfil)
 
-        return Perfil.from_orm(user)
+        return Usuario.from_orm(user)

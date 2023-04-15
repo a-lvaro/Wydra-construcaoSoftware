@@ -1,7 +1,7 @@
 from pydantic import EmailStr
 
 from core.exceptions import NotFoundException
-from app.schemas import Usuario, UsuarioCreate, Perfil
+from app.schemas import Usuario, UsuarioCreate
 from app.models import Usuario as ormUsuario
 
 
@@ -9,7 +9,7 @@ class ControladorUsuario:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id: int) -> Usuario:
+    def get(self, id: int) -> ormUsuario:
         user = self.session.query(ormUsuario).filter(
             ormUsuario.id == id).first()
 
@@ -47,7 +47,7 @@ class ControladorUsuario:
             ormUsuario.nome.contains(nome)).offset(skip).limit(limit).all()
         return user
 
-    def create(self, user: UsuarioCreate) -> Usuario:
+    def create(self, user: UsuarioCreate):
         db_user = ormUsuario(user.nick, user.nome, user.sobrenome,
                              user.email, user.senha, user.caminho_foto)
 
@@ -56,14 +56,19 @@ class ControladorUsuario:
 
         return db_user
 
-    def edit(self, id: int,  perfil: Perfil):
-        usuario = self.get(id)
+    def edit(self, db_usuario: ormUsuario,  perfil: UsuarioCreate):
+        db_usuario = self.get(id)
 
-        usuario.nome = perfil.nome
-        usuario.sobrenome = perfil.sobrenome
-        usuario.nick = perfil.nick
-        usuario.email = perfil.email
+        db_usuario.nome = perfil.nome
+        db_usuario.sobrenome = perfil.sobrenome
+        db_usuario.nick = perfil.nick
+        db_usuario.email = perfil.email
+        db_usuario.senha = perfil.senha
+        db_usuario.caminho_foto = perfil.caminho_foto
 
         self.session.commit()
 
-        return usuario
+        return db_usuario
+
+
+
