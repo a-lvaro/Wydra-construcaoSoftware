@@ -61,6 +61,6 @@ class ControladorAvaliacao:
         return user.avaliacoes
 
     def get_by_obra(self, id: int):
-        obra = self.obra_ctrl.get_or_create(id)
+        obra = self.obra_ctrl.get(id)
         return obra.avaliacoes
 
