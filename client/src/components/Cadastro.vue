@@ -1,62 +1,64 @@
 <template>
-    <Header />
-    <div class="cadastro">
-        <div class="container">
-            <div class="form-image">
-                <img src="join.svg" alt="cadastro">
-            </div>
-            <div class="formulario">
-                <form @submit.prevent="fazerCadastro">
-                    <div class="header-formulario">
-                        <div class="titulo">
-                            <h1>Cadastre-se</h1>
+    <div>
+        <Header />
+        <div class="cadastro">
+            <div class="container">
+                <div class="form-image">
+                    <img src="join.svg" alt="cadastro">
+                </div>
+                <div class="formulario">
+                    <form @submit.prevent="fazerCadastro">
+                        <div class="header-formulario">
+                            <div class="titulo">
+                                <h1>Cadastre-se</h1>
+                            </div>
+                            <div class="botao-entrar">
+                                <button>
+                                    <RouterLink v-on:click="login" to="/login">Fazer Login</RouterLink>
+                                </button>
+                            </div>
                         </div>
-                        <div class="botao-entrar">
-                            <button>
-                                <RouterLink v-on:click="login" to="/login">Fazer Login</RouterLink>
-                            </button>
+                        <div class="inputs">
+                            <div class="input-box">
+                                <label for="name">Nome </label>
+                                <input placeholder=" Digite seu nome" type="text" id="name" name="name" required v-model="nome">
+                            </div>
+    
+                            <div class="input-box">
+                                <label for="name">Sobrenome </label>
+                                <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required v-model="sobrenome">
+                            </div>
+    
+                            <div class="input-box">
+                                <label for="nickname">Apelido </label>
+                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" required
+                                    v-model="nickname">
+                            </div>
+    
+                            <div class="input-box">
+                                <label for="emailCadastro">Email </label>
+                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
+                                    required v-model="email">
+                            </div>
+    
+                            <div class="input-box">
+                                <label for="passwordCadastro">Senha </label>
+                                <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
+                                    name="passwordCadastro" required v-model="senha">
+                            </div>
+    
+                            <div class="input-box">
+                                <label for="confirmaSenha">Confirme sua Senha </label>
+                                <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
+                                    name="confirmaSenha" required v-model="confirmaSenha">
+                            </div>
                         </div>
-                    </div>
-                    <div class="inputs">
-                        <div class="input-box">
-                            <label for="name">Nome </label>
-                            <input placeholder=" Digite seu nome" type="text" id="name" name="name" required v-model="nome">
+    
+                        <div class="continue-button">
+                            <Botao texto="Continuar" />
                         </div>
-
-                        <div class="input-box">
-                            <label for="name">Sobrenome </label>
-                            <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required v-model="sobrenome">
-                        </div>
-
-                        <div class="input-box">
-                            <label for="nickname">Apelido </label>
-                            <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" required
-                                v-model="nickname">
-                        </div>
-
-                        <div class="input-box">
-                            <label for="emailCadastro">Email </label>
-                            <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
-                                required v-model="email">
-                        </div>
-
-                        <div class="input-box">
-                            <label for="passwordCadastro">Senha </label>
-                            <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
-                                name="passwordCadastro" required v-model="senha">
-                        </div>
-
-                        <div class="input-box">
-                            <label for="confirmaSenha">Confirme sua Senha </label>
-                            <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
-                                name="confirmaSenha" required v-model="confirmaSenha">
-                        </div>
-                    </div>
-
-                    <div class="continue-button">
-                        <Botao texto="Continuar" />
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
