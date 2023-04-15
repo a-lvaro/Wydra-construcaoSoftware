@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from app.controllers import ControladorAuth
 from app.controllers import ControladorAvaliacao
 
-from app.schemas import Avaliacao, AvaliacaoBase
+from app.schemas import Avaliacao, AvaliacaoCreate
 
 from core.database import get_session
 
@@ -15,7 +15,7 @@ avaliacaoRouter = APIRouter(
 
 # add avaliação
 @avaliacaoRouter.post("/add")
-def add_avaliacao(token: str, avaliacao: AvaliacaoBase) -> AvaliacaoBase:
+def add_avaliacao(token: str, avaliacao: AvaliacaoCreate) -> AvaliacaoCreate:
     with get_session() as db:
         controlador_avaliacao = ControladorAvaliacao(db)
         controlador_auth = ControladorAuth(db)
@@ -23,7 +23,7 @@ def add_avaliacao(token: str, avaliacao: AvaliacaoBase) -> AvaliacaoBase:
         user = controlador_auth.get_user(token)
         avaliacao = controlador_avaliacao.create(user, avaliacao)
 
-        return AvaliacaoBase.from_orm(avaliacao)
+        return AvaliacaoCreate.from_orm(avaliacao)
 
 
 # get avaliações do usuario

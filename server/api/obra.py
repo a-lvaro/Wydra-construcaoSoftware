@@ -1,8 +1,9 @@
 from typing import List
 from fastapi import APIRouter
 
-from app.controllers import ControladorObra
+from core.config import Tags
 
+from app.controllers import ControladorObra
 from app.schemas import ObraNota
 
 from core.database import get_session
@@ -11,7 +12,12 @@ obraRouter = APIRouter(
     prefix="/obra"
 )
 
-@obraRouter.get("/{id}")
+@obraRouter.get(
+    "/{id}",
+    summary="Obter Obra",
+    description="Obtem informações armazenadas sobre a obra.",
+    tags=[Tags.obra]
+)
 def get_obra(id: int) -> ObraNota:
     with get_session() as db:
         controlador_obra = ControladorObra(db)

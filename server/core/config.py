@@ -2,6 +2,12 @@ from enum import Enum
 
 from pydantic import BaseSettings
 
+class Tags(Enum):
+    user = "Usuário"
+    estante = "Estante"
+    avaliacao = "Avaliações"
+    obra = "Obras"
+    
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"
     PRODUCTION = "production"
@@ -21,3 +27,4 @@ class Config(BaseConfig):
     JWT_EXPIRE_MINUTES: int = 60
 
 config: Config = Config()
+

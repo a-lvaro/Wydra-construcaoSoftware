@@ -1,6 +1,8 @@
 from typing import List
 from fastapi import APIRouter
 
+from core.config import Tags
+
 from app.controllers import ControladorUsuario
 from app.controllers import ControladorAuth
 
@@ -12,8 +14,13 @@ userRouter = APIRouter(
     prefix="/user"
 )
 
-
-@userRouter.post("/signup", status_code=201, response_model=Usuario)
+@userRouter.post(
+    "/signup", 
+    response_model=Usuario,
+    summary="Cadastrar Usuário",
+    description="Cadastra um novo usuário.",
+    tags=[Tags.user]
+)
 def register(user: UsuarioCreate):
     with get_session() as db:
         auth_controller = ControladorAuth(db)
@@ -22,7 +29,12 @@ def register(user: UsuarioCreate):
         return Usuario.from_orm(user)
 
 
-@userRouter.post("/login")
+@userRouter.post(
+    "/login",
+    summary="Autenticar Usuário",
+    description="Obtem um token de autenticação para o usuário.",
+    tags=[Tags.user]
+)
 def login(login_user_request: UsuarioAuth) -> str:
     with get_session() as db:
         auth_controller = ControladorAuth(db)
@@ -34,7 +46,12 @@ def login(login_user_request: UsuarioAuth) -> str:
         return token
 
 
-@userRouter.get("/me")
+@userRouter.get(
+    "/me",
+    summary="Usuário Atual",
+    description="Retorna informações sobre o usuário portador do token",
+    tags=[Tags.user],
+)
 def get_current_user(access_token: str) -> Usuario:
     with get_session() as db:
         auth_controller = ControladorAuth(db)
@@ -43,7 +60,12 @@ def get_current_user(access_token: str) -> Usuario:
         return Usuario.from_orm(user)
 
 
-@userRouter.get("/search")
+@userRouter.get(
+    "/search",
+    summary="Pesquisar Usuário",
+    description="Pesquisa os usuários cujo nick contém a string `nick`",
+    tags=[Tags.user]
+)
 def search_user(nick: str) -> List[Usuario]:
     with get_session() as db:
         user_controller = ControladorUsuario(db)
@@ -52,7 +74,12 @@ def search_user(nick: str) -> List[Usuario]:
         return [Usuario.from_orm(user) for user in results]
 
 
-@userRouter.get("/{nick}")
+@userRouter.get(
+    "/{nick}",
+    summary="Perfil do Usuário",
+    description="Obtem infromações sobre o usuário com o nick `nick`.",
+    tags=[Tags.user]
+)
 def get_user(nick: str) -> Usuario:
     with get_session() as db:
         user_controller = ControladorUsuario(db)
@@ -61,7 +88,12 @@ def get_user(nick: str) -> Usuario:
         return Usuario.from_orm(user)
 
 
-@userRouter.put("/editar")
+@userRouter.put(
+    "/editar",
+    summary="Editar Perfil",
+    description="Atualiza as informações visíveis no perfil do usuário portador do token.",
+    tags=[Tags.user]
+)
 def edit_user(perfil: Perfil, access_token: str) -> Perfil:
     with get_session() as db:
         auth_controller = ControladorAuth(db)
