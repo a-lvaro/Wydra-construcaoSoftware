@@ -159,10 +159,7 @@ export default {
         this.getResenhas();
         window.scrollTo(0, this.top);
         api.getMediaObra(this.idObra).then(res => {
-            if (res.nota === 0){
-                this.media = 'Não avaliada'
-            }
-            else{
+            if (res.nota != 0){
                 this.media = res.nota
             }
         })
