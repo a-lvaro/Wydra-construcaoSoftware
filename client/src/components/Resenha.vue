@@ -55,7 +55,7 @@ export default {
                 "resenha": this.resenha,
                 "obra": {
                     "id": this.idObra,
-                    "tipo": 1
+                    "tipo": 1,
                 }
             }
            await api.publicarResenha(localStorage.getItem('token'), avaliacao) 

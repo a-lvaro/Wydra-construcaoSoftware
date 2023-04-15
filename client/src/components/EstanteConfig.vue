@@ -180,6 +180,7 @@ export default {
                 "obra": {
                     "id": this.idObra,
                     "tipo": 1,
+                    "nota": 0
                 },
                 "estado": this.estado_selecionado
             }

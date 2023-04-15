@@ -23,6 +23,9 @@
                             <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=false`" class="botao-estante">
                                 Adicionar à Estante</RouterLink>
                     </div>
+                    <div class="container-nota" style="margin-bottom: 5px">
+                        <h3>Nota: {{ media }}</h3>
+                    </div>
                     <div class="descricao-obra">
                         <h4>{{ descricao }}</h4>
                     </div>
@@ -142,7 +145,8 @@ export default {
             naEstante: false,
             estado: null,
             resenhas: null,
-            jaResenhada: false
+            jaResenhada: false,
+            media: 'Não avaliada',
         };
     },
     created() {
@@ -154,6 +158,14 @@ export default {
         this.jaNaEstante();
         this.getResenhas();
         window.scrollTo(0, this.top);
+        api.getMediaObra(this.idObra).then(res => {
+            if (res.nota === 0){
+                this.media = 'Não avaliada'
+            }
+            else{
+                this.media = res.nota
+            }
+        })
 
         api.getResenhasUsuario(localStorage.getItem('idUsuario')).then((res) => {
             res.forEach(resenha => {

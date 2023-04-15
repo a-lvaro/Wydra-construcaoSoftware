@@ -5,7 +5,7 @@
                 <div class="foto-obra">
                     <img :src="'https://image.tmdb.org/t/p/w500/' + poster" :alt="`poster ${titulo}`">
                 </div>
-                <h3> {{ titulo }} </h3>
+                <h4> {{ titulo }} </h4>
             </RouterLink>
             <div class="container-infos-post">
                 <RouterLink :to="retornaPerfil()" class="container-infos-usuario">
@@ -59,6 +59,8 @@
     align-items: center;
     text-decoration: none;
     color: #2C3E50;
+    max-width: min-content;
+    text-align: center;
 }
 
 .foto-obra img {

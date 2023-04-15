@@ -18,16 +18,20 @@ function getObraID(idUsuario, idObra) {
     return fetch(`http://127.0.0.1:8000/estante/${idUsuario}/${idObra}`).then((res) => res.json());
 }
 
-function getEstanteID(id) {
-    return fetch(`http://127.0.0.1:8000/estante/${id}`).then((res) => res.json());
+function getEstanteID(idUsuario) {
+    return fetch(`http://127.0.0.1:8000/estante/${idUsuario}`).then((res) => res.json());
 }
 
-function getResenhasUsuario(id) {
-    return fetch(`http://127.0.0.1:8000/avaliacao/user/${id}`).then((res) => res.json());
+function getResenhasUsuario(idUsuario) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/user/${idUsuario}`).then((res) => res.json());
 }
 
-function getResenhasObra(id) {
-    return fetch(`http://127.0.0.1:8000/avaliacao/obra/${id}`).then((res) => res.json());
+function getResenhasObra(idObra) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/obra/${idObra}`).then((res) => res.json());
+}
+
+function getMediaObra(idObra){
+    return fetch(`http://127.0.0.1:8000/obra/${idObra}`).then((res) => res.json());
 }
 
 function criarUsuario(data) {
@@ -112,5 +116,5 @@ function darLikeResenha(token, idUsuario, idObra) {
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
     adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha,
-    getResenhasUsuario, getResenhasObra, darLikeResenha 
+    getResenhasUsuario, getResenhasObra, darLikeResenha, getMediaObra
 };
