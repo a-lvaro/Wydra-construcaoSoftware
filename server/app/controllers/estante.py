@@ -45,7 +45,7 @@ class ControladorEstante:
         db_obra = self.obra_ctrl.get(item.obra.id)
 
         if not db_obra:
-                obra = ObraNota(id=avaliacao.obra.id)
+                obra = ObraNota(id=item.obra.id)
                 db_obra = self.obra_ctrl.create(obra)
 
         db_item = ormEstante(user, db_obra, item.estado,
