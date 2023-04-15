@@ -1,4 +1,4 @@
-from app.schemas import Obra, TipoObra
+from app.schemas import Obra, ObraNota, TipoObra
 from app.models import Obra as ormObra
 
 
@@ -6,9 +6,14 @@ class ControladorObra:
     def __init__(self, session):
         self.session = session
 
-    def get(self, id: int, tipo: TipoObra = TipoObra.filme) -> Obra:
+    def get(self, id: int):
         obra = self.session.query(ormObra).filter(
             ormObra.id == id).first()
+
+        return obra
+
+    def get_or_create(self, id: int, tipo: TipoObra = TipoObra.filme):
+        obra = self.get(id)
 
         # cria obra no banco de dados quando ela não existe ainda
         if not obra:
@@ -16,11 +21,9 @@ class ControladorObra:
 
         return obra
 
-    def create(self, obra: Obra):
-        db_obra = ormObra(obra.id, obra.tipo)
+    def create(self, obra: ObraNota):
+        db_obra = ormObra(id=obra.id, nota=obra.nota,  tipo=obra.tipo)
 
         self.session.add(db_obra)
-        self.session.commit()
-        self.session.refresh(db_obra)
 
         return db_obra

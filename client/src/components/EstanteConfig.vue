@@ -4,6 +4,10 @@
         <div class="retangulo-estante-config">
             <div class="foto-obra">
                 <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`poster ${titulo}`">
+                <div v-if="estadoAnterior === 1" class="estado-lista-desejos" />
+                <div v-else-if="estadoAnterior === 2" class="estado-em-progresso" />
+                <div v-else-if="estadoAnterior === 3" class="estado-finalizado" />
+                <div v-else-if="estadoAnterior === 4" class="estado-abandonado" />
             </div>
             <form class="retangulo-add-estante" @submit.prevent="adicionarEstante">
                 <RouterLink :to="`/obra?dados=${this.$route.query.dados}`" class="botao-voltar">{{'<'}} Voltar</RouterLink>
@@ -47,9 +51,36 @@
 
 .foto-obra {
     margin: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.foto-obra img {
     border: 1px solid;
     border-radius: 3px;
-    display: flex;
+    max-height: 350px;
+}
+
+.estado-lista-desejos, .estado-em-progresso, .estado-finalizado, .estado-abandonado {
+    height: 10px;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+.estado-lista-desejos{
+    background-color: rgb(245, 245, 65);
+}
+
+.estado-em-progresso{
+    background-color: rgb(90, 83, 228);
+}
+
+.estado-finalizado{
+    background-color: rgb(49, 157, 49);
+}
+
+.estado-abandonado{
+    background-color: rgb(248, 59, 59);
 }
 
 .foto-obra img {
@@ -110,9 +141,9 @@
 
 <script>
 export default {
-    props: ['dados', 'naEstante'],
+    props: ['dados', 'naEstante', 'estado'],
     setup: (props) => {
-        const { dados, naEstante } = props
+        const { dados, naEstante, estado } = props
     },
     data() {
         return {
@@ -122,6 +153,7 @@ export default {
             estado_selecionado: null,
             naEstante: null,
             idObra: null,
+            estadoAnterior: null,
             estante: [],
             estados: [
                 { id_estado: 1, nome: "Lista de Desejos" },
@@ -137,20 +169,23 @@ export default {
         this.idObra = dados.id;
         this.foto = dados.poster_path;
         this.naEstante = JSON.parse(decodeURIComponent(this.$route.query.naEstante));
+        if (this.naEstante){
+            this.estadoAnterior = JSON.parse(decodeURIComponent(this.$route.query.estado));
+        }
     },
 
     methods: {
-        adicionarEstante() {
+        async adicionarEstante() {
             const data = {
                 "obra": {
                     "id": this.idObra,
                     "tipo": 1,
+                    "nota": 0
                 },
                 "estado": this.estado_selecionado
             }
-            console.log(data)
             
-            api.getEstanteID(localStorage.getItem('idUsuario')).then(estante => {
+            api.getEstanteID(localStorage.getItem('idUsuario')).then(async estante => {
                 this.estante = estante;
                 let obraNaEstante = false;
                 let i;
@@ -160,21 +195,20 @@ export default {
                     }
                 }
                 if (!obraNaEstante){
-                    api.adicionarObraEstante(localStorage.getItem('token'), data)
+                    await api.adicionarObraEstante(localStorage.getItem('token'), data)
                 }
                 else{
-                    api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
+                    await api.alterarObraEstante(localStorage.getItem('token'), this.idObra, this.estado_selecionado)
                 }
-
-                this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
+            }).then(() => {
+                this.$router.push({name:'obra', query: {dados: this.$route.query.dados}})
             });
 
         },
 
-        removerDaEstante(){
-            api.removerObraEstante(localStorage.getItem('token'), this.idObra).then(() => {
-                this.$router.push({name:'obra', query: {dados: encodeURIComponent(this.$route.query.dados)}})
-            })
+        async removerDaEstante(){
+            await api.removerObraEstante(localStorage.getItem('token'), this.idObra)
+            this.$router.push({name:'obra', query: {dados: this.$route.query.dados}})
         }
     }
 };

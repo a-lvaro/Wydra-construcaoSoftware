@@ -15,11 +15,23 @@ function getUsuarioLogado(token) {
 }
 
 function getObraID(idUsuario, idObra) {
-    return fetch(`http://127.0.0.1:8000/estante/obraUsuario/${idUsuario}/${idObra}`).then((res) => res.json());
+    return fetch(`http://127.0.0.1:8000/estante/${idUsuario}/${idObra}`).then((res) => res.json());
 }
 
-function getEstanteID(id) {
-    return fetch(`http://127.0.0.1:8000/estante/${id}`).then((res) => res.json());
+function getEstanteID(idUsuario) {
+    return fetch(`http://127.0.0.1:8000/estante/${idUsuario}`).then((res) => res.json());
+}
+
+function getResenhasUsuario(idUsuario) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/user/${idUsuario}`).then((res) => res.json());
+}
+
+function getResenhasObra(idObra) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/obra/${idObra}`).then((res) => res.json());
+}
+
+function getMediaObra(idObra){
+    return fetch(`http://127.0.0.1:8000/obra/${idObra}`).then((res) => res.json());
 }
 
 function criarUsuario(data) {
@@ -89,48 +101,31 @@ function removerObraEstante(token, idObra) {
         .then((res) => res.json());
 }
 
-// function getProductsById(id) {
-//     return fetch(`http://localhost:3333/products/${id}`).then((res) => res.json());
-// }
+function publicarResenha(token, data) {
+    return fetch(`http://localhost:8000/avaliacao/add?token=${token}`, {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+        .then((res) => res.json());
+}
 
-// function getProductsPetshop(id) {
-//     return fetch(`http://localhost:3333/products/petshop/${id}`).then((res) => res.json());
-// }
-
-// function createProducts(newProduct) {
-//     return fetch('http://localhost:3333/products', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(newProduct),
-//     })
-//         .then((res) => res.json());
-// }
-
-// function removeProducts(id) {
-//     return fetch(`http://localhost:3333/products/${id}`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         }
-//     })
-//         .then((res) => res.json())
-//         .catch((err) => console.log(err));
-// }
-
-// function editProducts(products, id) {
-//     return fetch(`http://localhost:3333/products/${id}`, {
-//         method: 'PATCH',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(products)
-//     })
-//         .then((resp) => resp.json());
-// }
+function darLikeResenha(token, idUsuario, idObra) {
+    return fetch(`http://127.0.0.1:8000/avaliacao/curtir?token=${token}&idUsuario=${idUsuario}&idObra=${idObra}&curtir=true`, {
+        method: 'POST',
+        headers: {
+            'accept': 'application/json'
+        },
+        body: JSON.stringify(''),
+    })
+        .then((res) => res.json());
+}
 
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
-    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante
+    adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha,
+    getResenhasUsuario, getResenhasObra, darLikeResenha, getMediaObra
 };

@@ -1,8 +1,9 @@
 # Wydra API
 ## TO-DO
 
-- [ ] Exception handling
 - [ ] Melhorar autenticação
+- [ ] Testes
+- [ ] Documentação
 
 ## Running
 

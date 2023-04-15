@@ -7,15 +7,16 @@
             </div>
             <div >
                 <div >
+                    <RouterLink :to="`/obra?dados=${this.$route.query.dados}`" class="botao-voltar">{{'<'}} Voltar</RouterLink>
+                    <br>
                     <label  for="resenha" style="font-size: large;">Digite sua resenha: (opcional)</label>
                         <br>
-                            <textarea minlength="100" maxlength="1000" v-model="resenha" style="font-size: medium;" class = "campo" id="resenha" name="resenha" rows="14" cols="60"></textarea>
-                            <!-- A tag <textarea> cria um campo de entrada de texto multilinha -->
+                            <textarea minlength="100" maxlength="1000" v-model="resenha" style="font-size: medium; padding: 5px;" class = "campo" id="resenha" name="resenha" rows="10" cols="60"></textarea>
                             <br>
-                            <label style = "font-size: large;" for="nota">Digite sua nota (0 a 5):</label>
+                            <label style = "font-size: large;" for="nota">Digite sua nota (1 a 5):</label>
                             <br>
                             <div class = "container-nota">
-                                <input required v-model="nota" type="number" id="nota" name="nota" min="0" max="10" step="1">
+                                <input required v-model="nota" type="number" id="nota" name="nota" min="1" max="5" step="1">
                                 <Botao class = "botao-resenha" texto="Publicar resenha" />
                             </div>
                         <br>
@@ -48,16 +49,17 @@ export default {
     },
 
     methods: {
-        publicarResenha(){
-            const info ={
-                        "nota": this.nota,
-                        "resenha": this.resenha,
-                        "obra": {
-                            "id": this.idObra,
-                            "tipo": 1
-                        }
-                        }
-                console.log(info)
+        async publicarResenha(){
+            const avaliacao = {
+                "nota": this.nota,
+                "resenha": this.resenha,
+                "obra": {
+                    "id": this.idObra,
+                    "tipo": 1,
+                }
+            }
+           await api.publicarResenha(localStorage.getItem('token'), avaliacao) 
+            this.$router.push({name:'obra', query: {dados: this.$route.query.dados}}) 
         }
     }
 }
@@ -76,6 +78,19 @@ export default {
     display: flex;
     align-items: center;
     overflow-x: auto;
+}
+
+.botao-voltar{
+    margin-bottom: 20px;
+    width: 90px;
+    padding: 5px;
+    text-decoration: none;
+    color: rgb(34, 84, 176);
+    font-size: large;
+}
+
+.botao-voltar:hover{
+    color: rgb(40, 112, 245);
 }
 
 #nota{
@@ -114,6 +129,7 @@ export default {
 </style>
 
 <script setup>
+    import api from '../../services/api';
     import Header from './Header.vue';
     import Botao from './Botao.vue';
 </script>
