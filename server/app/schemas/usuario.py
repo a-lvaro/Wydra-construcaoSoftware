@@ -1,20 +1,33 @@
+from fastapi import File
 from pydantic import BaseModel, constr, validator
 from pydantic import EmailStr
-from typing import Optional
-
+from typing import Optional, Annotated
 
 class UsuarioBase(BaseModel):
     nome: str
     sobrenome: str
-    nick: constr(min_length=3, max_length=64)
-    caminho_foto: Optional[str]
-
-
-# Classe Usuário para cadastro e editar perfil
-class UsuarioCreate(UsuarioBase):
     email: EmailStr
+
+    class Config:
+        orm_mode = True
+
+# Classe Usuário para cadastro
+class UsuarioCreate(UsuarioBase):
+    nick: constr(min_length=3, max_length=64)
+
     senha: constr(min_length=8, max_length=64)
     senha_confirma: constr(min_length=8, max_length=64)
+
+    foto: Optional[Annotated[bytes, File()]]
+    foto_ext: Optional[str] # tipo do arquivo ("jpg", "png")
+
+# Classe Usuário para editar perfil
+class UsuarioUpdate(UsuarioBase):
+    senha: Optional[constr(min_length=8, max_length=64)]
+    senha_confirma: Optional[constr(min_length=8, max_length=64)]
+
+    foto: Optional[Annotated[bytes, File()]]
+    foto_ext: Optional[str] # tipo do arquivo ("jpg", "png")
 
 
 # Retorna o número de seguidores da entidade
@@ -30,6 +43,9 @@ def get_len(arg):
 
 # Classe Usuário para respostas
 class Usuario(UsuarioBase):
+    nick: constr(min_length=3, max_length=64)
+
+    caminho_foto: str
     id: int
 
     seguidores: Optional[int]

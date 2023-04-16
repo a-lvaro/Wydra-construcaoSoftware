@@ -1,7 +1,9 @@
 from pydantic import EmailStr
+from pathlib import Path
+import codecs
 
 from core.exceptions import NotFoundException
-from app.schemas import Usuario, UsuarioCreate
+from app.schemas import Usuario, UsuarioCreate, UsuarioUpdate
 from app.models import Usuario as ormUsuario
 
 
@@ -47,24 +49,34 @@ class ControladorUsuario:
             ormUsuario.nome.contains(nome)).offset(skip).limit(limit).all()
         return user
 
+    def update_photo(self, user: ormUsuario, foto, ext):
+        if not foto:
+            user.caminho_foto = "static/default.jpg"
+        else:
+            user.caminho_foto = f"static/profile/{user.nick}.{ext}"
+            Path(user.caminho_foto).write_bytes(codecs.decode(foto, "base64"))
+
     def create(self, user: UsuarioCreate):
+
         db_user = ormUsuario(user.nick, user.nome, user.sobrenome,
-                             user.email, user.senha, user.caminho_foto)
+                             user.email, user.senha)
+
+        self.update_photo(db_user, user.foto, user.foto_ext)
 
         self.session.add(db_user)
         self.session.commit()
 
         return db_user
 
-    def edit(self, db_usuario: ormUsuario,  perfil: UsuarioCreate):
-        db_usuario = self.get(id)
-
+    def edit(self, db_usuario: ormUsuario,  perfil:  UsuarioUpdate):
         db_usuario.nome = perfil.nome
         db_usuario.sobrenome = perfil.sobrenome
-        db_usuario.nick = perfil.nick
         db_usuario.email = perfil.email
-        db_usuario.senha = perfil.senha
-        db_usuario.caminho_foto = perfil.caminho_foto
+
+        if perfil.senha:
+            db_usuario.senha = perfil.senha
+
+        self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)
 
         self.session.commit()
 
