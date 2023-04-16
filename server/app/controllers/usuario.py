@@ -69,13 +69,12 @@ class ControladorUsuario:
         return db_user
 
     def edit(self, db_usuario: ormUsuario,  perfil:  UsuarioUpdate):
-
-        db_usuario = self.get(id)
-
         db_usuario.nome = perfil.nome
         db_usuario.sobrenome = perfil.sobrenome
         db_usuario.email = perfil.email
-        db_usuario.senha = perfil.senha
+
+        if perfil.senha:
+            db_usuario.senha = perfil.senha
 
         self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)
 

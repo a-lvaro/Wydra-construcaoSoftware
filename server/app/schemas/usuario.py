@@ -24,8 +24,8 @@ class UsuarioCreate(UsuarioBase):
 # Classe Usuário para editar perfil
 
 class UsuarioUpdate(UsuarioBase):
-    senha: constr(min_length=8, max_length=64)
-    senha_confirma: constr(min_length=8, max_length=64)
+    senha: Optional[constr(min_length=8, max_length=64)]
+    senha_confirma: Optional[constr(min_length=8, max_length=64)]
 
     foto: Optional[Annotated[bytes, File()]]
     foto_ext: Optional[str] # tipo do arquivo ("jpg", "png")

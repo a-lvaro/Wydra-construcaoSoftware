@@ -23,15 +23,6 @@ class ControladorEstante:
 
         return estante
 
-    def get_obra_user(self, idUsuario: int, idObra: int):
-        item = self.session.query(ormEstante).filter(
-            ormEstante.id_usuario == idUsuario,
-            ormEstante.id_obra == idObra).first()
-
-        if not item:
-            raise NotFoundException(detail="Obra não existe na estante.")
-
-        return item
 
     def add(self, user, item: ItemEstanteCreate):
 

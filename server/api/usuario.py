@@ -6,7 +6,7 @@ from core.config import Tags
 from app.controllers import ControladorUsuario
 from app.controllers import ControladorAuth
 
-from app.schemas import UsuarioCreate, Usuario, UsuarioAuth
+from app.schemas import UsuarioCreate, Usuario, UsuarioAuth, UsuarioUpdate
 
 from core.database import get_session
 
@@ -18,7 +18,7 @@ userRouter = APIRouter(
     "/signup", 
     response_model=Usuario,
     summary="Cadastrar Usuário",
-    description="Cadastra um novo usuário.",
+    description="Cadastra um novo usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64.",
     tags=[Tags.user]
 )
 def register(user: UsuarioCreate):
@@ -91,10 +91,10 @@ def get_user(nick: str) -> Usuario:
 @userRouter.put(
     "/editar",
     summary="Editar Perfil",
-    description="Atualiza as informações visíveis no perfil do usuário portador do token.",
+    description="Atualiza as informações visíveis no perfil do usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64.",
     tags=[Tags.user]
 )
-def edit_user(perfil: UsuarioCreate, access_token: str) -> Usuario:
+def edit_user(perfil: UsuarioUpdate, access_token: str) -> Usuario:
     with get_session() as db:
         auth_controller = ControladorAuth(db)
         user = auth_controller.get_user(access_token)
