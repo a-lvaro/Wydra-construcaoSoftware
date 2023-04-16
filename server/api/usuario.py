@@ -18,7 +18,7 @@ userRouter = APIRouter(
     "/signup", 
     response_model=Usuario,
     summary="Cadastrar Usuário",
-    description="Cadastra um novo usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64.",
+    description="Cadastra um novo usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64. Caso o usuário opte por não escolher uma foto, o atributo deve ser nulo.",
     tags=[Tags.user]
 )
 def register(user: UsuarioCreate):
@@ -91,7 +91,7 @@ def get_user(nick: str) -> Usuario:
 @userRouter.put(
     "/editar",
     summary="Editar Perfil",
-    description="Atualiza as informações visíveis no perfil do usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64.",
+    description="Atualiza as informações visíveis no perfil do usuário. O atributo `foto` deve ser a string resultante de um arquivo em bytes codificado em base64. Caso o usuário opte por não escolher uma foto, o atributo deve ser nulo.",
     tags=[Tags.user]
 )
 def edit_user(perfil: UsuarioUpdate, access_token: str) -> Usuario:
