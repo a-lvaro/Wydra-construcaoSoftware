@@ -52,6 +52,11 @@
                                 <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
                                     name="confirmaSenha" required v-model="confirmaSenha">
                             </div>
+
+                            <div class="input-box">
+                                <label for="foto">Foto de Perfil </label>
+                                 <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                            </div>
                         </div>
     
                         <div class="continue-button">
@@ -235,7 +240,8 @@ export default {
             nickname: "",
             email: "",
             senha: "",
-            confirmaSenha: ""
+            confirmaSenha: "",
+            caminhoFoto: null
         }
     },
 
@@ -245,10 +251,12 @@ export default {
             {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
-                nick: this.nickname,
                 email: this.email,
+                nick: this.nickname,
                 senha: this.senha,
-                senha_confirma: this.confirmaSenha
+                senha_confirma: this.confirmaSenha,
+                foto: this.caminhoFoto,
+                foto_ext: "jpeg"
             }
 
             api.criarUsuario(data);
@@ -257,8 +265,22 @@ export default {
         login(){
             this.$router.push({name:'login'})
         },
-    },
-}
+        pickFile(e){
+            const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.previewImage = e.target.result;
+                    const posicaoVirgula = this.previewImage.indexOf(",");
+                    const novaStr = this.previewImage.slice(posicaoVirgula + 1);
+                    this.caminhoFoto = novaStr;
+                    console.log(this.previewImage)
+                    console.log(this.caminhoFoto)
+                };
+            }
+        }
+    }
+
 </script>
 
 <script setup>

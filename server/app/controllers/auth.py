@@ -3,29 +3,24 @@ from sqlalchemy.exc import DBAPIError
 from core.exceptions import BadRequestException, NotFoundException
 from core.security import JWTHandler, PasswordHandler
 
-from app.schemas.usuario import Usuario, UsuarioCreate
+from app.schemas.usuario import Usuario, UsuarioCreate, UsuarioUpdate
 from app.models import Usuario as ormUsuario
 from app.controllers.usuario import ControladorUsuario
 
 
 class ControladorAuth(ControladorUsuario):
-    def register(self, new_user: UsuarioCreate) -> ormUsuario:
-        try:
-            user = self.get_by_nick(new_user.nick)
-
-            if user:
-                raise BadRequestException(
-                    "Já existe um usuário com esse nick.")
-        except NotFoundException:
-            pass
-
+    def register(self, new_user: UsuarioUpdate) -> ormUsuario:
         if new_user.senha != new_user.senha_confirma:
             raise BadRequestException(detail="As senhas não batem.")
         
-        
         new_user.senha = PasswordHandler.hash(new_user.senha)
 
-        return self.create(new_user)
+        try:
+            db_user = self.create(new_user)
+        except DBAPIError:
+            raise BadRequestException(detail="Já existe um usuário com esse nick ou email.")
+
+        return db_user
 
     def login(self, nick: str, senha: str) -> str:
         user = self.get_by_nick(nick)
@@ -55,11 +50,8 @@ class ControladorAuth(ControladorUsuario):
 
         if perfil.senha != perfil.senha_confirma:
             raise BadRequestException(detail="As senhas não batem.")
-
-        try:
-            super().edit(user, perfil)
-        except DBAPIError:
-            raise BadRequestException(detail="Já existe um usuário com esse nick ou email.")
+        
+        super().edit(user, perfil)
 
         return user
         

@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from typing import List
 
 from core.database import get_session
+from core.config import Tags
+
 from app.controllers import ControladorEstante, ControladorAuth
 from app.schemas import ItemEstante, EstadoObra, ItemEstanteCreate
 
@@ -9,9 +11,11 @@ estanteRouter = APIRouter(
     prefix="/estante"
 )
 
-
-# add obra na estante
-@estanteRouter.post("/add")
+@estanteRouter.post(
+    "/add",
+    summary="Adicionar Obra na Estante",
+    description="Adiciona uma obra na estante do usuário.",
+    tags=[Tags.estante])
 def add_item(access_token: str, item: ItemEstanteCreate) -> ItemEstante:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
@@ -22,9 +26,11 @@ def add_item(access_token: str, item: ItemEstanteCreate) -> ItemEstante:
 
         return ItemEstante.from_orm(item)
 
-
-# remove obra da estante
-@estanteRouter.delete("/remover")
+@estanteRouter.delete(
+    "/remover",
+    summary="Remover Obra da Estante",
+    description="Remove a obra de id `obra.id` da estante do usuário.",
+    tags=[Tags.estante])
 def remove_item(token: str, idObra: int) -> ItemEstante:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
@@ -35,9 +41,20 @@ def remove_item(token: str, idObra: int) -> ItemEstante:
 
         return item
 
-
-# altera estado da obra
-@estanteRouter.put("/alterar", response_model=ItemEstante)
+@estanteRouter.put(
+    "/alterar", 
+    response_model=ItemEstante,
+    summary="Alterar Estado de uma Obra na Estante",
+    description="""
+Altera o estado da obra `obra.id`. O parâmetro `estado` é um enum com os seguintes valores:
+|Estado|Valor|
+|------|-----|
+|Lista de Desejos|1|
+|Em progresso|2|
+|Finalizada|3|
+|Abandonada|4|
+""",
+    tags=[Tags.estante])
 def update_item(access_token: str, idObra: int, estado: EstadoObra):
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
@@ -49,8 +66,11 @@ def update_item(access_token: str, idObra: int, estado: EstadoObra):
         return ItemEstante.from_orm(item)
 
 
-# get estante do usuario
-@estanteRouter.get("/{id}")
+@estanteRouter.get(
+    "/{id}",
+    summary="Obter estante do usuário",
+    description="Obtem uma lista de todas as obras na estante do usuário identificado por `id`.",
+    tags=[Tags.estante])
 def get_by_user(id: int) -> List[ItemEstante]:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)
@@ -58,9 +78,12 @@ def get_by_user(id: int) -> List[ItemEstante]:
 
         return [ItemEstante.from_orm(item) for item in estante]
 
-
-# get obra do usuario
-@estanteRouter.get("/{id_user}/{id_obra}")
+@estanteRouter.get(
+    "/{id_user}/{id_obra}",
+    summary="Obra obra da estante",
+    description="Obtem uma obra de id `id_obra` da estante do usuário `id_user",
+    tags=[Tags.estante]
+    )
 def get_obra_user(id_user: int, id_obra: int) -> ItemEstante:
     with get_session() as db:
         controlador_estante = ControladorEstante(db)

@@ -8,8 +8,9 @@
             <div class="container-infos-perfil">
                 <div class="nome-usuario">
                     <h1> {{ nome }} </h1>
-                    <div v-if= "usuarioLogado">
+                    <div v-if= "checarUsuarioLogado">
                         <RouterLink class="botao-alterar" to="/editarCadastro"> editar informações </RouterLink>
+                        <!-- <textarea name="" id="" cols="30" rows="10" v-on:click="mudar">aaa</textarea> -->
                     </div>
                 </div>
                 <div class="nick-usuario">
@@ -108,11 +109,13 @@ props: ['dados'],
     this.usuario = dados;
     this.nome = dados.nome + ' ' + dados.sobrenome;
     this.nick = dados.nick;
-    this.foto = dados.caminho_foto;
+    this.foto = 'http://127.0.0.1:8000/' + dados.caminho_foto;
     this.idUsuario = dados.id
     this.getResenhas()
     this.checarUsuarioLogado();
     window.scrollTo(0, this.top);
+    this.checarUsuarioLogado();
+    console.log(dados.caminho_foto)
   },
 
   methods: {
@@ -122,10 +125,10 @@ props: ['dados'],
         })
     },
     checarUsuarioLogado(){
-        if (localStorage.getItem("idUsuario") == this.idUsuario){
+        if (localStorage.getItem("idUsuario") === this.idUsuario){
             this.usuarioLogado = true;
         }
-    }
+    },
   }
 }
 </script>

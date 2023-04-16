@@ -3,17 +3,11 @@
         <Header />
         <div class="cadastro">
             <div class="container">
-                
                 <div class="formulario">
-                    <form @submit.prevent="">
+                    <form @submit.prevent="editarInformacoes">
                         <div class="header-formulario">
                             <div class="titulo">
                                 <h1>Editar Cadastro</h1>
-                                <div style="margin-top: 20px;" class="input-box">
-                                <label for="emailCadastro">Email </label>
-                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
-                                    required v-model="email">
-                            </div>
                             </div>
                             
                         </div>
@@ -27,11 +21,17 @@
                                 <label for="name">Sobrenome </label>
                                 <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name"  v-model="sobrenome">
                             </div>
-            
+
+                            <div class="input-box">
+                                <label for="emailCadastro">Email </label>
+                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
+                                    required v-model="email">
+                            </div>
+
                             <div class="input-box">
                                 <label for="nickname">Apelido </label>
                                 <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" 
-                                    v-model="nickname">
+                                    v-model="nick">
                             </div>
                             
                             <div class="input-box">
@@ -48,7 +48,7 @@
                         </div>
     
                         <div class="continue-button">
-                            <Botao v-on:click="printar" texto="Continuar" />
+                            <Botao texto="Continuar" />
                         </div>
                     </form>
                 </div>
@@ -196,29 +196,46 @@
 <script>
 export default {
     name: "EditarCadastro",
-    data() {
+    data() {     
+        return {
+                nome: null,
+                sobrenome:null,
+                nick: null,
+                caminhoFoto: "",
+                senha: null,
+                confirmaSenha: "",
+                usuario: null,
+            }
+        },
+        
+    created(){
         api.getUsuarioLogado(localStorage.getItem('token'))
-            .then((res)=> {
-                const dados = res;
-                console.log(dados);
-            })
-        // return {
-        //     nome: dados.nome,
-        //     sobrenome: dados.sobrenome,
-        //     senha: '',
-        //     confirmaSenha: ''
-        // }
+        .then((res)=> {
+            const dados = res;
+            this.nome = dados.nome,
+            this.sobrenome= dados.sobrenome,
+            this.nick = dados.nick,
+            this.caminhoFoto = dados.caminho_foto,
+            this.email = dados.email
+            // this.senha = dados.senha,
+            // this.confirmaSenha =  dados.senha_confirma,
+            this.usuario = res
+        })
     },
-    
+
     methods: {
         editarInformacoes(){
             const data = {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
-                email: this.email
+                nick: this.nick,
+                caminho_foto: "",
+                email: this.email,
+                senha: this.senha,
+                senha_confirma: this.confirmaSenha
             }
             api.editarCadastro(data, localStorage.getItem('token'));
-            this.$router.push('/perfil');
+            this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
         },
         
     },
