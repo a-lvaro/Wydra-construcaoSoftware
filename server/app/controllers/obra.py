@@ -13,7 +13,7 @@ class ControladorObra:
         return obra
 
     def create(self, obra: ObraNota) -> ormObra:
-        db_obra = ormObra(id=obra.id, nota=obra.nota,  tipo=obra.tipo)
+        db_obra = ormObra(obra.id, obra.tipo, obra.nota)
 
         self.session.add(db_obra)
 

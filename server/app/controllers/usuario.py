@@ -1,8 +1,9 @@
 from pydantic import EmailStr
 from pathlib import Path
+import binascii
 import codecs
 
-from core.exceptions import NotFoundException
+from core.exceptions import NotFoundException, BadRequestException
 from app.schemas import Usuario, UsuarioCreate, UsuarioUpdate
 from app.models import Usuario as ormUsuario
 
@@ -53,8 +54,11 @@ class ControladorUsuario:
         if not foto:
             user.caminho_foto = "static/default.jpg"
         else:
-            user.caminho_foto = f"static/profile/{user.nick}.{ext}"
-            Path(user.caminho_foto).write_bytes(codecs.decode(foto, "base64"))
+            try:
+                user.caminho_foto = f"static/profile/{user.nick}.{ext}"
+                Path(user.caminho_foto).write_bytes(codecs.decode(foto, "base64"))
+            except binascii.Error:
+                raise BadRequestException(detail="Imagem inválida. O arquivo precisa ser criptogafado em Base64.")
 
     def create(self, user: UsuarioCreate):
 
@@ -69,11 +73,19 @@ class ControladorUsuario:
         return db_user
 
     def edit(self, db_usuario: ormUsuario,  perfil:  UsuarioUpdate):
-        db_usuario.nome = perfil.nome
-        db_usuario.sobrenome = perfil.sobrenome
-        db_usuario.email = perfil.email
+        if perfil.nome:
+            db_usuario.nome = perfil.nome
+
+        if perfil.sobrenome:
+            db_usuario.sobrenome = perfil.sobrenome
+
+        if perfil.email:
+            db_usuario.email = perfil.email
 
         if perfil.senha:
+            if perfil.senha != perfil.senha_confirma:
+                raise BadRequestException(detail="As senhas não batem.")
+                
             db_usuario.senha = perfil.senha
 
         self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)

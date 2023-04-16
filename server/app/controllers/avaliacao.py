@@ -20,7 +20,10 @@ class ControladorAvaliacao:
 
         if db_obra:
             # atualiza a nota da obra se ela existe
-            db_obra.nota = (db_obra.nota + avaliacao.nota) / 2
+            total = 0
+            for a in db_obra.avaliacoes:
+                total += a.nota
+            db_obra.nota = (total + avaliacao.nota) / (len(db_obra.avaliacoes) + 1)
         else:
             # cria uma nova obra com a nota da avaliação
             obra = ObraNota(id=avaliacao.obra.id, nota=avaliacao.nota)
