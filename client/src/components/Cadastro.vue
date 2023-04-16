@@ -55,7 +55,7 @@
 
                             <div class="input-box">
                                 <label for="foto">Foto de Perfil </label>
-                                 <input required ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                                 <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
                             </div>
                         </div>
     
@@ -251,11 +251,12 @@ export default {
             {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
-                nick: this.nickname,
                 email: this.email,
+                nick: this.nickname,
                 senha: this.senha,
                 senha_confirma: this.confirmaSenha,
-                caminhoFoto: this.caminhoFoto
+                foto: this.caminhoFoto,
+                foto_ext: "jpeg"
             }
 
             api.criarUsuario(data);
@@ -270,7 +271,11 @@ export default {
                 reader.readAsDataURL(image);
                 reader.onload = e =>{
                     this.previewImage = e.target.result;
-                    console.log(this.previewImage);
+                    const posicaoVirgula = this.previewImage.indexOf(",");
+                    const novaStr = this.previewImage.slice(posicaoVirgula + 1);
+                    this.caminhoFoto = novaStr;
+                    console.log(this.previewImage)
+                    console.log(this.caminhoFoto)
                 };
             }
         }

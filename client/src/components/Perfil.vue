@@ -109,11 +109,12 @@ props: ['dados'],
     this.usuario = dados;
     this.nome = dados.nome + ' ' + dados.sobrenome;
     this.nick = dados.nick;
-    this.foto = dados.caminho_foto;
+    this.foto = 'http://127.0.0.1:8000/' + dados.caminho_foto;
     this.idUsuario = dados.id
     this.getResenhas()
     window.scrollTo(0, this.top);
     this.checarUsuarioLogado();
+    console.log(dados.caminho_foto)
   },
 
   methods: {

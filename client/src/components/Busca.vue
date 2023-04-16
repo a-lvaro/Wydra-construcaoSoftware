@@ -35,7 +35,7 @@
                         :imagem="'https://image.tmdb.org/t/p/w500/' + item.poster_path" />
                 </div>
                 <div v-for="(item, index) in resultados_usuario" :key="index" class="container-resultado">
-                    <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="item.foto_pefil"
+                    <ResultadoBusca :json="item" tipo="/perfil" :nomePrincipal="item.nome + ' ' + item.sobrenome" :imagem="`http://127.0.0.1:8000/${item.caminho_foto}`"
                         :nick="item.nick" />
                 </div>
             </div>

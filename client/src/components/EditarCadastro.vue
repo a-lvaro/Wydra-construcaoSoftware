@@ -8,11 +8,6 @@
                         <div class="header-formulario">
                             <div class="titulo">
                                 <h1>Editar Cadastro</h1>
-                                <div style="margin-top: 20px;" class="input-box">
-                                <label for="emailCadastro">Email </label>
-                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
-                                    required v-model="email">
-                            </div>
                             </div>
                             
                         </div>
@@ -26,7 +21,13 @@
                                 <label for="name">Sobrenome </label>
                                 <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name"  v-model="sobrenome">
                             </div>
-            
+
+                            <div class="input-box">
+                                <label for="emailCadastro">Email </label>
+                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
+                                    required v-model="email">
+                            </div>
+
                             <div class="input-box">
                                 <label for="nickname">Apelido </label>
                                 <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" 
@@ -215,6 +216,7 @@ export default {
             this.sobrenome= dados.sobrenome,
             this.nick = dados.nick,
             this.caminhoFoto = dados.caminho_foto,
+            this.email = dados.email
             // this.senha = dados.senha,
             // this.confirmaSenha =  dados.senha_confirma,
             this.usuario = res
