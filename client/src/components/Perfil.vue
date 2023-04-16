@@ -9,8 +9,7 @@
                 <div class="nome-usuario">
                     <h1> {{ nome }} </h1>
                     <div v-if= "checarUsuarioLogado">
-                        <RouterLink class="botao-alterar" to="/editarCadastro"> editar informações </RouterLink>
-                        <!-- <textarea name="" id="" cols="30" rows="10" v-on:click="mudar">aaa</textarea> -->
+                        <RouterLink class="botao-alterar" to="/editarCadastro"> Editar Informações </RouterLink>
                     </div>
                 </div>
                 <div class="nick-usuario">

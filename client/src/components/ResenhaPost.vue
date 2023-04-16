@@ -157,13 +157,13 @@ export default {
         if (this.dadosUsuario === undefined){
             this.nome = this.dadosResenha.usuario.nome + ' ' + this.dadosResenha.usuario.sobrenome;
             this.nick = this.dadosResenha.usuario.nick;
-            this.foto = this.dadosResenha.usuario.caminho_foto;
+            this.foto = 'http://127.0.0.1:8000/' + this.dadosResenha.usuario.caminho_foto;
             this.idUsuario = this.dadosResenha.usuario.id;
         } 
         else {
             this.nome = this.dadosUsuario.nome + ' ' + this.dadosUsuario.sobrenome;
             this.nick = this.dadosUsuario.nick;
-            this.foto = this.dadosUsuario.caminho_foto;
+            this.foto = 'http://127.0.0.1:8000/' + this.dadosUsuario.caminho_foto;
             this.idUsuario = this.dadosResenha.usuario.id;
         }
 
