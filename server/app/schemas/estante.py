@@ -2,18 +2,19 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-from .obra import ObraNota, EstadoObra
+from .obra import Obra, ObraNota, EstadoObra
 
 
 # Item na estante referente a uma obra
-class ItemEstante(BaseModel):
-    obra: ObraNota
+class ItemEstanteBase(BaseModel):
     estado: EstadoObra
 
     class Config:
         orm_mode = True
 
+class ItemEstanteCreate(ItemEstanteBase):
+    obra: Obra
 
-class ItemEstanteData(ItemEstante):
+class ItemEstante(ItemEstanteBase):
     data_inicio: Optional[datetime]
     data_fim: Optional[datetime]

@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from core.exceptions import NotFoundException, BadRequestException
 
 from app.models import ItemEstante as ormEstante
-from app.schemas import ItemEstante, EstadoObra, ObraNota
+from app.schemas import ItemEstanteCreate, EstadoObra, ObraNota
 
 from .obra import ControladorObra
 from .usuario import ControladorUsuario
@@ -33,7 +33,7 @@ class ControladorEstante:
 
         return item
 
-    def add(self, user, item: ItemEstante):
+    def add(self, user, item: ItemEstanteCreate):
 
         if item.estado in [EstadoObra.finalizada, EstadoObra.abandonada]:
             data_inicio = datetime.now()
