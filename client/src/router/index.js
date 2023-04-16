@@ -26,7 +26,7 @@ const router = createRouter({
     },
     {
       path: '/editarCadastro',
-      name: 'EditarCadastro',
+      name: 'editarCadastro',
       component: EditarCadastro
     },
     {

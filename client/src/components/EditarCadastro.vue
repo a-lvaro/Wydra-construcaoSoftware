@@ -9,36 +9,41 @@
                         <div class="header-formulario">
                             <div class="titulo">
                                 <h1>Editar Cadastro</h1>
+                                <div style="margin-top: 20px;" class="input-box">
+                                <label for="emailCadastro">Email </label>
+                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
+                                    required v-model="email">
                             </div>
+                            </div>
+                            
                         </div>
                         <div class="inputs">
                             <div class="input-box">
                                 <label for="name">Nome </label>
-                                <input placeholder=" Digite seu nome" type="text" id="name" name="name" required v-model="nome">
+                                <input placeholder=" Digite seu nome" type="text" id="name" name="name"  v-model="nome">
                             </div>
     
                             <div class="input-box">
                                 <label for="name">Sobrenome </label>
-                                <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required v-model="sobrenome">
+                                <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name"  v-model="sobrenome">
                             </div>
             
                             <div class="input-box">
                                 <label for="nickname">Apelido </label>
-                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" required
+                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" 
                                     v-model="nickname">
                             </div>
-
                             
                             <div class="input-box">
                                 <label for="passwordCadastro">Senha </label>
                                 <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
-                                    name="passwordCadastro" required v-model="senha">
+                                    name="passwordCadastro"  v-model="senha">
                             </div>
     
                             <div class="input-box">
                                 <label for="confirmaSenha">Confirme sua Senha </label>
                                 <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
-                                    name="confirmaSenha" required v-model="confirmaSenha">
+                                    name="confirmaSenha"  v-model="confirmaSenha">
                             </div>
                         </div>
     
@@ -113,7 +118,8 @@
 }
 
 .inputs {
-    display: flex;
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 1rem 0;
@@ -121,6 +127,7 @@
 
 .input-box {
     display: flex;
+    margin-right: 10px;
     flex-direction: column;
     margin-bottom: 1.1rem;
 }
@@ -190,7 +197,7 @@
 export default {
     name: "EditarCadastro",
     data() {
-        api.getUsuarioLogado('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxLCJleHAiOjE2ODE1ODQzMzV9.yBI4K58RJZLTBB-FUPYynHJKAg57jHzGhizV0Uyu2BM')
+        api.getUsuarioLogado(localStorage.getItem('token'))
             .then((res)=> {
                 const dados = res;
                 console.log(dados);
@@ -208,7 +215,7 @@ export default {
             const data = {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
-                email: 'vitorgreff@gmail.com'
+                email: this.email
             }
             api.editarCadastro(data, localStorage.getItem('token'));
             this.$router.push('/perfil');
