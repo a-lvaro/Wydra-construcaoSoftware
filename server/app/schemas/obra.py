@@ -24,7 +24,7 @@ class Obra(BaseModel):
 
 # Classe para obra com nota
 class ObraNota(Obra):
-    nota: float
+    nota: float = 0
 
     class Config:
         orm_mode = True

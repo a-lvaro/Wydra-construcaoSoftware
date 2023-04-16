@@ -2,7 +2,7 @@
     <Header />
     <div class="retangulo-perfil">
         <div class="container-foto-perfil">
-            <img :src="'https://image.tmdb.org/t/p/w500/' + foto" :alt="`foto ${nick}`">
+            <img :src="foto" :alt="`foto ${nick}`">
         </div>
         <div class="container-infos-perfil">
             <div class="nome-usuario">
@@ -81,7 +81,7 @@ props: ['dados'],
     this.usuario = dados;
     this.nome = dados.nome + ' ' + dados.sobrenome;
     this.nick = dados.nick;
-    this.foto = dados.foto_perfil;
+    this.foto = dados.caminho_foto;
     this.idUsuario = dados.id
     this.getResenhas()
     window.scrollTo(0, this.top);

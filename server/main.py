@@ -23,8 +23,3 @@ wydra.include_router(userRouter)
 wydra.include_router(estanteRouter)
 wydra.include_router(avaliacaoRouter)
 wydra.include_router(obraRouter)
-
-
-@wydra.get("/")
-def root():
-    return {"info": "Wydra API"}

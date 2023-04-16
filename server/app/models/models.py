@@ -87,6 +87,8 @@ class Avaliacao(Base):
         self.curtida = curtida
         self.data = datetime.now()
 
+        
+
 
 class ItemEstante(Base):
     __tablename__ = "ESTANTE"
@@ -132,3 +134,8 @@ class Obra(Base):
         self.id = id
         self.tipo = tipo
         self.nota = nota
+
+    def __eq__(self, other):
+        return self.id == self.id and \
+               self.tipo == self.tipo and \
+               self.nota == self.nota 

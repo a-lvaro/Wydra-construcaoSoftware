@@ -17,7 +17,8 @@ footer {
   color: white;
   border-top: 2px solid cornflowerblue;
   border-bottom: 2px solid cornflowerblue;
-  /* position: bottom; */
+  position: fixed;
+  bottom: 0;
   height: 50px;
   bottom: 0;
   left: 0;
