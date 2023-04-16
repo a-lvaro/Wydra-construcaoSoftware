@@ -111,8 +111,8 @@ props: ['dados'],
     this.foto = dados.caminho_foto;
     this.idUsuario = dados.id
     this.getResenhas()
+    this.checarUsuarioLogado();
     window.scrollTo(0, this.top);
-    this.usuarioLogado();
   },
 
   methods: {
@@ -121,8 +121,8 @@ props: ['dados'],
             this.resenhas = res
         })
     },
-    usuarioLogado(){
-        if (localStorage.getItem("idUsuario") === this.idUsuario){
+    checarUsuarioLogado(){
+        if (localStorage.getItem("idUsuario") == this.idUsuario){
             this.usuarioLogado = true;
         }
     }
