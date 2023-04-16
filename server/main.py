@@ -1,4 +1,5 @@
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 import logging
 
@@ -23,3 +24,5 @@ wydra.include_router(userRouter)
 wydra.include_router(estanteRouter)
 wydra.include_router(avaliacaoRouter)
 wydra.include_router(obraRouter)
+
+wydra.mount("/static", StaticFiles(directory="static"), name="static")

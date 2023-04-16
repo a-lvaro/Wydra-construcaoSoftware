@@ -3,7 +3,7 @@ from enum import Enum
 from pydantic import BaseSettings
 
 class Tags(Enum):
-    user = "Usuário"
+    user = "Usuários"
     estante = "Estante"
     avaliacao = "Avaliações"
     obra = "Obras"
@@ -11,7 +11,6 @@ class Tags(Enum):
 class EnvironmentType(str, Enum):
     DEVELOPMENT = "development"
     PRODUCTION = "production"
-    TEST = "test"
 
 class BaseConfig(BaseSettings):
     class Config:
