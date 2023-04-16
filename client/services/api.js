@@ -127,5 +127,5 @@ function darLikeResenha(token, idUsuario, idObra) {
 export default {
     buscarFilmes, getFilmeID, criarUsuario, buscarUsuarios, fazerLogin, getUsuarioLogado, getEstanteID, 
     adicionarObraEstante, alterarObraEstante, getObraID, removerObraEstante, publicarResenha,
-    getResenhasUsuario, getResenhasObra, darLikeResenha, getMediaObra
+    getResenhasUsuario, getResenhasObra, darLikeResenha, getMediaObra, editarCadastro
 };
