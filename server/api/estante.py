@@ -77,3 +77,16 @@ def get_by_user(id: int) -> List[ItemEstante]:
         estante = controlador_estante.get_by_user(id)
 
         return [ItemEstante.from_orm(item) for item in estante]
+
+@estanteRouter.get(
+    "/{id_user}/{id_obra}",
+    summary="Obra obra da estante",
+    description="Obtem uma obra de id `id_obra` da estante do usuário `id_user",
+    tags=[Tags.estante]
+    )
+def get_obra_user(id_user: int, id_obra: int) -> ItemEstante:
+    with get_session() as db:
+        controlador_estante = ControladorEstante(db)
+        obra = controlador_estante.get_obra_user(id_user, id_obra)
+
+        return ItemEstante.from_orm(obra)
