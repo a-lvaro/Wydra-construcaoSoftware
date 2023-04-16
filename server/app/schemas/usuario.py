@@ -10,7 +10,7 @@ class UsuarioBase(BaseModel):
     caminho_foto: Optional[str]
 
 
-# Classe Usuário para cadastro
+# Classe Usuário para cadastro e editar perfil
 class UsuarioCreate(UsuarioBase):
     email: EmailStr
     senha: constr(min_length=8, max_length=64)
@@ -47,11 +47,3 @@ class Usuario(UsuarioBase):
 class UsuarioAuth(BaseModel):
     nick: constr(min_length=3, max_length=64)
     senha: constr(min_length=8, max_length=64)
-
-
-# Classe para configurar o perfil
-class Perfil(UsuarioBase):
-    email: str
-
-    class Config:
-        orm_mode = True

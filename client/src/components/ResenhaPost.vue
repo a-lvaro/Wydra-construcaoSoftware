@@ -197,12 +197,10 @@ export default {
             }
         },
         darLike(){
-            if (this.likado){
-                
-            }
-            else{
+            if (!this.likado){
                 api.darLikeResenha(localStorage.getItem('token'), this.idUsuario, this.idObra).then(() => {
                     this.likado = true;
+                    this.likes = this.likes + 1;
                 });
             }
         }
