@@ -3,59 +3,47 @@
         <Header />
         <div class="cadastro">
             <div class="container">
-                <div class="form-image">
-                    <img src="join.svg" alt="cadastro">
-                </div>
                 <div class="formulario">
-                    <form @submit.prevent="fazerCadastro">
+                    <form @submit.prevent="editarInformacoes">
                         <div class="header-formulario">
                             <div class="titulo">
-                                <h1>Cadastre-se</h1>
+                                <h1>Editar Cadastro</h1>
                             </div>
-                            <div class="botao-entrar">
-                                <button>
-                                    <RouterLink v-on:click="login" to="/login">Fazer Login</RouterLink>
-                                </button>
-                            </div>
+                            
                         </div>
                         <div class="inputs">
                             <div class="input-box">
                                 <label for="name">Nome </label>
-                                <input placeholder=" Digite seu nome" type="text" id="name" name="name" required v-model="nome">
+                                <input placeholder=" Digite seu nome" type="text" id="name" name="name"  v-model="nome">
                             </div>
     
                             <div class="input-box">
                                 <label for="name">Sobrenome </label>
-                                <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name" required v-model="sobrenome">
+                                <input placeholder=" Digite seu sobrenome" type="text" id="name" name="name"  v-model="sobrenome">
                             </div>
-    
-                            <div class="input-box">
-                                <label for="nickname">Apelido </label>
-                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" required
-                                    v-model="nickname">
-                            </div>
-    
+
                             <div class="input-box">
                                 <label for="emailCadastro">Email </label>
                                 <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
                                     required v-model="email">
                             </div>
-    
+
+                            <div class="input-box">
+                                <label for="nickname">Apelido </label>
+                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" 
+                                    v-model="nick">
+                            </div>
+                            
                             <div class="input-box">
                                 <label for="passwordCadastro">Senha </label>
                                 <input placeholder=" Digite sua senha" type="password" id="passwordCadastro"
-                                    name="passwordCadastro" required v-model="senha">
+                                    name="passwordCadastro"  v-model="senha">
                             </div>
     
                             <div class="input-box">
                                 <label for="confirmaSenha">Confirme sua Senha </label>
                                 <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
-                                    name="confirmaSenha" required v-model="confirmaSenha">
-                            </div>
-
-                            <div class="input-box">
-                                <label for="foto">Foto de Perfil </label>
-                                 <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                                    name="confirmaSenha"  v-model="confirmaSenha">
                             </div>
                         </div>
     
@@ -63,6 +51,9 @@
                             <Botao texto="Continuar" />
                         </div>
                     </form>
+                </div>
+                <div class="form-image">
+                    <img src="team_up.svg" alt="cadastro">
                 </div>
             </div>
         </div>
@@ -115,36 +106,6 @@
     justify-content: space-between;
 }
 
-.botao-entrar {
-    display: flex;
-    align-items: center;
-}
-
-.botao-entrar button {
-    cursor: pointer;
-    padding: 10px;
-    font-size: 18px;
-    background-color: cornflowerblue;
-    color: white;
-    border: 2px solid black;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    box-sizing: border-box;
-    min-width: 100px;
-    justify-content: center;
-}
-
-.botao-entrar button:hover {
-    background-color: rgb(40, 112, 245);
-}
-
-.botao-entrar button a {
-    text-decoration: none;
-    font-weight: 500;
-    color: white
-}
-
 .header-formulario h1::after {
     content: '';
     display: block;
@@ -157,7 +118,8 @@
 }
 
 .inputs {
-    display: flex;
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 1rem 0;
@@ -165,6 +127,7 @@
 
 .input-box {
     display: flex;
+    margin-right: 10px;
     flex-direction: column;
     margin-bottom: 1.1rem;
 }
@@ -232,55 +195,51 @@
 
 <script>
 export default {
-    name: "Cadastro",
-    data() {
+    name: "EditarCadastro",
+    data() {     
         return {
-            nome: "",
-            sobrenome: "",
-            nickname: "",
-            email: "",
-            senha: "",
-            confirmaSenha: "",
-            caminhoFoto: null
-        }
+                nome: null,
+                sobrenome:null,
+                nick: null,
+                caminhoFoto: "",
+                senha: null,
+                confirmaSenha: "",
+                usuario: null,
+            }
+        },
+        
+    created(){
+        api.getUsuarioLogado(localStorage.getItem('token'))
+        .then((res)=> {
+            const dados = res;
+            this.nome = dados.nome,
+            this.sobrenome= dados.sobrenome,
+            this.nick = dados.nick,
+            this.caminhoFoto = dados.caminho_foto,
+            this.email = dados.email
+            // this.senha = dados.senha,
+            // this.confirmaSenha =  dados.senha_confirma,
+            this.usuario = res
+        })
     },
 
     methods: {
-        fazerCadastro() {
-            const data =
-            {
+        editarInformacoes(){
+            const data = {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
+                nick: this.nick,
+                caminho_foto: "",
                 email: this.email,
-                nick: this.nickname,
                 senha: this.senha,
-                senha_confirma: this.confirmaSenha,
-                foto: this.caminhoFoto,
-                foto_ext: "jpeg"
+                senha_confirma: this.confirmaSenha
             }
-
-            api.criarUsuario(data);
-            this.$router.push('/login')
+            api.editarCadastro(data, localStorage.getItem('token'));
+            this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
         },
-        login(){
-            this.$router.push({name:'login'})
-        },
-        pickFile(e){
-            const image = e.target.files[0];
-                const reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e =>{
-                    this.previewImage = e.target.result;
-                    const posicaoVirgula = this.previewImage.indexOf(",");
-                    const novaStr = this.previewImage.slice(posicaoVirgula + 1);
-                    this.caminhoFoto = novaStr;
-                    console.log(this.previewImage)
-                    console.log(this.caminhoFoto)
-                };
-            }
-        }
-    }
-
+        
+    },
+}
 </script>
 
 <script setup>

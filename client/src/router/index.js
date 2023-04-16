@@ -7,6 +7,7 @@ import Obra from '../components/Obra.vue'
 import EstanteConfig from '../components/EstanteConfig.vue'
 import Resenha from '../components/Resenha.vue'
 import Estante from '../components/Estante.vue'
+import EditarCadastro from '../components/EditarCadastro.vue'
 
 
 const router = createRouter({
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/cadastro',
       name: 'cadastro',
       component: Cadastro
+    },
+    {
+      path: '/editarCadastro',
+      name: 'editarCadastro',
+      component: EditarCadastro
     },
     {
       path: '/resenha',
