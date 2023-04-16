@@ -9,8 +9,8 @@
                             <div class="titulo">
                                 <h1>Editar Cadastro</h1>
                             </div>
-                            
                         </div>
+                        <p>Escreva apenas nos campos que deseja alterar!</p>
                         <div class="inputs">
                             <div class="input-box">
                                 <label for="name">Nome </label>
@@ -24,14 +24,8 @@
 
                             <div class="input-box">
                                 <label for="emailCadastro">Email </label>
-                                <input placeholder=" Digite seu melhor email" type="emailCadastro" id="email" name="email"
+                                <input placeholder=" Digite seu email" type="emailCadastro" id="email" name="email"
                                     required v-model="email">
-                            </div>
-
-                            <div class="input-box">
-                                <label for="nickname">Apelido </label>
-                                <input placeholder=" Digite seu nickname" type="text" id="nickname" name="nickname" 
-                                    v-model="nick">
                             </div>
                             
                             <div class="input-box">
@@ -45,10 +39,15 @@
                                 <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
                                     name="confirmaSenha"  v-model="confirmaSenha">
                             </div>
+
+                            <div class="input-box">
+                                <label for="foto">Foto de Perfil </label>
+                                <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                            </div>
                         </div>
     
                         <div class="continue-button">
-                            <Botao texto="Continuar" />
+                            <Botao texto="Validar Alterações" />
                         </div>
                     </form>
                 </div>
@@ -200,10 +199,9 @@ export default {
         return {
                 nome: null,
                 sobrenome:null,
-                nick: null,
-                caminhoFoto: "",
+                caminhoFoto: null,
                 senha: null,
-                confirmaSenha: "",
+                confirmaSenha: null,
                 usuario: null,
             }
         },
@@ -211,15 +209,15 @@ export default {
     created(){
         api.getUsuarioLogado(localStorage.getItem('token'))
         .then((res)=> {
-            const dados = res;
-            this.nome = dados.nome,
-            this.sobrenome= dados.sobrenome,
-            this.nick = dados.nick,
-            this.caminhoFoto = dados.caminho_foto,
-            this.email = dados.email
+            this.usuario = res
+            // const dados = res;
+            // this.nome = dados.nome,
+            // this.sobrenome= dados.sobrenome,
+            // this.nick = dados.nick,
+            // this.caminhoFoto = dados.caminho_foto,
+            // this.email = dados.email
             // this.senha = dados.senha,
             // this.confirmaSenha =  dados.senha_confirma,
-            this.usuario = res
         })
     },
 
@@ -229,15 +227,26 @@ export default {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
                 nick: this.nick,
-                caminho_foto: "",
+                caminho_foto: null,
                 email: this.email,
                 senha: this.senha,
                 senha_confirma: this.confirmaSenha
             }
-            api.editarCadastro(data, localStorage.getItem('token'));
-            this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
+            console.log(data)
+            // api.editarCadastro(data, localStorage.getItem('token'));
+            // this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
         },
-        
+        pickFile(e){
+            const image = e.target.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = e =>{
+                this.previewImage = e.target.result;
+                const posicaoVirgula = this.previewImage.indexOf(",");
+                const novaStr = this.previewImage.slice(posicaoVirgula + 1);
+                this.caminhoFoto = novaStr;
+            };
+        }, 
     },
 }
 </script>

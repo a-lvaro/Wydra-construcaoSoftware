@@ -267,20 +267,17 @@ export default {
         },
         pickFile(e){
             const image = e.target.files[0];
-                const reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e =>{
-                    this.previewImage = e.target.result;
-                    const posicaoVirgula = this.previewImage.indexOf(",");
-                    const novaStr = this.previewImage.slice(posicaoVirgula + 1);
-                    this.caminhoFoto = novaStr;
-                    console.log(this.previewImage)
-                    console.log(this.caminhoFoto)
-                };
-            }
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = e =>{
+                this.previewImage = e.target.result;
+                const posicaoVirgula = this.previewImage.indexOf(",");
+                const novaStr = this.previewImage.slice(posicaoVirgula + 1);
+                this.caminhoFoto = novaStr;
+            };
         }
     }
-
+}
 </script>
 
 <script setup>
