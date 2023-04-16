@@ -10,14 +10,7 @@ from app.controllers.usuario import ControladorUsuario
 
 class ControladorAuth(ControladorUsuario):
     def register(self, new_user: UsuarioCreate) -> ormUsuario:
-        try:
-            user = self.get_by_nick(new_user.nick)
 
-            if user:
-                raise BadRequestException(
-                    "Já existe um usuário com esse nick.")
-        except NotFoundException:
-            pass
 
         if new_user.senha != new_user.senha_confirma:
             raise BadRequestException(detail="As senhas não batem.")
@@ -25,8 +18,13 @@ class ControladorAuth(ControladorUsuario):
         
         new_user.senha = PasswordHandler.hash(new_user.senha)
 
-        return self.create(new_user)
+        try:
+            db_user = self.create(new_user)
+        except DBAPIError:
+            raise BadRequestException(detail="Já existe um usuário com esse nick ou email.")
 
+        return db_user
+        
     def login(self, nick: str, senha: str) -> str:
         user = self.get_by_nick(nick)
 
