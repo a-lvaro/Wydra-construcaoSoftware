@@ -16,7 +16,7 @@
                     <div v-if="naEstante" class="container-botoes">
                         <RouterLink :to="`/estanteConfig?dados=${encodeURIComponent((this.$route.query.dados))}&naEstante=true&estado=${estado}`" class="botao-estante">
                             Alterar Estado</RouterLink>
-                            <RouterLink v-if="estado === 3 && !jaResenhada" :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
+                            <RouterLink v-if="(estado === 3 || estado === 4) && !jaResenhada" :to ="`/resenha?dados=${encodeURIComponent((this.$route.query.dados))}`" class="botao-estante" > 
                                 Avaliar Obra</RouterLink>     
                         </div>
                         <div v-else class="container-botoes"> 

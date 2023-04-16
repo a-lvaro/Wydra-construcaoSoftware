@@ -34,10 +34,10 @@ export default{
         },
         logout()
         {
-            localStorage.clear()
             localStorage.setItem('token', null)
             localStorage.setItem('usuario', null)
             localStorage.setItem('mostrarItem', 'false')
+            localStorage.clear()
             this.$router.push({name:'login'})
         }
     },

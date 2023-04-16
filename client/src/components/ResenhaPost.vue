@@ -21,11 +21,6 @@
                         </div>
                     </div>
                 </RouterLink>
-                <a class="botao-like" @click="darLike">
-                    <p>{{ likes }}</p>
-                    <img v-if="likado" class="botao-like" src="..\assets\heart_filled.png">
-                    <img v-else class="botao-like" src="..\assets\heart_empty.png">
-                </a>
                 <div class="container-resenha-nota">
                     <div class="nota">
                         <img v-for="n in nota" src="https://cdn-icons-png.flaticon.com/512/148/148839.png">
@@ -34,6 +29,11 @@
                         <p> {{ resenha??"" }} </p>
                     </div>
                 </div>
+                <a class="container-like" @click="darLike">
+                    <p>{{ likes }}</p>
+                    <img v-if="likado" class="botao-like" src="..\assets\heart_filled.png">
+                    <img v-else class="botao-like" src="..\assets\heart_empty.png">
+                </a>
             </div>
         </div>
     </div>
@@ -43,6 +43,7 @@
 .container-resenha {
     margin: 10px 0px;
     padding-right: 20px;
+    padding-bottom: 10px;
     background-color: white;
     width: 600px;
     min-height: 200px;
@@ -92,12 +93,18 @@
     border: 1px solid black;
 }
 
-.botao-like{
+.container-like{
     align-self: flex-end;
-    margin: 0px 20px;
-    width: 20px;
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.botao-like{
+    height: 20px;
+    width: 20px;
+    margin: 0px 5px;
 }
 
 .container-resenha-nota{

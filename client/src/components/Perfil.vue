@@ -8,7 +8,7 @@
             <div class="container-infos-perfil">
                 <div class="nome-usuario">
                     <h1> {{ nome }} </h1>
-                    <div v-if= "checarUsuarioLogado">
+                    <div v-if= "usuarioLogado">
                         <RouterLink class="botao-alterar" to="/editarCadastro"> Editar Informações </RouterLink>
                     </div>
                 </div>
@@ -93,42 +93,44 @@ props: ['dados'],
         const { dados } = props
     },
     data() {
-    return {
-      usuario: {},
-      nome: null,
-      nick: null,
-      foto: null,
-      idUsuario: null,
-      usuarioLogado: false,
-      resenhas: []
-    };
-  },
-  created() {
-    const dados = JSON.parse(decodeURIComponent(this.$route.query.dados));
-    this.usuario = dados;
-    this.nome = dados.nome + ' ' + dados.sobrenome;
-    this.nick = dados.nick;
-    this.foto = 'http://127.0.0.1:8000/' + dados.caminho_foto;
-    this.idUsuario = dados.id
-    this.getResenhas()
-    this.checarUsuarioLogado();
-    window.scrollTo(0, this.top);
-    this.checarUsuarioLogado();
-    console.log(dados.caminho_foto)
-  },
+        return {
+            usuario: {},
+            nome: null,
+            nick: null,
+            foto: null,
+            idUsuario: null,
+            usuarioLogado: false,
+            resenhas: []
+        };
+    },
+    created() {
+        const dados = JSON.parse(decodeURIComponent(this.$route.query.dados))
+        this.usuario = dados;
+        this.nome = dados.nome + ' ' + dados.sobrenome;
+        this.nick = dados.nick;
+        this.foto = 'http://127.0.0.1:8000/' + dados.caminho_foto;
+        this.idUsuario = dados.id
+        this.getResenhas()
+        this.checarUsuarioLogado();
+        window.scrollTo(0, this.top);
+        this.checarUsuarioLogado();
+    },
 
-  methods: {
-    getResenhas(){
-        api.getResenhasUsuario(this.idUsuario).then(res => {
-            this.resenhas = res
-        })
-    },
-    checarUsuarioLogado(){
-        if (localStorage.getItem("idUsuario") === this.idUsuario){
-            this.usuarioLogado = true;
-        }
-    },
-  }
+    methods: {
+        getResenhas(){
+            api.getResenhasUsuario(this.idUsuario).then(res => {
+                this.resenhas = res
+            })
+        },
+        checarUsuarioLogado(){
+            if (localStorage.getItem("idUsuario") == this.idUsuario){
+                this.usuarioLogado = true;
+            }
+            else{
+                this.usuarioLogado = false;
+            }
+        },
+    }
 }
 </script>
 

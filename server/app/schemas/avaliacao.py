@@ -7,7 +7,7 @@ from .obra import Obra, ObraNota
 
 class AvaliacaoBase(BaseModel):
     nota: int = Field(ge=1, le=5)
-    resenha: Optional[constr(min_length=100, max_length=1000)]
+    resenha: Optional[constr(min_length=0, max_length=1000)]
 
     class Config:
         orm_mode = True

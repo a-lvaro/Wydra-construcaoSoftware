@@ -73,7 +73,7 @@
 <style scoped>
 .cadastro {
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,7 +81,7 @@
 
 .container {
     width: 80%;
-    height: 80vh;
+    height: 700px;
     display: flex;
     box-shadow: 10px 5px 10px rgba(0, 0, 0, .212);
 }

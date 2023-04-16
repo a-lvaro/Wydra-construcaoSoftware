@@ -11,7 +11,7 @@
                     <br>
                     <label  for="resenha" style="font-size: large;">Digite sua resenha: (opcional)</label>
                         <br>
-                            <textarea minlength="100" maxlength="1000" v-model="resenha" style="font-size: medium; padding: 5px;" class = "campo" id="resenha" name="resenha" rows="10" cols="60"></textarea>
+                            <textarea maxlength="1000" v-model="resenha" style="font-size: medium; padding: 5px;" class = "campo" id="resenha" name="resenha" rows="10" cols="60"></textarea>
                             <br>
                             <label style = "font-size: large;" for="nota">Digite sua nota (1 a 5):</label>
                             <br>
