@@ -16,5 +16,6 @@ class ItemEstanteCreate(ItemEstanteBase):
     obra: Obra
 
 class ItemEstante(ItemEstanteBase):
+    obra: Obra
     data_inicio: Optional[datetime]
     data_fim: Optional[datetime]
