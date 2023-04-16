@@ -52,6 +52,11 @@
                                 <input placeholder=" Digite sua senha novamente" type="password" id="confirmaSenha"
                                     name="confirmaSenha" required v-model="confirmaSenha">
                             </div>
+
+                            <div class="input-box">
+                                <label for="foto">Foto de Perfil </label>
+                                 <input required ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                            </div>
                         </div>
     
                         <div class="continue-button">
@@ -235,7 +240,8 @@ export default {
             nickname: "",
             email: "",
             senha: "",
-            confirmaSenha: ""
+            confirmaSenha: "",
+            caminhoFoto: null
         }
     },
 
@@ -248,7 +254,8 @@ export default {
                 nick: this.nickname,
                 email: this.email,
                 senha: this.senha,
-                senha_confirma: this.confirmaSenha
+                senha_confirma: this.confirmaSenha,
+                caminhoFoto: this.caminhoFoto
             }
 
             api.criarUsuario(data);
@@ -257,8 +264,18 @@ export default {
         login(){
             this.$router.push({name:'login'})
         },
-    },
-}
+        pickFile(e){
+            const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.previewImage = e.target.result;
+                    console.log(this.previewImage);
+                };
+            }
+        }
+    }
+
 </script>
 
 <script setup>
