@@ -3,7 +3,7 @@
 
 - [ ] Melhorar autenticação
 - [ ] Mais testes
-- [x] Documentação
+- [ ] Documentação
 
 ## Running
 
