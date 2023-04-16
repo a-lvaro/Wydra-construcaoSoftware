@@ -2,7 +2,7 @@
 ## TO-DO
 
 - [ ] Melhorar autenticação
-- [ ] Mais estes
+- [ ] Mais testes
 - [x] Documentação
 
 ## Running
