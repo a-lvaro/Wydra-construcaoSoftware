@@ -8,6 +8,7 @@ import EstanteConfig from '../components/EstanteConfig.vue'
 import Resenha from '../components/Resenha.vue'
 import Estante from '../components/Estante.vue'
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
