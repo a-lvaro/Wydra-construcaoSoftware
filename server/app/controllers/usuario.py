@@ -51,21 +51,21 @@ class ControladorUsuario:
         return user
 
     def update_photo(self, user: ormUsuario, foto, ext):
-        if not foto:
-            user.caminho_foto = "static/default.jpg"
-        else:
-            try:
-                user.caminho_foto = f"static/profile/{user.nick}.{ext}"
-                Path(user.caminho_foto).write_bytes(codecs.decode(foto, "base64"))
-            except binascii.Error:
-                raise BadRequestException(detail="Imagem inválida. O arquivo precisa ser criptogafado em Base64.")
+        try:
+            user.caminho_foto = f"static/profile/{user.nick}.{ext}"
+            Path(user.caminho_foto).write_bytes(codecs.decode(foto, "base64"))
+        except binascii.Error:
+            raise BadRequestException(detail="Imagem inválida. O arquivo precisa ser criptogafado em Base64.")
 
     def create(self, user: UsuarioCreate):
 
         db_user = ormUsuario(user.nick, user.nome, user.sobrenome,
                              user.email, user.senha)
 
-        self.update_photo(db_user, user.foto, user.foto_ext)
+        if not user.foto:
+            user.caminho_foto = "static/default.jpg"
+        else:
+            self.update_photo(db_user, user.foto, user.foto_ext)
 
         self.session.add(db_user)
         self.session.commit()
@@ -88,7 +88,8 @@ class ControladorUsuario:
                 
             db_usuario.senha = perfil.senha
 
-        self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)
+        if perfil.foto:
+            self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)
 
         self.session.commit()
 
