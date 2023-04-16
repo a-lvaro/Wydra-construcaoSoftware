@@ -62,7 +62,7 @@ class ControladorUsuario:
         db_user = ormUsuario(user.nick, user.nome, user.sobrenome,
                              user.email, user.senha)
 
-        if not foto:
+        if not user.foto:
             user.caminho_foto = "static/default.jpg"
         else:
             self.update_photo(db_user, user.foto, user.foto_ext)
