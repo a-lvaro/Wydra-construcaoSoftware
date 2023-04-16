@@ -23,6 +23,10 @@ class UsuarioCreate(UsuarioBase):
 
 # Classe Usuário para editar perfil
 class UsuarioUpdate(UsuarioBase):
+    nome: Optional[str]
+    sobrenome: Optional[str]
+    email: Optional[EmailStr]
+
     senha: Optional[constr(min_length=8, max_length=64)]
     senha_confirma: Optional[constr(min_length=8, max_length=64)]
 

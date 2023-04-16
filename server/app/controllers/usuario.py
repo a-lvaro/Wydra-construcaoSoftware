@@ -73,11 +73,19 @@ class ControladorUsuario:
         return db_user
 
     def edit(self, db_usuario: ormUsuario,  perfil:  UsuarioUpdate):
-        db_usuario.nome = perfil.nome
-        db_usuario.sobrenome = perfil.sobrenome
-        db_usuario.email = perfil.email
+        if perfil.nome:
+            db_usuario.nome = perfil.nome
+
+        if perfil.sobrenome:
+            db_usuario.sobrenome = perfil.sobrenome
+
+        if perfil.email:
+            db_usuario.email = perfil.email
 
         if perfil.senha:
+            if perfil.senha != perfil.senha_confirma:
+                raise BadRequestException(detail="As senhas não batem.")
+                
             db_usuario.senha = perfil.senha
 
         self.update_photo(db_usuario, perfil.foto, perfil.foto_ext)

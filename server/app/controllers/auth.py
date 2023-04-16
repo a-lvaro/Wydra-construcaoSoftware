@@ -47,11 +47,11 @@ class ControladorAuth(ControladorUsuario):
 
     def edit(self, token: str, perfil: UsuarioCreate) -> ormUsuario:
         user = self.get_by_token(token)
-
-        if perfil.senha != perfil.senha_confirma:
-            raise BadRequestException(detail="As senhas não batem.")
         
-        super().edit(user, perfil)
+        try:
+            super().edit(user, perfil)
+        except DBAPIError:
+            raise BadRequestException(detail="Já existe um usuário com esse email.")
 
         return user
         
