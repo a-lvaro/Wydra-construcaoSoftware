@@ -25,7 +25,7 @@
                             <div class="input-box">
                                 <label for="emailCadastro">Email </label>
                                 <input placeholder=" Digite seu email" type="emailCadastro" id="email" name="email"
-                                    required v-model="email">
+                                     v-model="email">
                             </div>
                             
                             <div class="input-box">
@@ -118,7 +118,7 @@
 
 .inputs {
     display: inline-grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 1rem 0;
@@ -199,9 +199,11 @@ export default {
         return {
                 nome: null,
                 sobrenome:null,
-                caminhoFoto: null,
+                email: null,
                 senha: null,
                 confirmaSenha: null,
+                caminhoFoto: null,
+                extensaoFoto: null,
                 usuario: null,
             }
         },
@@ -210,31 +212,33 @@ export default {
         api.getUsuarioLogado(localStorage.getItem('token'))
         .then((res)=> {
             this.usuario = res
-            // const dados = res;
-            // this.nome = dados.nome,
-            // this.sobrenome= dados.sobrenome,
-            // this.nick = dados.nick,
-            // this.caminhoFoto = dados.caminho_foto,
-            // this.email = dados.email
-            // this.senha = dados.senha,
-            // this.confirmaSenha =  dados.senha_confirma,
         })
     },
 
     methods: {
-        editarInformacoes(){
+        async editarInformacoes(){
+            if (this.caminhoFoto != null){
+                this.extensaoFoto = "jpeg"
+            }
+
             const data = {
                 nome: this.nome,
                 sobrenome: this.sobrenome,
-                nick: this.nick,
-                caminho_foto: null,
                 email: this.email,
                 senha: this.senha,
-                senha_confirma: this.confirmaSenha
+                senha_confirma: this.confirmaSenha,
+                foto: this.caminhoFoto,
+                foto_ext: this.extensaoFoto
             }
             console.log(data)
-            // api.editarCadastro(data, localStorage.getItem('token'));
-            // this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
+            await api.editarCadastro(data, localStorage.getItem('token'));
+
+            await api.getUsuarioLogado(localStorage.getItem('token')).then((res)=> {
+                this.usuario = res
+                localStorage.setItem('usuario', JSON.stringify(this.usuario))
+            });
+
+            this.$router.push(`/perfil?dados=${encodeURIComponent(JSON.stringify(this.usuario))}`);
         },
         pickFile(e){
             const image = e.target.files[0];

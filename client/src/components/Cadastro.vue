@@ -55,7 +55,7 @@
 
                             <div class="input-box">
                                 <label for="foto">Foto de Perfil </label>
-                                 <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                                <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
                             </div>
                         </div>
     
@@ -241,12 +241,17 @@ export default {
             email: "",
             senha: "",
             confirmaSenha: "",
-            caminhoFoto: null
+            caminhoFoto: null,
+            extensaoFoto: null,
         }
     },
 
     methods: {
         fazerCadastro() {
+            if (this.caminhoFoto != null){
+                this.extensaoFoto = "jpeg"
+            }
+
             const data =
             {
                 nome: this.nome,
@@ -256,7 +261,7 @@ export default {
                 senha: this.senha,
                 senha_confirma: this.confirmaSenha,
                 foto: this.caminhoFoto,
-                foto_ext: "jpeg"
+                foto_ext: this.extensaoFoto
             }
 
             api.criarUsuario(data);

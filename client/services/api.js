@@ -48,7 +48,7 @@ function criarUsuario(data) {
 
 function editarCadastro(data, token) {
     return fetch(`http://127.0.0.1:8000/user/editar?access_token=${token}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/json'
