@@ -1,4 +1,4 @@
-<template>
+<template :key="$route.fullPath">
     <div>
         <Header />
         <div class="retangulo-estante">
@@ -47,6 +47,11 @@ export default {
     setup: (props) => {
         const { dados } = props
     },
+    watch: {
+        '$route': function() {
+            this.atualizarDados();
+        }   
+    },
     data() {
         return {
             usuario: {
@@ -59,32 +64,43 @@ export default {
     },
     mounted() {
         this.usuario = JSON.parse(decodeURIComponent(this.$route.query.dados));
-
-        api.getEstanteID(this.usuario.id).then((res) => 
-        {
-            res.forEach(obraID => {
-                let item_estante = {
-                    "obraID": obraID.obra.id,
-                    "estado": obraID.estado
-                }
-                this.estanteIDs.push(item_estante)
-            });
-        }).then(() => 
-        {
-            this.estanteIDs.forEach(item_estante => {
-                api.getFilmeID(item_estante.obraID).then((res) => {
-                    if(res.success === undefined){
-                        let obraEstado = {
-                            "obra": res,
-                            "estado": item_estante.estado
-                        }
-                        this.obrasEstante.push(obraEstado)
-                    }
-                })
-            })
-        });
-        window.scrollTo(0, this.top);
+        this.preparaEstante();
     },
+    methods: {
+        atualizarDados() {
+            this.estanteIDs = [];
+            this.obrasEstante = [];
+            this.usuario = JSON.parse(decodeURIComponent(this.$route.query.dados));
+            this.preparaEstante();
+        },
+        
+        preparaEstante() {
+            api.getEstanteID(this.usuario.id).then((res) => 
+            {
+                res.forEach(obraID => {
+                    let item_estante = {
+                        "obraID": obraID.obra.id,
+                        "estado": obraID.estado
+                    }
+                    this.estanteIDs.push(item_estante)
+                });
+            }).then(() => 
+            {
+                this.estanteIDs.forEach(item_estante => {
+                    api.getFilmeID(item_estante.obraID).then((res) => {
+                        if(res.success === undefined){
+                            let obraEstado = {
+                                "obra": res,
+                                "estado": item_estante.estado
+                            }
+                            this.obrasEstante.push(obraEstado)
+                        }
+                    })
+                })
+            });
+            window.scrollTo(0, this.top);
+        }
+    }
 };
 </script>
 

@@ -1,4 +1,4 @@
-<template>
+<template :key="$route.fullPath">
     <div>
         <Header />
         <div class="retangulo-perfil">
@@ -8,12 +8,12 @@
             <div class="container-infos-perfil">
                 <div class="nome-usuario">
                     <h1> {{ nome }} </h1>
-                    <div v-if= "usuarioLogado">
-                        <RouterLink class="botao-alterar" to="/editarCadastro"> Editar Informações </RouterLink>
-                    </div>
                 </div>
                 <div class="nick-usuario">
                     <h2>{{ nick }}</h2>
+                </div>
+                <div v-if= "usuarioLogado">
+                    <RouterLink class="botao-alterar" to="/editarCadastro"> Editar Informações </RouterLink>
                 </div>
                 <RouterLink :to="`/estante?dados=${this.$route.query.dados}`"  class="botao-estante"><h2>Estante de {{ nome }}</h2></RouterLink>
                 <div v-for="(item, index) in resenhas" :key="index" class="container-resenha">
@@ -89,8 +89,14 @@
 <script>
 export default {
 props: ['dados'],
-    setup: (props) => {
+    setup: 
+    (props) => {
         const { dados } = props
+    },
+    watch: {
+        '$route': function() {
+            this.atualizarDados();
+        }   
     },
     data() {
         return {
@@ -130,6 +136,19 @@ props: ['dados'],
                 this.usuarioLogado = false;
             }
         },
+        atualizarDados(){
+            const dados = JSON.parse(decodeURIComponent(this.$route.query.dados))
+            this.usuario = dados;
+            this.nome = dados.nome + ' ' + dados.sobrenome;
+            this.nick = dados.nick;
+            this.foto = 'http://127.0.0.1:8000/' + dados.caminho_foto;
+            this.idUsuario = dados.id
+            this.resenhas = []
+            this.getResenhas()
+            this.checarUsuarioLogado();
+            window.scrollTo(0, this.top);
+            this.checarUsuarioLogado();
+        }
     }
 }
 </script>
