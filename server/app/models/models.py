@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Table, String, Integer, Float
-from sqlalchemy import DateTime, ForeignKey
+from sqlalchemy import DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from typing import Optional, List
 from datetime import datetime
@@ -66,7 +66,6 @@ class Avaliacao(Base):
     nota = Column("NOTA", Integer, nullable=True)
     resenha = Column("RESENHA", String(1000), nullable=True)
     data = Column("DATA", DateTime, nullable=False)
-    curtida = Column("CURTIDA", Integer, nullable=True, default=0)
 
     id_usuario: Mapped[int] = mapped_column(
         ForeignKey("USUARIO.ID_USUARIO"), primary_key=True)
@@ -75,7 +74,7 @@ class Avaliacao(Base):
     id_obra: Mapped[int] = mapped_column(ForeignKey("OBRA.ID_OBRA"), primary_key=True)
     obra: Mapped["Obra"] = relationship(back_populates="avaliacoes")
 
-    def __init__(self, usuario, nota, obra, resenha, curtida):
+    def __init__(self, usuario, nota, obra, resenha):
         self.usuario = usuario
         self.id_usuario = usuario.id
 
@@ -83,7 +82,6 @@ class Avaliacao(Base):
         self.id_obra = obra.id
         self.nota = nota
         self.resenha = resenha
-        self.curtida = curtida 
         self.data = datetime.now()
 
 
@@ -128,3 +126,4 @@ class Obra(Base):
         self.id = id
         self.tipo = tipo
         self.nota = 0
+
