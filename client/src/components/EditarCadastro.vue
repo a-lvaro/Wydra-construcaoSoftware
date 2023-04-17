@@ -230,11 +230,12 @@ export default {
                 foto: this.caminhoFoto,
                 foto_ext: this.extensaoFoto
             }
-            console.log(data)
             await api.editarCadastro(data, localStorage.getItem('token'));
 
             await api.getUsuarioLogado(localStorage.getItem('token')).then((res)=> {
                 this.usuario = res
+                this.usuario.caminho_foto = this.usuario.caminho_foto + "?v=" + new Date().getTime()
+                console.log(this.usuario)
                 localStorage.setItem('usuario', JSON.stringify(this.usuario))
             });
 
