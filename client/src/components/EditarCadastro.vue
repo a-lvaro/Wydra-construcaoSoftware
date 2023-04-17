@@ -42,7 +42,7 @@
 
                             <div class="input-box">
                                 <label for="foto">Foto de Perfil </label>
-                                <input ref="foto de perfil" accept="image/jpeg" type="file" @change="pickFile">
+                                <input ref="foto de perfil" accept="image/png, image/jpeg, image/jpg" type="file" @change="pickFile">
                             </div>
                         </div>
     
